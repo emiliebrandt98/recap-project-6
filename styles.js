@@ -8,6 +8,7 @@ export default createGlobalStyle`
   }
 
   body {
+    max-width: 100%;
     margin: 0;
     font-family: system-ui;
   }
