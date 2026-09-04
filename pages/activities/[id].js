@@ -7,7 +7,11 @@ export default function ActivityDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: activity, isLoading, error } = useSWR(`/api/activities/${id}`);
+  const {
+    data: activity,
+    isLoading,
+    error,
+  } = useSWR(id ? `/api/activities/${id}` : null);
 
   if (isLoading) {
     return (
