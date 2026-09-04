@@ -23,7 +23,8 @@ export default function ActivityList() {
           return (
             <StyledCardContainer key={activity._id}>
               <Image
-                alt="activity"
+                priority="eager"
+                alt={activity.title}
                 width={100}
                 height={100}
                 src="/assets/placeholder.jpg"
