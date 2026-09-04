@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+import "./Category";
 
-const ActivitySchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const ActivitySchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -12,8 +15,7 @@ const ActivitySchema = new mongoose.Schema({
     default: "/placeholder.jpg",
   },
   categories: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Category",
+    id: { type: [Schema.Types.ObjectId], ref: "Category" },
     required: true,
   },
   description: {
