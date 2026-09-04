@@ -18,8 +18,8 @@ export default function ActivityCard({ activities }) {
             <StyledTitle>
               {activity.title}
               <StyledCategories>
-                {activity.categories.map((categorie) => {
-                  return <span key={categorie._id}>{categorie.name}</span>;
+                {activity.categories.map((category) => {
+                  return <span key={category._id}>{category.name}</span>;
                 })}
               </StyledCategories>
             </StyledTitle>
