@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ActivityCard({ activities }) {
   return (
     <StyledGrid>
       {activities.map((activity) => {
         return (
-          <StyledCardContainer key={activity._id}>
+          <StyledCardContainer
+            key={activity._id}
+            href={`/activities/${activity._id}`}
+          >
             <Image
               priority="eager"
               alt={activity.title}
@@ -38,7 +42,7 @@ const StyledGrid = styled.div`
   gap: 20px;
 `;
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
