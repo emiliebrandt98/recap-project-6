@@ -14,7 +14,7 @@ export default function ActivityInfo({ activity }) {
         <h2>{activity.title}</h2>
         <StyledCategories>
           {activity.categories.map((categorie) => {
-            return <span key={categorie._id}>{categorie.name}</span>;
+            <span key={categorie._id}>{categorie.name}</span>;
           })}
         </StyledCategories>
       </StyledTitle>
