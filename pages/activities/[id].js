@@ -30,10 +30,6 @@ export default function ActivityDetails() {
     );
   }
 
-  if (!activity) {
-    return;
-  }
-
   return (
     <main>
       <LinkTo pathname={"/"} />

@@ -9,12 +9,13 @@ export default function ActivityInfo({ activity }) {
         width={100}
         height={100}
         src="/assets/placeholder.jpg"
+        priority="eager"
       />
       <StyledTitle>
         <h2>{activity.title}</h2>
         <StyledCategories>
-          {activity.categories.map((categorie) => {
-            <span key={categorie._id}>{categorie.name}</span>;
+          {activity.categories.map((category) => {
+            return <span key={category._id}>{category.name}</span>;
           })}
         </StyledCategories>
       </StyledTitle>
