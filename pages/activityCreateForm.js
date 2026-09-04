@@ -1,3 +1,9 @@
+import AcitityForm from "@/components/ActivityForm";
+
 export default function ActivityCreateForm() {
-  return <p>Hello</p>;
+  return (
+    <>
+      <AcitityForm />
+    </>
+  );
 }

@@ -5,7 +5,9 @@ import Link from "next/link";
 export default function Layout({ children }) {
   return (
     <div>
-      <header>Activity App</header>
+      <HeaderContainer>
+        <header>Activity App</header>
+      </HeaderContainer>
 
       <main>{children}</main>
 
@@ -17,6 +19,11 @@ export default function Layout({ children }) {
     </div>
   );
 }
+
+const HeaderContainer = styled.header`
+  text-align: center;
+  border: solid black 2px;
+`;
 
 const StyledFooter = styled.footer`
   display: flex;
