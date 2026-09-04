@@ -64,7 +64,6 @@ const StyledCardContainer = styled.div`
 const StyledTitle = styled.p`
   width: 100%;
   margin: 10px 0 0;
-
   text-align: center;
   overflow-wrap: break-word;
 `;
