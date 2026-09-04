@@ -7,7 +7,7 @@ export default async function handler(request, response) {
   } catch (error) {
     return response
       .status(500)
-      .json({ error: "Datenbankverbindung fehlgeschlagen" });
+      .json({ error: "Database connection failed" });
   }
 
   if (request.method === "GET") {
@@ -17,7 +17,7 @@ export default async function handler(request, response) {
     } catch (error) {
       response
         .status(500)
-        .json({ error: "Fehler beim Abrufen der Categories" });
+        .json({ error: "Error retrieving the categories" });
     }
 
 }
