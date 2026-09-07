@@ -8,14 +8,12 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function App({ Component, pageProps }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleEdit() {
-    setIsEditing(true);
+  function handleEdit(boolean) {
+    setIsEditing(boolean);
   }
 
-
-
   return (
-    <Layout>
+    <Layout onEdit={handleEdit}>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
         <Component isEditing={isEditing} onEdit={handleEdit} {...pageProps} />

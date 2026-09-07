@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Layout({ children }) {
+export default function Layout({ children, onEdit }) {
   return (
     <div>
       <HeaderContainer>
@@ -12,8 +12,8 @@ export default function Layout({ children }) {
       <main>{children}</main>
 
       <StyledFooter>
-        <Link href="/activityForm">
-          <Image width={24} height={24} src="/assets/circle-plus.png" />
+        <Link onClick={() => onEdit(false)} href="/activityForm">
+          <Image alt="add-button" width={24} height={24} src="/assets/circle-plus.png" />
         </Link>
       </StyledFooter>
     </div>

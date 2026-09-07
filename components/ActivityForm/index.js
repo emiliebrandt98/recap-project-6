@@ -15,7 +15,7 @@ export default function ActivityForm({ isEditing }) {
     const data = Object.fromEntries(formData);
 
     const response = isEditing
-      ? await fetch(`/api/activity/[id]`, {
+      ? await fetch("/api/activity/[id]", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
