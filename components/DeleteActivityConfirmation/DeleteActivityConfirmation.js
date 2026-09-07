@@ -5,6 +5,7 @@ import styled from "styled-components";
 export default function DeleteActivityConfirmation({
   onCancel,
   onDeleteConfirm,
+  isDeleting,
 }) {
   return (
     <ConfirmWrapper>
@@ -14,7 +15,7 @@ export default function DeleteActivityConfirmation({
       <ButtonWrapper>
         <PrimaryButton
           onClick={onDeleteConfirm}
-          buttonText={"Yes"}
+          buttonText={isDeleting ? "Deleting..." : "Yes"}
           Icon={Check}
         />
         <SecondaryButton onClick={onCancel} buttonText={"No"} Icon={X} />
