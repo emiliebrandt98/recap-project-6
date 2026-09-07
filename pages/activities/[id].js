@@ -42,7 +42,7 @@ export default function ActivityDetails({ onEdit }) {
   return (
     <main>
       <ActivityInfo activity={activity} />
-      <Link onClick={() => onEdit(true)} href="/activityForm">
+      <Link onClick={() => onEdit(true)} href={`/activityForm?id=${activity._id}`}>
         Update Acitvity
       </Link>
     </main>

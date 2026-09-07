@@ -24,7 +24,7 @@ export default async function handler(request, response) {
       const activity = await Activity.findByIdAndUpdate(id, activityData);
 
       if (!activity) {
-        response.status(404).json({ status: "Activity not found." });
+        response.status(404).json({ status: "Error updating Activity" });
         return;
       }
 
@@ -32,6 +32,7 @@ export default async function handler(request, response) {
       return;
     }
   } catch (error) {
+    console.log(error);
     response.status(500).json({ status: "Internal Server Error." });
     return;
   }

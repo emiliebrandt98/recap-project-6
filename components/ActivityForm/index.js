@@ -1,21 +1,39 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import { useSWRConfig } from "swr";
+import { useEffect } from "react";
 
-export default function ActivityForm({ isEditing }) {
-  const { mutate } = useSWR();
+export default function ActivityForm({ isEditing, activities }) {
+  const { mutate } = useSWRConfig();
   const [countLetters, setCounLetters] = useState("");
   const router = useRouter();
+  const { id } = router.query;
 
-  async function handleCreateActivity(event) {
+  const activity = activities?.find((activity) => activity._id === id);
+
+  useEffect(() => {
+    if (isEditing && activity) {
+      setCounLetters(activity.description || "");
+    }
+  }, [isEditing, activity]);
+
+  const categories = [
+    ...new Map(
+      activities
+        .flatMap((activity) => activity.categories)
+        .map((category) => [category._id, category])
+    ).values(),
+  ];
+
+  async function handleActivity(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
     const response = isEditing
-      ? await fetch("/api/activity/[id]", {
+      ? await fetch(`/api/activities/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -40,11 +58,13 @@ export default function ActivityForm({ isEditing }) {
     mutate();
 
     event.target.reset();
-    router.push("/");
+    {
+      isEditing ? router.push(`/activities/${id}`) : router.push("/");
+    }
   }
 
   return (
-    <Form onSubmit={handleCreateActivity}>
+    <Form onSubmit={handleActivity}>
       <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
 
       <label htmlFor="title">
@@ -52,6 +72,7 @@ export default function ActivityForm({ isEditing }) {
       </label>
 
       <Input
+        defaultValue={activity.title}
         id="title"
         name="title"
         required
@@ -78,14 +99,19 @@ export default function ActivityForm({ isEditing }) {
 
       <Select id="category" name="category">
         <option value="">Please select a category</option>
-        <option value="sport">Sport</option>
-        <option value="outdoor">Outdoor</option>
-        <option value="water">Water</option>
+        {categories.map((category) => {
+          return (
+            <>
+              <option value="sport">{category.name}</option>
+            </>
+          );
+        })}
       </Select>
 
       <label htmlFor="area">Area</label>
 
       <Input
+        defaultValue={activity.area}
         id="area"
         name="area"
         placeholder="Which area does your activity belong to?"
@@ -94,6 +120,7 @@ export default function ActivityForm({ isEditing }) {
       <label htmlFor="country">Country</label>
 
       <Input
+        defaultValue={activity.country}
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
