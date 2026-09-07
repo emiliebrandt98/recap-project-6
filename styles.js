@@ -9,7 +9,11 @@ export default createGlobalStyle`
 
   body {
     max-width: 100%;
-    margin: 0;
+    margin: 0 auto;
     font-family: system-ui;
+  }
+
+  main {
+    margin-bottom: 50px;
   }
 `;
