@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import useSWR from "swr";
 
-export default function ActivityForm() {
+export default function ActivityForm({ isEditing }) {
+  const { mutate } = useSWR();
   const [countLetters, setCounLetters] = useState("");
   const router = useRouter();
 
@@ -13,18 +14,30 @@ export default function ActivityForm() {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const response = await fetch("/api/activities", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = isEditing
+      ? await fetch(`/api/activity/[id]`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+      : await fetch("/api/activities", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
     if (!response.ok) {
-      console.log("Error creating activity");
+      console.log(
+        isEditing ? "Error updating activity" : "Error creating activity"
+      );
       return;
     }
+
+    mutate();
 
     event.target.reset();
     router.push("/");
@@ -32,11 +45,12 @@ export default function ActivityForm() {
 
   return (
     <Form onSubmit={handleCreateActivity}>
-      <h1>Create new Activity</h1>
+      <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
 
       <label htmlFor="title">
         Title <small>(required)</small>
       </label>
+
       <Input
         id="title"
         name="title"
@@ -61,6 +75,7 @@ export default function ActivityForm() {
       </TextContainer>
 
       <label htmlFor="category">Category</label>
+
       <Select id="category" name="category">
         <option value="">Please select a category</option>
         <option value="sport">Sport</option>
@@ -69,6 +84,7 @@ export default function ActivityForm() {
       </Select>
 
       <label htmlFor="area">Area</label>
+
       <Input
         id="area"
         name="area"
@@ -76,13 +92,16 @@ export default function ActivityForm() {
       />
 
       <label htmlFor="country">Country</label>
+
       <Input
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
       />
 
-      <Button type="submit">Create new Activity</Button>
+      <Button type="submit">
+        {isEditing ? "Update Activity" : "Create new Activity"}
+      </Button>
     </Form>
   );
 }

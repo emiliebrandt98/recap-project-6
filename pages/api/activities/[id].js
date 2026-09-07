@@ -18,6 +18,19 @@ export default async function handler(request, response) {
       response.status(200).json(activity);
       return;
     }
+
+    if (request.method === "PUT") {
+      const activityData = request.body;
+      const activity = await Activity.findByIdAndUpdate(id, activityData);
+
+      if (!activity) {
+        response.status(404).json({ status: "Activity not found." });
+        return;
+      }
+
+      response.status(200).json({ status: "activity updated" });
+      return;
+    }
   } catch (error) {
     response.status(500).json({ status: "Internal Server Error." });
     return;

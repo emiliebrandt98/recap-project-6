@@ -12,7 +12,7 @@ export default function Layout({ children }) {
       <main>{children}</main>
 
       <StyledFooter>
-        <Link href="/activityCreateForm">
+        <Link href="/activityForm">
           <Image width={24} height={24} src="/assets/circle-plus.png" />
         </Link>
       </StyledFooter>

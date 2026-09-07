@@ -2,8 +2,9 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import LinkTo from "@/components/LinkTo";
 import ActivityInfo from "@/components/ActivityInfo";
+import Link from "next/link";
 
-export default function ActivityDetails() {
+export default function ActivityDetails({ onEdit }) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -40,8 +41,10 @@ export default function ActivityDetails() {
 
   return (
     <main>
-      <LinkTo pathname={"/"} />
       <ActivityInfo activity={activity} />
+      <Link onClick={onEdit} href="/activityForm">
+        Update Acitvity
+      </Link>
     </main>
   );
 }
