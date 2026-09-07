@@ -33,7 +33,10 @@ export default function ActivityDetails() {
 
       if (response.ok) {
         setIsConfirmingDelete(false);
-        router.push("/?deleted=true");
+        router.push({
+          pathname: "/",
+          query: { deleted: "true" },
+        });
       } else {
         setDeleteError("Activity could not be deleted. Please try again.");
         setIsConfirmingDelete(false);
