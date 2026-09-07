@@ -3,11 +3,14 @@ import useSWR from "swr";
 import LinkTo from "@/components/LinkTo";
 import ActivityInfo from "@/components/ActivityInfo";
 import { X } from "lucide-react";
-import styled from "styled-components";
+import { SecondaryButton } from "@/components/Button/Button";
+import { useState } from "react";
+import DeleteActivityConfirmation from "@/components/DeleteActivityConfirmation/DeleteActivityConfirmation";
 
 export default function ActivityDetails() {
   const router = useRouter();
   const { id } = router.query;
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const {
     data: activity,
@@ -56,24 +59,19 @@ export default function ActivityDetails() {
     <main>
       <LinkTo pathname={"/"} />
       <ActivityInfo activity={activity} />
-      <Button
-        type="button"
-        onClick={() => {
-          handleDeleteActivity(id);
-        }}
-      >
-        <X size={18} />
-        Delete Activity
-      </Button>
+      {isConfirmingDelete ? (
+        <DeleteActivityConfirmation
+          onDeleteConfirm={handleDeleteActivity}
+          onCancel={() => setIsConfirmingDelete(false)}
+        />
+      ) : (
+        <SecondaryButton
+          type="button"
+          onClick={() => setIsConfirmingDelete(true)}
+          buttonText={"Delete Activity"}
+          Icon={X}
+        />
+      )}
     </main>
   );
 }
-
-const Button = styled.button`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 2rem;
-`;
