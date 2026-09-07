@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import LinkTo from "@/components/LinkTo";
 import ActivityInfo from "@/components/ActivityInfo";
+import { X } from "lucide-react";
+import styled from "styled-components";
 
 export default function ActivityDetails() {
   const router = useRouter();
@@ -12,6 +14,18 @@ export default function ActivityDetails() {
     isLoading,
     error,
   } = useSWR(id ? `/api/activities/${id}` : null);
+
+  async function handleDeleteActivity() {
+    const response = await fetch(`/api/activities/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      router.push("/");
+    } else {
+      console.error(response.status);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -42,6 +56,24 @@ export default function ActivityDetails() {
     <main>
       <LinkTo pathname={"/"} />
       <ActivityInfo activity={activity} />
+      <Button
+        type="button"
+        onClick={() => {
+          handleDeleteActivity(id);
+        }}
+      >
+        <X size={18} />
+        Delete Activity
+      </Button>
     </main>
   );
 }
+
+const Button = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 2rem;
+`;

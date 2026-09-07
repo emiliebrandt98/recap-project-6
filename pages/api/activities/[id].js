@@ -18,6 +18,18 @@ export default async function handler(request, response) {
       response.status(200).json(activity);
       return;
     }
+
+    if (request.method === "DELETE") {
+      const deleteActivity = await Activity.findByIdAndDelete(id);
+
+      if (!deleteActivity) {
+        response.status(404).json({ status: "Not found." });
+        return;
+      }
+
+      response.status(200).json({ status: "Activity successfully deleted." });
+      return;
+    }
   } catch (error) {
     response.status(500).json({ status: "Internal Server Error." });
     return;

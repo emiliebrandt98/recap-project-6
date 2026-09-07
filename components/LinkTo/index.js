@@ -1,5 +1,5 @@
-import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function LinkTo({ pathname }) {
-  return <Link href={pathname}>Back to Activities List</Link>;
+  return <StyledLink href={pathname}>Back to Activities List</StyledLink>;
 }
