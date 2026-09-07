@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
-import { useEffect } from "react";
 
 export default function ActivityForm({ isEditing, activities }) {
   const { mutate } = useSWRConfig();
@@ -10,18 +9,21 @@ export default function ActivityForm({ isEditing, activities }) {
   const router = useRouter();
   const { id } = router.query;
 
+  // Die Activity finden, die gerade bearbeitet wird
   const activity = activities?.find((activity) => activity._id === id);
 
+  // Alte Description beim Editieren in den State laden
   useEffect(() => {
     if (isEditing && activity) {
       setCounLetters(activity.description || "");
     }
   }, [isEditing, activity]);
 
+  // Alle Kategorien aus allen Activities holen und Duplikate entfernen
   const categories = [
     ...new Map(
-      activities
-        .flatMap((activity) => activity.categories)
+      (activities || [])
+        .flatMap((activity) => activity.categories || [])
         .map((category) => [category._id, category])
     ).values(),
   ];
@@ -58,8 +60,11 @@ export default function ActivityForm({ isEditing, activities }) {
     mutate();
 
     event.target.reset();
-    {
-      isEditing ? router.push(`/activities/${id}`) : router.push("/");
+
+    if (isEditing) {
+      router.push(`/activities/${id}`);
+    } else {
+      router.push("/");
     }
   }
 
@@ -72,7 +77,7 @@ export default function ActivityForm({ isEditing, activities }) {
       </label>
 
       <Input
-        defaultValue={activity.title}
+        defaultValue={activity?.title || ""}
         id="title"
         name="title"
         required
@@ -97,21 +102,24 @@ export default function ActivityForm({ isEditing, activities }) {
 
       <label htmlFor="category">Category</label>
 
-      <Select id="category" name="category">
+      <Select
+        id="category"
+        name="category"
+        defaultValue={activity?.categories?.[0]?._id || ""}
+      >
         <option value="">Please select a category</option>
-        {categories.map((category) => {
-          return (
-            <>
-              <option value="sport">{category.name}</option>
-            </>
-          );
-        })}
+
+        {categories.map((category) => (
+          <option key={category._id} value={category._id}>
+            {category.name}
+          </option>
+        ))}
       </Select>
 
       <label htmlFor="area">Area</label>
 
       <Input
-        defaultValue={activity.area}
+        defaultValue={activity?.area || ""}
         id="area"
         name="area"
         placeholder="Which area does your activity belong to?"
@@ -120,7 +128,7 @@ export default function ActivityForm({ isEditing, activities }) {
       <label htmlFor="country">Country</label>
 
       <Input
-        defaultValue={activity.country}
+        defaultValue={activity?.country || ""}
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
