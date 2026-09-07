@@ -17,5 +17,33 @@ export default async function handler(request, response) {
     }
   }
 
-  response.status(405).json({ status: "Method not allowed." });
+  if (request.method === "POST") {
+    try {
+      const activitiesData = request.body;
+
+      const newActivity = await Activity.create(activitiesData);
+
+      const formattedActivity = newActivity.toObject();
+      formattedActivity.createdAt = new Date(
+        formattedActivity.createdAt
+      ).toLocaleString("de-DE", {
+        timeZone: "Europe/Berlin",
+      });
+      formattedActivity.updatedAt = new Date(
+        formattedActivity.updatedAt
+      ).toLocaleString("de-DE", {
+        timeZone: "Europe/Berlin",
+      });
+
+      return response
+        .status(201)
+        .json({ status: "Activity Created", activity: formattedActivity });
+    } catch (error) {
+      return response
+        .status(500)
+        .json({ error: "Error creating the activity" });
+    }
+  }
+
+  response.status(405).json({ status: "Method not allowed" });
 }

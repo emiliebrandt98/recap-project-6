@@ -8,9 +8,14 @@ export default createGlobalStyle`
   }
 
   body {
+    max-width: 100%;
+    margin: 0 auto;
     margin: 20px 2rem;
     font-family: system-ui;
     min-height: 100vh;
-    max-width: 50rem;
+  }
+
+  main {
+    margin-bottom: 50px;
   }
 `;

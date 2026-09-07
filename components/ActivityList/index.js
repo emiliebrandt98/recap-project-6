@@ -1,4 +1,3 @@
-import Image from "next/image";
 import useSWR from "swr";
 import styled from "styled-components";
 import ActivityCard from "../ActivityCard/ActivityCard";
