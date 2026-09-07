@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function ActivityForm() {
   const [countLetters, setCounLetters] = useState("");
@@ -33,7 +34,9 @@ export default function ActivityForm() {
     <Form onSubmit={handleCreateActivity}>
       <h1>Create new Activity</h1>
 
-      <label htmlFor="title">Title</label>
+      <label htmlFor="title">
+        Title <small>(required)</small>
+      </label>
       <Input
         id="title"
         name="title"
@@ -50,7 +53,6 @@ export default function ActivityForm() {
           value={countLetters}
           rows={8}
           maxLength={150}
-          required
           placeholder="Describe your activity ..."
           onChange={(event) => setCounLetters(event.target.value)}
         />
@@ -59,7 +61,7 @@ export default function ActivityForm() {
       </TextContainer>
 
       <label htmlFor="category">Category</label>
-      <Select id="category" name="category" required>
+      <Select id="category" name="category">
         <option value="">Please select a category</option>
         <option value="sport">Sport</option>
         <option value="outdoor">Outdoor</option>
@@ -70,7 +72,6 @@ export default function ActivityForm() {
       <Input
         id="area"
         name="area"
-        required
         placeholder="Which area does your activity belong to?"
       />
 
@@ -78,7 +79,6 @@ export default function ActivityForm() {
       <Input
         id="country"
         name="country"
-        required
         placeholder="Which country does your activity belong to?"
       />
 
