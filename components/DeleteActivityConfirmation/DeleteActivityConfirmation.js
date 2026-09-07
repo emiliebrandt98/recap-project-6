@@ -15,10 +15,10 @@ export default function DeleteActivityConfirmation({
       <ButtonWrapper>
         <PrimaryButton
           onClick={onDeleteConfirm}
-          buttonText={isDeleting ? "Deleting..." : "Yes"}
+          buttonText={isDeleting ? "Deleting..." : "Confirm"}
           Icon={Check}
         />
-        <SecondaryButton onClick={onCancel} buttonText={"No"} Icon={X} />
+        <SecondaryButton onClick={onCancel} buttonText={"Cancel"} Icon={X} />
       </ButtonWrapper>
     </ConfirmWrapper>
   );
