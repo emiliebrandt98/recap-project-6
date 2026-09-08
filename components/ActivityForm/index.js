@@ -203,10 +203,6 @@ const Textarea = styled.textarea`
   min-height: 150px;
 `;
 
-const StyledReactSelect = styled(Select)`
-  padding: 8px;
-`;
-
 const Button = styled.button`
   padding: 8px;
 `;
