@@ -8,7 +8,7 @@ import { SecondaryButton } from "@/components/Button/Button";
 import { useState } from "react";
 import DeleteActivityConfirmation from "@/components/DeleteActivityConfirmation/DeleteActivityConfirmation";
 import styled from "styled-components";
-import { useSWRConfig } from "swr";
+import { mutate } from "swr";
 
 export default function ActivityDetails({ onEdit }) {
   const router = useRouter();
@@ -17,7 +17,6 @@ export default function ActivityDetails({ onEdit }) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { mutate } = useSWRConfig();
   const {
     data: activity,
     isLoading,

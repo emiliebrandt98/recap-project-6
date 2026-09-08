@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSWRConfig } from "swr";
+import { mutate } from "swr";
 import Select from "react-select";
 import Link from "next/link";
 import useSWR from "swr";
 
 export default function ActivityForm({ isEditing, activities }) {
   const { data: allCategories } = useSWR("/api/categories");
-  const { mutate } = useSWRConfig();
   const [selectedCategories, setSelecttedCategories] = useState([]);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
