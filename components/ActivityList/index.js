@@ -10,6 +10,7 @@ export default function ActivityList({ activities }) {
   function handleCloseToast() {
     // Remove the parameter from the URL when the toast disappears
     router.replace("/", undefined, { shallow: true });
+    
   }
 
   return (
