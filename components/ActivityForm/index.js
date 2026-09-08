@@ -98,7 +98,7 @@ export default function ActivityForm({ isEditing, activities }) {
       return;
     }
 
-    mutate();
+    mutate("/api/activities");
 
     event.target.reset();
 
