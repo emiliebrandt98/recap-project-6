@@ -21,7 +21,10 @@ export default async function handler(request, response) {
 
     if (request.method === "PUT") {
       const activityData = request.body;
-      const activity = await Activity.findByIdAndUpdate(id, activityData);
+
+      const activity = await Activity.findByIdAndUpdate(id, activityData, {
+        new: true,
+      });
 
       if (!activity) {
         response.status(404).json({ status: "Error updating Activity" });

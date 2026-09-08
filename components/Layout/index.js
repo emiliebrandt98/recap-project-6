@@ -12,7 +12,7 @@ export default function Layout({ children, onEdit }) {
       <main>{children}</main>
 
       <StyledFooter>
-        <Link onClick={() => onEdit(false)} href="/activityForm">
+        <Link onClick={() => onEdit(false)} href="/createActivity">
           <Image alt="add-button" width={24} height={24} src="/assets/circle-plus.png" />
         </Link>
       </StyledFooter>

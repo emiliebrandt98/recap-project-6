@@ -41,8 +41,12 @@ export default function ActivityDetails({ onEdit }) {
 
   return (
     <main>
+      <LinkTo pathname={"/"} />
       <ActivityInfo activity={activity} />
-      <Link onClick={() => onEdit(true)} href={`/activityForm?id=${activity._id}`}>
+      <Link
+        onClick={() => onEdit(true)}
+        href={`/activities/updateActivity?id=${activity._id}`}
+      >
         Update Acitvity
       </Link>
     </main>

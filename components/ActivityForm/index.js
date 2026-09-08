@@ -2,37 +2,78 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
+import Select from "react-select";
+import Link from "next/link";
+import useSWR from "swr";
 
 export default function ActivityForm({ isEditing, activities }) {
+  const { data: allCategories } = useSWR("/api/categories");
   const { mutate } = useSWRConfig();
-  const [countLetters, setCounLetters] = useState("");
+  const [selectedCategories, setSelecttedCategories] = useState([]);
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
   const { id } = router.query;
 
-  // Die Activity finden, die gerade bearbeitet wird
-  const activity = activities?.find((activity) => activity._id === id);
+  const activityID = activities?.find((activity) => activity._id === id);
 
-  // Alte Description beim Editieren in den State laden
   useEffect(() => {
-    if (isEditing && activity) {
-      setCounLetters(activity.description || "");
+    if (activityID?.description) {
+      setDescription(activityID.description);
     }
-  }, [isEditing, activity]);
+  }, [activityID]);
 
-  // Alle Kategorien aus allen Activities holen und Duplikate entfernen
-  const categories = [
-    ...new Map(
-      (activities || [])
-        .flatMap((activity) => activity.categories || [])
-        .map((category) => [category._id, category])
-    ).values(),
-  ];
+  useEffect(() => {
+    if (activityID?.categories && allCategories) {
+      const selected = allCategories
+        .filter((category) =>
+          activityID.categories.some(
+            (categorieId) => String(categorieId._id) === String(category._id)
+          )
+        )
+        .map((category) => ({
+          value: category._id,
+          label: category.name,
+        }));
+
+      setSelecttedCategories(selected);
+    }
+  }, [activityID, allCategories]);
+
+  const selectedOptions = allCategories?.map((category) => ({
+    value: category._id,
+    label: category.name,
+  }));
+
+  const handleSelectedCategories = (selected) => {
+    if (selected && selected.length > 3) {
+      setError("You can select a maximum of 3 categories.");
+      return;
+    }
+
+    setSelecttedCategories(selected || []);
+  };
 
   async function handleActivity(event) {
     event.preventDefault();
 
+    if (selectedCategories.length === 0) {
+      setError("Please select at least 1 category.");
+      return;
+    }
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
+    data.categories = selectedCategories.map(
+      (categoryOption) => categoryOption.value
+    );
+
+    // Validierung vor dem Senden an die API
+    if (data.categories.length < 1) {
+      setError("Please select at least 1 category.");
+      return;
+    }
 
     const response = isEditing
       ? await fetch(`/api/activities/${id}`, {
@@ -77,7 +118,7 @@ export default function ActivityForm({ isEditing, activities }) {
       </label>
 
       <Input
-        defaultValue={activity?.title || ""}
+        defaultValue={activityID?.title}
         id="title"
         name="title"
         required
@@ -90,36 +131,37 @@ export default function ActivityForm({ isEditing, activities }) {
         <Textarea
           id="description"
           name="description"
-          value={countLetters}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
           rows={8}
-          maxLength={150}
+          maxLength={400}
           placeholder="Describe your activity ..."
-          onChange={(event) => setCounLetters(event.target.value)}
         />
 
-        <LetterCount>{150 - countLetters.length} Letters left</LetterCount>
+        <LetterCount>{400 - description.length} Letters left</LetterCount>
       </TextContainer>
 
-      <label htmlFor="category">Category</label>
+      <label htmlFor="category">
+        Category <small>(required)</small>
+      </label>
 
       <Select
         id="category"
         name="category"
-        defaultValue={activity?.categories?.[0]?._id || ""}
-      >
-        <option value="">Please select a category</option>
-
-        {categories.map((category) => (
-          <option key={category._id} value={category._id}>
-            {category.name}
-          </option>
-        ))}
-      </Select>
+        isMulti
+        options={selectedOptions}
+        value={selectedCategories}
+        onChange={handleSelectedCategories}
+        placeholder="Please select a Category (max 3)"
+        //Text der angezeigt wird wenn keine verfügbaren Optionen zur Auswahl stehen
+        noOptionsMessage={() => "No more categories."}
+      />
+      {error && <p>{error}</p>}
 
       <label htmlFor="area">Area</label>
 
       <Input
-        defaultValue={activity?.area || ""}
+        defaultValue={activityID?.area}
         id="area"
         name="area"
         placeholder="Which area does your activity belong to?"
@@ -128,7 +170,7 @@ export default function ActivityForm({ isEditing, activities }) {
       <label htmlFor="country">Country</label>
 
       <Input
-        defaultValue={activity?.country || ""}
+        defaultValue={activityID?.country}
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
@@ -137,6 +179,9 @@ export default function ActivityForm({ isEditing, activities }) {
       <Button type="submit">
         {isEditing ? "Update Activity" : "Create new Activity"}
       </Button>
+      <Link href={isEditing ? `/activities/${id}` : "/"}>
+        <Button>Cancel</Button>
+      </Link>
     </Form>
   );
 }
@@ -158,7 +203,7 @@ const Textarea = styled.textarea`
   min-height: 150px;
 `;
 
-const Select = styled.select`
+const StyledReactSelect = styled(Select)`
   padding: 8px;
 `;
 

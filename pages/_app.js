@@ -8,7 +8,11 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 
 export default function App({ Component, pageProps }) {
   const [isEditing, setIsEditing] = useState(false);
-  const { data: activities, error, isLoading } = useSWR("/api/activities", fetcher);
+  const {
+    data: activities,
+    error,
+    isLoading,
+  } = useSWR("/api/activities", fetcher);
 
   function handleEdit(boolean) {
     setIsEditing(boolean);

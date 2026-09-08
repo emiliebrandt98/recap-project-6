@@ -19,6 +19,16 @@ const ActivitySchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: "Category",
       required: true,
+      validate: [
+        {
+          validator: (val) => val.length >= 1,
+          message: "Bitte wähle mindestens 1 Kategorie aus.",
+        },
+        {
+          validator: (val) => val.length <= 3,
+          message: "Du kannst maximal 3 Kategorien auswählen.",
+        },
+      ],
     },
     description: {
       type: String,
