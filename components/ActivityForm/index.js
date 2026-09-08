@@ -91,9 +91,10 @@ export default function ActivityForm({ isEditing, activities }) {
         });
 
     if (!response.ok) {
-      console.log(
+      setError(
         isEditing ? "Error updating activity" : "Error creating activity"
       );
+
       return;
     }
 
@@ -155,7 +156,6 @@ export default function ActivityForm({ isEditing, activities }) {
         //Text der angezeigt wird wenn keine verfügbaren Optionen zur Auswahl stehen
         noOptionsMessage={() => "No more categories."}
       />
-      {error && <p>{error}</p>}
 
       <label htmlFor="area">Area</label>
 
@@ -174,7 +174,7 @@ export default function ActivityForm({ isEditing, activities }) {
         name="country"
         placeholder="Which country does your activity belong to?"
       />
-
+      {error && <p>{error}</p>}
       <Button type="submit">
         {isEditing ? "Update Activity" : "Create new Activity"}
       </Button>

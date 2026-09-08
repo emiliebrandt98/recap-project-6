@@ -20,6 +20,7 @@ export default async function handler(request, response) {
     }
 
     if (request.method === "PUT") {
+   
       const activityData = request.body;
 
       const activity = await Activity.findByIdAndUpdate(id, activityData, {
@@ -46,8 +47,7 @@ export default async function handler(request, response) {
       return;
     }
   } catch (error) {
-    console.log(error);
-    response.status(500).json({ status: "Internal Server Error." });
+    response.status(500).json({ status: error.message, "Internal Server Error." });
     return;
   }
 

@@ -1,9 +1,9 @@
-import AcitityForm from "@/components/ActivityForm";
+import ActivityForm from "@/components/ActivityForm";
 
-export default function ActivityForm({ activities }) {
+export default function CreateActivity({ activities }) {
   return (
     <>
-      <AcitityForm activities={activities} />
+      <ActivityForm activities={activities} />
     </>
   );
 }
