@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import ActivityCard from "../ActivityCard/ActivityCard";
-import SuccessToast from "../SuccessToast/SuccessToast";
+import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
+import Toast from "@/components/ui/Toast/Toast.js";
 
 export default function ActivityList({ activities }) {
   const router = useRouter();
@@ -10,13 +10,13 @@ export default function ActivityList({ activities }) {
   function handleCloseToast() {
     // Remove the parameter from the URL when the toast disappears
     router.replace("/", undefined, { shallow: true });
-    
   }
 
   return (
     <div>
       {deleted && (
-        <SuccessToast
+        <Toast
+          type="success"
           message="Activity deleted successfully!"
           duration={3000}
           onClose={handleCloseToast}

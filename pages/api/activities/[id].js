@@ -2,7 +2,11 @@ import dbConnect from "@/db/connect";
 import Activity from "@/db/models/Activity";
 
 export default async function handler(request, response) {
-  await dbConnect();
+  try {
+    await dbConnect();
+  } catch (error) {
+    return response.status(500).json({ error: "Database connection failed" });
+  }
 
   const { id } = request.query;
 
@@ -11,47 +15,43 @@ export default async function handler(request, response) {
       const activity = await Activity.findById(id).populate("categories");
 
       if (!activity) {
-        response.status(404).json({ status: "Activity not found." });
-        return;
+        return response.status(404).json({ status: "Activity not found." });
       }
 
-      response.status(200).json(activity);
-      return;
+      return response.status(200).json(activity);
     }
 
     if (request.method === "PUT") {
-      const activityData = request.body;
+      const updatedActivity = await Activity.findByIdAndUpdate(
+        id,
+        { $set: request.body },
+        { new: true, runValidators: true }
+      );
 
-      const activity = await Activity.findByIdAndUpdate(id, activityData, {
-        new: true,
-      });
-
-      if (!activity) {
-        response.status(404).json({ status: "Error updating Activity" });
-        return;
+      if (!updatedActivity) {
+        return response.status(404).json({ status: "Activity not found." });
       }
 
-      response.status(200).json({ status: "activity updated" });
-      return;
+      return response.status(200).json(updatedActivity);
     }
+
     if (request.method === "DELETE") {
       const deleteActivity = await Activity.findByIdAndDelete(id);
 
       if (!deleteActivity) {
-        response.status(404).json({ status: "Not found." });
-        return;
+        return response.status(404).json({ status: "Activity not found." });
       }
 
-      response.status(200).json({ status: "Activity successfully deleted." });
-      return;
+      return response
+        .status(200)
+        .json({ status: "Activity successfully deleted." });
     }
   } catch (error) {
-    response
-      .status(500)
-      .json({ status: error.message, message: "Internal Server Error." });
-    return;
+    if (error.name === "ValidationError") {
+      return response.status(400).json({ error: error.message });
+    }
+    return response.status(500).json({ status: "Internal Server Error." });
   }
 
-  response.status(405).json({ status: "Method not allowed." });
-  return;
+  return response.status(405).json({ status: "Method not allowed." });
 }

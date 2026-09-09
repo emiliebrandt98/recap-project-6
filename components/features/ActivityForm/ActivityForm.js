@@ -1,57 +1,50 @@
-import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
-import Select from "react-select";
-import Link from "next/link";
+import styled from "styled-components";
+import { X, Check } from "lucide-react";
 import useSWR from "swr";
+import CategorySelect from "@/components/ui/CategorySelect/CategorySelect";
+import Toast from "@/components/ui/Toast/Toast";
+import { usePrefillActivity } from "@/hooks/usePrefillActivity";
+import { useSaveActivity } from "@/hooks/useSaveActivity";
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from "@/components/ui/Button/Button.js";
 
-export default function ActivityForm({ isEditing, activities }) {
+export default function ActivityForm({ isEditing = false, activities }) {
   const { data: allCategories } = useSWR("/api/categories");
-  const [selectedCategories, setSelecttedCategories] = useState([]);
-  const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
   const { id } = router.query;
 
   const activityID = activities?.find((activity) => activity._id === id);
 
-  useEffect(() => {
-    if (activityID?.description) {
-      setDescription(activityID.description);
-    }
-  }, [activityID]);
+  // –––––– hooks for prefill and save
 
-  useEffect(() => {
-    if (activityID?.categories && allCategories) {
-      const selected = allCategories
-        .filter((category) =>
-          activityID.categories.some(
-            (categorieId) => String(categorieId._id) === String(category._id)
-          )
-        )
-        .map((category) => ({
-          value: category._id,
-          label: category.name,
-        }));
+  const {
+    description,
+    setDescription,
+    selectedCategories,
+    setSelectedCategories,
+  } = usePrefillActivity(activityID, allCategories);
 
-      setSelecttedCategories(selected);
-    }
-  }, [activityID, allCategories]);
+  const { saveActivity } = useSaveActivity({ isEditing, id });
 
-  const selectedOptions = allCategories?.map((category) => ({
-    value: category._id,
-    label: category.name,
-  }));
+  // –––––– error handling and validation
+
+  const [error, setError] = useState("");
+  const [saveError, setSaveError] = useState("");
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
       setError("You can select a maximum of 3 categories.");
       return;
     }
-
-    setSelecttedCategories(selected || []);
+    setError("");
+    setSelectedCategories(selected || []);
   };
+
+  // –––––– handle submit for create and update/edit
 
   async function handleActivity(event) {
     event.preventDefault();
@@ -63,54 +56,32 @@ export default function ActivityForm({ isEditing, activities }) {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
 
-    // Validierung vor dem Senden an die API
+    try {
+      await saveActivity(data);
+      event.target.reset();
+    } catch (error) {
+      setSaveError(error.message);
+    }
+
     if (data.categories.length < 1) {
       setError("Please select at least 1 category.");
       return;
-    }
-
-    const response = isEditing
-      ? await fetch(`/api/activities/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-      : await fetch("/api/activities", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-
-    if (!response.ok) {
-      setError(
-        isEditing ? "Error updating activity" : "Error creating activity"
-      );
-
-      return;
-    }
-
-    mutate("/api/activities");
-
-    event.target.reset();
-
-    if (isEditing) {
-      router.push(`/activities/${id}`);
-    } else {
-      router.push("/");
     }
   }
 
   return (
     <Form onSubmit={handleActivity}>
+      {saveError && (
+        <Toast
+          type="error"
+          message={saveError}
+          onClose={() => setSaveError("")}
+        />
+      )}
       <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
 
       <label htmlFor="title">
@@ -145,16 +116,10 @@ export default function ActivityForm({ isEditing, activities }) {
         Category <small>(required)</small>
       </label>
 
-      <Select
-        id="category"
-        name="category"
-        isMulti
-        options={selectedOptions}
+      <CategorySelect
         value={selectedCategories}
         onChange={handleSelectedCategories}
         placeholder="Please select a Category (max 3)"
-        //Text der angezeigt wird wenn keine verfügbaren Optionen zur Auswahl stehen
-        noOptionsMessage={() => "No more categories."}
       />
 
       <label htmlFor="area">Area</label>
@@ -174,13 +139,21 @@ export default function ActivityForm({ isEditing, activities }) {
         name="country"
         placeholder="Which country does your activity belong to?"
       />
+
       {error && <p>{error}</p>}
-      <Button type="submit">
-        {isEditing ? "Update Activity" : "Create new Activity"}
-      </Button>
-      <Link href={isEditing ? `/activities/${id}` : "/"}>
-        <Button>Cancel</Button>
-      </Link>
+
+      <PrimaryButton
+        type="submit"
+        buttonText={isEditing ? "Update Activity" : "Create new Activity"}
+        Icon={Check}
+      />
+
+      <SecondaryButton
+        type="button"
+        onClick={() => router.push(isEditing && id ? `/activities/${id}` : "/")}
+        buttonText={"Cancel"}
+        Icon={X}
+      />
     </Form>
   );
 }

@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function ActivityCard({ activities }) {
+  if (!activities || activities.length === 0) {
+    return <p>No activities found.</p>;
+  }
+
   return (
     <StyledGrid>
       {activities.map((activity) => {
@@ -12,21 +16,20 @@ export default function ActivityCard({ activities }) {
             href={`/activities/${activity._id}`}
           >
             <Image
-              priority="eager"
+              priority
               alt={activity.title}
               width={100}
               height={100}
               src="/assets/placeholder.jpg"
             />
 
-            <StyledTitle>
-              {activity.title}
-              <StyledCategories>
-                {activity.categories?.map((category) => {
-                  return <span key={category._id}>{category.name}</span>;
-                })}
-              </StyledCategories>
-            </StyledTitle>
+            <StyledTitle>{activity.title} </StyledTitle>
+
+            <StyledCategories>
+              {activity.categories?.map((category) => {
+                return <span key={category._id}>{category.name}</span>;
+              })}
+            </StyledCategories>
           </StyledCardContainer>
         );
       })}

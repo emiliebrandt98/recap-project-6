@@ -5,7 +5,8 @@ export default async function handler(request, response) {
   try {
     await dbConnect();
   } catch (error) {
-    return response.status(500).json({ error: "Database connection failed" });
+    response.status(500).json({ error: "Database connection failed" });
+    return;
   }
 
   if (request.method === "GET") {
@@ -22,7 +23,6 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const activitiesData = request.body;
-
       const newActivity = await Activity.create(activitiesData);
 
       const formattedActivity = newActivity.toObject();
@@ -37,10 +37,14 @@ export default async function handler(request, response) {
         timeZone: "Europe/Berlin",
       });
 
-      return response
+      response
         .status(201)
         .json({ status: "Activity Created", activity: formattedActivity });
+      return;
     } catch (error) {
+      if (error.name === "ValidationError") {
+        return response.status(400).json({ error: error.message });
+      }
       return response
         .status(500)
         .json({ error: "Error creating the activity" });

@@ -1,4 +1,4 @@
-import { PrimaryButton, SecondaryButton } from "@/components/Button/Button";
+import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { X, Check } from "lucide-react";
 import styled from "styled-components";
 

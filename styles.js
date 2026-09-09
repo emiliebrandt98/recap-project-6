@@ -8,14 +8,29 @@ export default createGlobalStyle`
   }
 
   body {
+    min-width: 320px;
     max-width: 100%;
-    margin: 0 auto;
-    margin: 20px 2rem;
     font-family: system-ui;
     min-height: 100vh;
+    margin: 0;
   }
 
   main {
-    margin-bottom: 50px;
+    margin: 24px 2rem 70px 2rem;
+  }
+
+  // Tablet
+ @media (min-width: 768px) {
+    body {
+      margin: 20px auto;
+      max-width: 700px;
+    }
+  }
+
+  // Desktop
+  @media (min-width: 1024px) {
+    body {
+      max-width: 960px;
+    }
   }
 `;
