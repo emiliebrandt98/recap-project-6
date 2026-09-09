@@ -35,8 +35,8 @@ export default function ActivityCard({ activities }) {
 }
 
 const StyledGrid = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
   align-items: center;
   gap: 20px;

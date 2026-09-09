@@ -15,6 +15,7 @@ export default function Layout({ children, onEdit }) {
   );
 }
 const LayoutWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
