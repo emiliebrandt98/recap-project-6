@@ -12,7 +12,7 @@ export default function Layout({ children, onEdit }) {
       <main>{children}</main>
 
       <StyledFooter>
-        <Link onClick={() => onEdit(false)} href="/activities/createActivity">
+        <Link onClick={() => onEdit?.(false)} href="/activities/createActivity">
           <CirclePlus />
         </Link>
       </StyledFooter>

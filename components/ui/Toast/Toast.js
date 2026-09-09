@@ -5,15 +5,15 @@ export default function Toast({
   message,
   type = "success",
   duration = 3000,
-  onClose,
+  onCloseToast,
 }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose();
+      onCloseToast();
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration, onClose]);
+  }, [duration, onCloseToast]);
 
   return (
     <ToastContainer role="status" $type={type}>

@@ -26,9 +26,12 @@ export function useSaveActivity({ isEditing, id }) {
     if (id) mutate(`/api/activities/${id}`);
 
     if (isEditing) {
-      router.push(`/activities/${id}`);
+      router.push({
+        pathname: `/activities/${id}`,
+        query: { updated: "true" },
+      });
     } else {
-      router.push("/");
+      router.push({ pathname: "/", query: { created: "true" } });
     }
   }
 

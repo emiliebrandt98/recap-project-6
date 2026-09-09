@@ -2,6 +2,7 @@ import GlobalStyle from "@/styles.js";
 import Layout from "@/components/layout/Layout/Layout.js";
 import useSWR, { SWRConfig } from "swr";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -17,6 +18,7 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const {
     data: activities,
@@ -27,6 +29,11 @@ export default function App({ Component, pageProps }) {
 
   function handleEdit(boolean) {
     setIsEditing(boolean);
+  }
+
+  function handleCloseToast() {
+    // Remove the parameter from the URL when the toast disappears
+    router.replace("/", undefined, { shallow: true });
   }
 
   return (
@@ -40,6 +47,7 @@ export default function App({ Component, pageProps }) {
           mutate={mutate}
           isEditing={isEditing}
           onEdit={handleEdit}
+          onCloseToast={handleCloseToast}
           {...pageProps}
         />
       </Layout>

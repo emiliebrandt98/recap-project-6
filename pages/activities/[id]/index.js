@@ -10,9 +10,11 @@ import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirm
 import { useActivity } from "@/hooks/useActivity";
 import { useDeleteActivity } from "@/hooks/useDeleteActivity";
 import { useRouter } from "next/router";
+import Toast from "@/components/ui/Toast/Toast";
 
-export default function ActivityDetailsPage() {
+export default function ActivityDetailsPage({ onCloseToast }) {
   const router = useRouter();
+  const { updated } = router.query;
 
   // –––––– hooks for fetch activity and delete
 
@@ -48,6 +50,14 @@ export default function ActivityDetailsPage() {
 
   return (
     <main>
+      {updated && (
+        <Toast
+          type="success"
+          message="Activity successfully updated!"
+          duration={3000}
+          onClose={onCloseToast}
+        />
+      )}
       <LinkTo pathname={"/"} />
 
       <ActivityInfo activity={activity} />

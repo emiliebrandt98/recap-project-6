@@ -35,9 +35,13 @@ export default function ActivityForm({ isEditing = false, activities }) {
   const [error, setError] = useState("");
   const [saveError, setSaveError] = useState("");
 
+  const handleTitleChange = () => {
+    if (error) setError("");
+  };
+
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
-      setError("You can select a maximum of 3 categories.");
+      setError("Maximum number of categories selected.");
       return;
     }
     setError("");
@@ -49,16 +53,23 @@ export default function ActivityForm({ isEditing = false, activities }) {
   async function handleActivity(event) {
     event.preventDefault();
 
-    if (selectedCategories.length === 0) {
-      setError("Please select at least 1 category.");
-      return;
-    }
-
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
+
+    if (!data.title || !data.title.trim()) {
+      setError("Please enter a title for your activity.");
+      return;
+    }
+
+    if (selectedCategories.length === 0) {
+      setError("Please select at least 1 category.");
+      return;
+    }
+
+    setError("");
 
     try {
       await saveActivity(data);
@@ -92,8 +103,8 @@ export default function ActivityForm({ isEditing = false, activities }) {
         defaultValue={activityID?.title}
         id="title"
         name="title"
-        required
         placeholder="Name for your activity"
+        onChange={handleTitleChange}
       />
 
       <TextContainer>
@@ -115,11 +126,11 @@ export default function ActivityForm({ isEditing = false, activities }) {
       <label htmlFor="category">
         Category <small>(required)</small>
       </label>
-
+      <small>You can select a maximum of 3 categories.</small>
       <CategorySelect
         value={selectedCategories}
         onChange={handleSelectedCategories}
-        placeholder="Please select a Category (max 3)"
+        placeholder="Please select a Category"
       />
 
       <label htmlFor="area">Area</label>
@@ -140,7 +151,7 @@ export default function ActivityForm({ isEditing = false, activities }) {
         placeholder="Which country does your activity belong to?"
       />
 
-      {error && <p>{error}</p>}
+      {error && <Validation>{error}</Validation>}
 
       <PrimaryButton
         type="submit"
@@ -175,10 +186,6 @@ const Textarea = styled.textarea`
   min-height: 150px;
 `;
 
-const Button = styled.button`
-  padding: 8px;
-`;
-
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -190,4 +197,29 @@ const LetterCount = styled.p`
   align-self: flex-end;
   margin: 0;
   margin-right: 5px;
+`;
+
+const Validation = styled.p`
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  text-align: center;
+  color: #721c24;
+  background-color: #f8d7da;
+
+  animation: shake 0.4s ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20%,
+    60% {
+      transform: translateX(-8px);
+    }
+    40%,
+    80% {
+      transform: translateX(8px);
+    }
+  }
 `;
