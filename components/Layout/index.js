@@ -1,39 +1,29 @@
 import styled from "styled-components";
-import Image from "next/image";
-import Link from "next/link";
+
+import Navbar from "../Navbar";
 
 export default function Layout({ children, onEdit }) {
   return (
-    <div>
+    <LayoutWrapper>
       <HeaderContainer>
         <header>Activity App</header>
       </HeaderContainer>
 
       <main>{children}</main>
-
-      <StyledFooter>
-        <Link onClick={() => onEdit(false)} href="/createActivity">
-          <Image alt="add-button" width={24} height={24} src="/assets/circle-plus.png" />
-        </Link>
-      </StyledFooter>
-    </div>
+      <Navbar />
+    </LayoutWrapper>
   );
 }
-
-const HeaderContainer = styled.header`
-  text-align: center;
-  border: solid black 2px;
+const LayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;
 
-const StyledFooter = styled.footer`
-  display: flex;
-  background-color: grey;
+const HeaderContainer = styled.header`
   width: 100%;
-  padding: 10px;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  margin: 0 auto;
-
+  text-align: center;
   border: solid black 2px;
 `;
