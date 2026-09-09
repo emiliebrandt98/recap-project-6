@@ -43,13 +43,11 @@ const StyledGrid = styled.div`
 `;
 
 const StyledCardContainer = styled(Link)`
+  background-color: red;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
-  width: 200px;
-  height: 150px;
 
   text-align: center;
 `;
@@ -62,7 +60,9 @@ const StyledTitle = styled.div`
 `;
 
 const StyledCategories = styled.div`
+  width: auto;
   display: flex;
   justify-content: center;
   gap: 5px;
+  flex-wrap: wrap;
 `;
