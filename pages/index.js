@@ -14,6 +14,7 @@ export default function HomePage({ activities, error, isLoading }) {
         />
       </div>
     );
+
   return (
     <div>
       <ActivityList activities={activities} />
