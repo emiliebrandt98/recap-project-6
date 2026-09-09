@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Image from "next/image";
 import Link from "next/link";
+import { CirclePlus } from "lucide-react";
 
 export default function Layout({ children, onEdit }) {
   return (
@@ -12,8 +12,8 @@ export default function Layout({ children, onEdit }) {
       <main>{children}</main>
 
       <StyledFooter>
-        <Link onClick={() => onEdit(false)} href="/createActivity">
-          <Image alt="add-button" width={24} height={24} src="/assets/circle-plus.png" />
+        <Link onClick={() => onEdit(false)} href="/activities/create">
+          <CirclePlus />
         </Link>
       </StyledFooter>
     </div>
@@ -28,12 +28,12 @@ const HeaderContainer = styled.header`
 const StyledFooter = styled.footer`
   display: flex;
   background-color: grey;
-  width: 100%;
   padding: 10px;
   justify-content: center;
   position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
-  margin: 0 auto;
 
   border: solid black 2px;
 `;
