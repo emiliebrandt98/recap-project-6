@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import LinkTo from "@/components/LinkTo/LinkTo.js";
-import ActivityInfo from "@/components/ActivityInfo/ActivityInfo.js";
+import LinkTo from "@/components/ui/LinkTo/LinkTo.js";
+import ActivityInfo from "@/components/features/ActivityInfo/ActivityInfo.js";
 import { X, Pencil } from "lucide-react";
 import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
-import DeleteConfirmation from "@/components/DeleteConfirmation/DeleteConfirmation.js";
+import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirmation.js";
 import { useActivity } from "@/hooks/useActivity";
 import { useDeleteActivity } from "@/hooks/useDeleteActivity";
 import { useRouter } from "next/router";
@@ -56,7 +56,9 @@ export default function ActivityDetailsPage() {
         type="button"
         buttonText={"Update Activity"}
         Icon={Pencil}
-        onClick={() => router.push(`/activities/${activity?._id}/update`)}
+        onClick={() =>
+          router.push(`/activities/${activity?._id}/updateActivity`)
+        }
       />
 
       {deleteError && <AlertText role="alert">{deleteError}</AlertText>}

@@ -1,4 +1,4 @@
-import ActivityList from "@/components/ActivityList/ActivityList.js";
+import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
 
