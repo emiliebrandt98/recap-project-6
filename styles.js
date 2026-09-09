@@ -16,5 +16,6 @@ export default createGlobalStyle`
 
   main {
    width: 80%;
+   padding-bottom: 60px; // is needed, otherwise footer overlapps main content
   }
 `;
