@@ -5,7 +5,7 @@ import { X, Pencil } from "lucide-react";
 import {
   PrimaryButton,
   SecondaryButton,
-} from "@/components/ui/Button/index.js";
+} from "@/components/ui/Button/Button.js";
 import DeleteConfirmation from "@/components/DeleteConfirmation/DeleteConfirmation.js";
 import { useActivity } from "@/hooks/useActivity";
 import { useDeleteActivity } from "@/hooks/useDeleteActivity";

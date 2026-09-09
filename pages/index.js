@@ -1,5 +1,5 @@
 import ActivityList from "@/components/ActivityList/ActivityList.js";
-import { PrimaryButton } from "@/components/ui/Button/index.js";
+import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
 
 export default function HomePage({ activities, isLoading, error }) {

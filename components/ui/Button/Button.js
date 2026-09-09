@@ -1,17 +1,29 @@
 import styled from "styled-components";
 
-export function PrimaryButton({ disabled, buttonText, onClick, Icon }) {
+export function PrimaryButton({
+  disabled,
+  buttonText,
+  onClick,
+  Icon,
+  type = "button",
+}) {
   return (
-    <StyledPrimaryButton type="button" onClick={onClick} disabled={disabled}>
+    <StyledPrimaryButton type={type} onClick={onClick} disabled={disabled}>
       {Icon && <Icon size={16} />}
       <span>{buttonText}</span>
     </StyledPrimaryButton>
   );
 }
 
-export function SecondaryButton({ disabled, buttonText, onClick, Icon }) {
+export function SecondaryButton({
+  disabled,
+  buttonText,
+  onClick,
+  Icon,
+  type = "button",
+}) {
   return (
-    <StyledSecondaryButton type="button" onClick={onClick} disabled={disabled}>
+    <StyledSecondaryButton type={type} onClick={onClick} disabled={disabled}>
       {Icon && <Icon size={16} />}
       <span>{buttonText}</span>
     </StyledSecondaryButton>
