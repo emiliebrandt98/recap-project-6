@@ -2,20 +2,21 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import LinkTo from "@/components/LinkTo";
 import ActivityInfo from "@/components/ActivityInfo";
+import Link from "next/link";
 import { X } from "lucide-react";
 import { SecondaryButton } from "@/components/Button/Button";
 import { useState } from "react";
 import DeleteActivityConfirmation from "@/components/DeleteActivityConfirmation/DeleteActivityConfirmation";
 import styled from "styled-components";
+import { mutate } from "swr";
 
-export default function ActivityDetails() {
+export default function ActivityDetails({ onEdit }) {
   const router = useRouter();
   const { id } = router.query;
 
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const {
     data: activity,
     isLoading,
@@ -47,6 +48,8 @@ export default function ActivityDetails() {
       setIsConfirmingDelete(false);
       setIsDeleting(false);
     }
+
+    mutate("/api/activities");
   }
 
   if (isLoading) {
@@ -78,6 +81,12 @@ export default function ActivityDetails() {
     <main>
       <LinkTo pathname={"/"} />
       <ActivityInfo activity={activity} />
+      <Link
+        onClick={() => onEdit(true)}
+        href={`/activities/updateActivity?id=${activity._id}`}
+      >
+        Update Acitvity
+      </Link>
 
       <AlertText role="alert">{deleteError}</AlertText>
 

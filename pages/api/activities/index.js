@@ -11,9 +11,11 @@ export default async function handler(request, response) {
   if (request.method === "GET") {
     try {
       const activities = await Activity.find().populate("categories");
-      response.status(200).json(activities);
+      return response.status(200).json(activities);
     } catch (error) {
-      response.status(500).json({ error: "Error retrieving the activities" });
+      return response
+        .status(500)
+        .json({ error: "Error retrieving the activities" });
     }
   }
 
@@ -45,5 +47,5 @@ export default async function handler(request, response) {
     }
   }
 
-  response.status(405).json({ status: "Method not allowed" });
+  return response.status(405).json({ status: "Method not allowed" });
 }

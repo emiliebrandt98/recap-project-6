@@ -22,7 +22,7 @@ export default function ActivityCard({ activities }) {
             <StyledTitle>
               {activity.title}
               <StyledCategories>
-                {activity.categories.map((category) => {
+                {activity.categories?.map((category) => {
                   return <span key={category._id}>{category.name}</span>;
                 })}
               </StyledCategories>

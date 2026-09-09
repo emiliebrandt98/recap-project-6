@@ -19,6 +19,21 @@ export default async function handler(request, response) {
       return;
     }
 
+    if (request.method === "PUT") {
+      const activityData = request.body;
+
+      const activity = await Activity.findByIdAndUpdate(id, activityData, {
+        new: true,
+      });
+
+      if (!activity) {
+        response.status(404).json({ status: "Error updating Activity" });
+        return;
+      }
+
+      response.status(200).json({ status: "activity updated" });
+      return;
+    }
     if (request.method === "DELETE") {
       const deleteActivity = await Activity.findByIdAndDelete(id);
 
@@ -31,7 +46,9 @@ export default async function handler(request, response) {
       return;
     }
   } catch (error) {
-    response.status(500).json({ status: "Internal Server Error." });
+    response
+      .status(500)
+      .json({ status: error.message, message: "Internal Server Error." });
     return;
   }
 

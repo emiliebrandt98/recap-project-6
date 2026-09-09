@@ -5,6 +5,7 @@ const CategorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  
 });
 
 export default mongoose.models.Category ||

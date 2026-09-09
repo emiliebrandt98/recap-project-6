@@ -13,15 +13,19 @@ export default function ActivityInfo({ activity }) {
       />
       <StyledTitle>
         <h2>{activity.title}</h2>
+        <p>Category</p>
         <StyledCategories>
           {activity?.categories?.map((category) => {
             return <span key={category._id}>{category.name}</span>;
           })}
         </StyledCategories>
       </StyledTitle>
+      <p>Description</p>
       <p>{activity.description}</p>
       <section>
+        <p>Area</p>
         <p>{activity.area}</p>
+        <p>Country</p>
         <p>{activity.country}</p>
       </section>
     </>
