@@ -10,12 +10,12 @@ export default createGlobalStyle`
   body {
     max-width: 100%;
     margin: 0 auto;
-    margin: 20px 2rem;
     font-family: system-ui;
     min-height: 100vh;
   }
 
   main {
-    margin-bottom: 50px;
+   width: 80%;
+   padding-bottom: 60px; // is needed, otherwise footer overlapps main content
   }
 `;
