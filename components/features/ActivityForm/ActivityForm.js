@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { X, Check } from "lucide-react";
@@ -34,10 +34,21 @@ export default function ActivityForm({ isEditing = false, activities }) {
 
   const [error, setError] = useState("");
   const [saveError, setSaveError] = useState("");
+  const duration = 3000;
 
   const handleTitleChange = () => {
     if (error) setError("");
   };
+
+  useEffect(() => {
+    if (!error) return;
+
+    const timer = setTimeout(() => {
+      setError("");
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [duration, error]);
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
