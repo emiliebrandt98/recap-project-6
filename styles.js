@@ -17,8 +17,6 @@ export default createGlobalStyle`
 
   main {
     margin: 24px 2rem 60px 2rem;
-
-
   }
 
   // Tablet
