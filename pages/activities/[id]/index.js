@@ -49,7 +49,7 @@ export default function ActivityDetailsPage({ onCloseToast }) {
   }
 
   return (
-    <main>
+    <>
       {updated && (
         <Toast
           type="success"
@@ -87,7 +87,7 @@ export default function ActivityDetailsPage({ onCloseToast }) {
           Icon={X}
         />
       )}
-    </main>
+    </>
   );
 }
 

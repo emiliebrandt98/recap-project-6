@@ -2,37 +2,26 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ActivityCard({ activities }) {
-  if (!activities || activities.length === 0) {
-    return <p>No activities found.</p>;
-  }
-
+export default function ActivityCard({ id, title, categories }) {
   return (
     <StyledGrid>
-      {activities.map((activity) => {
-        return (
-          <StyledCardContainer
-            key={activity._id}
-            href={`/activities/${activity._id}`}
-          >
-            <Image
-              priority
-              alt={activity.title}
-              width={100}
-              height={100}
-              src="/assets/placeholder.jpg"
-            />
+      <StyledCardContainer href={`/activities/${id}`}>
+        <Image
+          priority
+          alt={title}
+          width={100}
+          height={100}
+          src="/assets/placeholder.jpg"
+        />
 
-            <StyledTitle>{activity.title} </StyledTitle>
+        <StyledTitle>{title} </StyledTitle>
 
-            <StyledCategories>
-              {activity.categories?.map((category) => {
-                return <span key={category._id}>{category.name}</span>;
-              })}
-            </StyledCategories>
-          </StyledCardContainer>
-        );
-      })}
+        <StyledCategories>
+          {categories?.map((category) => {
+            return <span key={category._id}>{category.name}</span>;
+          })}
+        </StyledCategories>
+      </StyledCardContainer>
     </StyledGrid>
   );
 }

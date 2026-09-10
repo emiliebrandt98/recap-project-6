@@ -22,8 +22,8 @@ export default function HomePage({
     );
 
   return (
-    <main>
+    <>
       <ActivityList activities={activities} onCloseToast={onCloseToast} />
-    </main>
+    </>
   );
 }
