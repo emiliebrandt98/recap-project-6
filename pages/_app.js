@@ -1,7 +1,7 @@
 import GlobalStyle from "@/styles.js";
 import Layout from "@/components/layout/Layout/Layout.js";
 import useSWR, { SWRConfig } from "swr";
-import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
 
 const fetcher = async (url) => {
@@ -44,6 +44,12 @@ export default function App({ Component, pageProps }) {
           mutate={mutate}
           onCloseToast={handleCloseToast}
           {...pageProps}
+        />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          theme="light"
+          pauseOnHover
         />
       </Layout>
     </SWRConfig>

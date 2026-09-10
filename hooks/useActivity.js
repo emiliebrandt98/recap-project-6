@@ -1,6 +1,7 @@
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function useActivity() {
   const router = useRouter();
@@ -8,7 +9,6 @@ export function useActivity() {
 
   const [isConfirming, setIsConfirming] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [deleteError, setDeleteError] = useState(null);
 
   const { data, error, isLoading } = useSWR(
     router.isReady && id ? `/api/activities/${id}` : null
@@ -18,7 +18,6 @@ export function useActivity() {
     if (!activityId) return null;
 
     setIsDeleting(true);
-    setDeleteError("");
 
     try {
       const response = await fetch(`/api/activities/${activityId}`, {
@@ -32,7 +31,7 @@ export function useActivity() {
       await mutate("/api/activities");
       router.push({ pathname: "/", query: { deleted: "true" } });
     } catch (error) {
-      setDeleteError("Activity could not be deleted. Please try again.");
+      toast.error("Activity could not be deleted. Please try again.");
       setIsDeleting(false);
       setIsConfirming(false);
     }

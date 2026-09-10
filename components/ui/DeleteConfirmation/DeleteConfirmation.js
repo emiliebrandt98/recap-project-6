@@ -5,11 +5,7 @@ import {
 import { X, Check } from "lucide-react";
 import styled from "styled-components";
 
-export default function DeleteConfirmation({
-  onCancel,
-  onDeleteConfirm,
-  isDeleting,
-}) {
+export default function DeleteConfirmation({ onCancel, onDeleteConfirm }) {
   return (
     <ConfirmWrapper>
       <ConfirmMessage>
@@ -19,7 +15,7 @@ export default function DeleteConfirmation({
       <ButtonWrapper>
         <PrimaryButton
           onClick={onDeleteConfirm}
-          buttonText={isDeleting ? "Deleting..." : "Confirm"}
+          buttonText={"Confirm"}
           Icon={Check}
         />
         <SecondaryButton onClick={onCancel} buttonText={"Cancel"} Icon={X} />

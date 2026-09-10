@@ -9,7 +9,6 @@ import {
 import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirmation.js";
 import { useActivity } from "@/hooks/useActivity";
 import { useRouter } from "next/router";
-import Toast from "@/components/ui/Toast/Toast";
 
 export default function ActivityDetailsPage({ onCloseToast }) {
   const router = useRouter();
@@ -78,7 +77,6 @@ export default function ActivityDetailsPage({ onCloseToast }) {
         <DeleteConfirmation
           onDeleteConfirm={() => handleDelete()}
           onCancel={() => setIsConfirming(false)}
-          isDeleting={isDeleting}
         />
       ) : (
         <SecondaryButton

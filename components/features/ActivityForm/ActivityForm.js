@@ -1,20 +1,17 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
 import CategorySelect from "@/components/ui/CategorySelect/CategorySelect";
-import Toast from "@/components/ui/Toast/Toast";
 import { useUpdateDefaultValues } from "@/hooks/useUpdateDefaultValues";
 import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
+import { toast } from "react-toastify";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
-  const [errorValidation, setErrorValidation] = useState("");
-  const [saveError, setSaveError] = useState("");
 
   // ––– Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
@@ -27,10 +24,10 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
-      setErrorValidation("Maximum number of categories selected.");
+      toast.error("You can select a maximum of 3 categories.");
       return;
     }
-    setErrorValidation("");
+
     setSelectedCategories(selected || []);
   };
 
@@ -45,7 +42,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     );
 
     if (data.categories.length < 1) {
-      setErrorValidation("Please select at least 1 category.");
+      toast.error("Please select at least 1 category.");
       return;
     }
 
@@ -54,18 +51,11 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     try {
       onSubmit(data);
     } catch (error) {
-      setSaveError(error.message);
+      console.error({ status: error.message });
     }
   }
   return (
     <Form onSubmit={handleSubmitActivity}>
-      {saveError && (
-        <Toast
-          type="error"
-          message={saveError}
-          onCloseToast={() => setSaveError("")}
-        />
-      )}
       <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
 
       <label htmlFor="title">
@@ -124,8 +114,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         name="country"
         placeholder="Which country does your activity belong to?"
       />
-
-      {errorValidation && <Validation>{errorValidation}</Validation>}
 
       <PrimaryButton
         type="submit"

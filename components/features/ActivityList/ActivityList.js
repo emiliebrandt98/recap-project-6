@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
-import Toast from "@/components/ui/Toast/Toast.js";
+import { toast } from "react-toastify";
+import { useActivity } from "@/hooks/useActivity";
 
-export default function ActivityList({ activities, onCloseToast }) {
-  const router = useRouter();
-  const { deleted, created } = router.query;
+export default function ActivityList({ activities }) {
+  const { isDeleting } = useActivity;
 
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
@@ -13,22 +12,8 @@ export default function ActivityList({ activities, onCloseToast }) {
 
   return (
     <div>
-      {deleted && (
-        <Toast
-          type="success"
-          message="Activity deleted successfully!"
-          duration={3000}
-          onCloseToast={onCloseToast}
-        />
-      )}
-      {created && (
-        <Toast
-          type="success"
-          message="Activity created successfully!"
-          duration={3000}
-          onCloseToast={onCloseToast}
-        />
-      )}
+      {toast.success(isDeleting && "Activity successfully deleted")}
+      {toast.success(created && "Activity successfully created")}
 
       <StyledHeader>Activities List</StyledHeader>
 
