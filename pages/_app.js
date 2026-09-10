@@ -31,9 +31,11 @@ export default function App({ Component, pageProps }) {
     setIsEditing(boolean);
   }
 
+  // Remove the parameter from the URL when the toast disappears
+  // asPath includes the query string, so we strip everything after "?"
   function handleCloseToast() {
-    // Remove the parameter from the URL when the toast disappears
-    router.replace("/", undefined, { shallow: true });
+    const cleanPathname = router.asPath.split("?")[0];
+    router.replace(cleanPathname, undefined, { shallow: true });
   }
 
   return (

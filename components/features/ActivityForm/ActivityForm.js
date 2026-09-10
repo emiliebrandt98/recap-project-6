@@ -101,7 +101,7 @@ export default function ActivityForm({ isEditing = false, activities }) {
         <Toast
           type="error"
           message={saveError}
-          onClose={() => setSaveError("")}
+          onCloseToast={() => setSaveError("")}
         />
       )}
       <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>

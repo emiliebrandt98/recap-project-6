@@ -55,7 +55,7 @@ export default function ActivityDetailsPage({ onCloseToast }) {
           type="success"
           message="Activity successfully updated!"
           duration={3000}
-          onClose={onCloseToast}
+          onCloseToast={onCloseToast}
         />
       )}
       <LinkTo pathname={"/"} />
