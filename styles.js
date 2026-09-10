@@ -8,7 +8,7 @@ export default createGlobalStyle`
   }
 
   body {
-    min-width: 320px;
+    min-width: 375px;
     max-width: 100%;
     font-family: system-ui;
     min-height: 100vh;
@@ -16,7 +16,9 @@ export default createGlobalStyle`
   }
 
   main {
-    margin: 24px 2rem 70px 2rem;
+    margin: 24px 2rem 60px 2rem;
+
+
   }
 
   // Tablet

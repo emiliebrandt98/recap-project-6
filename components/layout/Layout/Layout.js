@@ -1,39 +1,29 @@
 import styled from "styled-components";
-import Link from "next/link";
-import { CirclePlus } from "lucide-react";
+import Navbar from "@/components/features/Navbar/Navbar.js";
 
 export default function Layout({ children, onEdit }) {
   return (
-    <div>
+    <LayoutWrapper>
       <HeaderContainer>
         <header>Activity App</header>
       </HeaderContainer>
 
       <main>{children}</main>
-
-      <StyledFooter>
-        <Link onClick={() => onEdit?.(false)} href="/activities/createActivity">
-          <CirclePlus />
-        </Link>
-      </StyledFooter>
-    </div>
+      <Navbar />
+    </LayoutWrapper>
   );
 }
-
-const HeaderContainer = styled.header`
-  text-align: center;
-  border: solid black 2px;
+const LayoutWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;
 
-const StyledFooter = styled.footer`
-  display: flex;
-  background-color: grey;
-  padding: 10px;
-  justify-content: center;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
+const HeaderContainer = styled.header`
+  width: 100%;
+  text-align: center;
   border: solid black 2px;
 `;

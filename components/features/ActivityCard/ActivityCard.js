@@ -38,21 +38,19 @@ export default function ActivityCard({ activities }) {
 }
 
 const StyledGrid = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
   align-items: center;
   gap: 20px;
 `;
 
 const StyledCardContainer = styled(Link)`
+  background-color: red;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
-  width: 200px;
-  height: 150px;
 
   text-align: center;
 `;
@@ -65,7 +63,9 @@ const StyledTitle = styled.div`
 `;
 
 const StyledCategories = styled.div`
+  width: auto;
   display: flex;
   justify-content: center;
   gap: 5px;
+  flex-wrap: wrap;
 `;
