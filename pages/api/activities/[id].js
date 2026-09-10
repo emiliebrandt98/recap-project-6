@@ -22,17 +22,19 @@ export default async function handler(request, response) {
     }
 
     if (request.method === "PUT") {
-      const updatedActivity = await Activity.findByIdAndUpdate(
-        id,
-        { $set: request.body },
-        { new: true, runValidators: true }
-      );
+      const activityData = request.body;
 
-      if (!updatedActivity) {
-        return response.status(404).json({ status: "Activity not found." });
+      const activity = await Activity.findByIdAndUpdate(id, activityData, {
+        new: true,
+      });
+
+      if (!activity) {
+        response.status(404).json({ status: "Error updating Activity" });
+        return;
       }
 
-      return response.status(200).json(updatedActivity);
+      response.status(200).json({ status: "activity updated" });
+      return;
     }
 
     if (request.method === "DELETE") {

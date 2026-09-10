@@ -19,7 +19,8 @@ export default function CategorySelect({
 
   return (
     <Select
-      id={id}
+      instanceId={id}
+      inputId={id}
       name={name}
       isMulti
       isLoading={isLoading}

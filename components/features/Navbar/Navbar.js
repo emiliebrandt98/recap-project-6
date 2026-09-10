@@ -13,8 +13,8 @@ export default function Navbar() {
         </StyledIconContainer1>
       </StyledLink>
       <StyledLink
-        $active={router.pathname === "/createActivity"}
-        href="/createActivity"
+        $active={router.pathname === "/activities/createActivity"}
+        href="/activities/createActivity"
       >
         <StyledIconContainer2>
           <PlusCircle />

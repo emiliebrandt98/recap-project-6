@@ -19,17 +19,12 @@ const fetcher = async (url) => {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [isEditing, setIsEditing] = useState(false);
   const {
     data: activities,
     error,
     isLoading,
     mutate,
   } = useSWR("/api/activities", fetcher);
-
-  function handleEdit(boolean) {
-    setIsEditing(boolean);
-  }
 
   // Remove the parameter from the URL when the toast disappears
   // asPath includes the query string, so we strip everything after "?"
@@ -47,8 +42,6 @@ export default function App({ Component, pageProps }) {
           error={error}
           isLoading={isLoading}
           mutate={mutate}
-          isEditing={isEditing}
-          onEdit={handleEdit}
           onCloseToast={handleCloseToast}
           {...pageProps}
         />

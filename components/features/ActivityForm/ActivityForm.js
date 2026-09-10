@@ -1,102 +1,64 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import styled from "styled-components";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
+import Link from "next/link";
 import CategorySelect from "@/components/ui/CategorySelect/CategorySelect";
 import Toast from "@/components/ui/Toast/Toast";
-import { usePrefillActivity } from "@/hooks/usePrefillActivity";
-import { useSaveActivity } from "@/hooks/useSaveActivity";
+import { useUpdateDefaultValues } from "@/hooks/useUpdateDefaultValues";
 import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 
-export default function ActivityForm({ isEditing = false, activities }) {
+export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
-  const router = useRouter();
-  const { id } = router.query;
+  const [errorValidation, setErrorValidation] = useState("");
+  const [saveError, setSaveError] = useState("");
 
+  // ––– Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
-
-  // –––––– hooks for prefill and save
-
   const {
     description,
     setDescription,
     selectedCategories,
     setSelectedCategories,
-  } = usePrefillActivity(activityID, allCategories);
-
-  const { saveActivity } = useSaveActivity({ isEditing, id });
-
-  // –––––– error handling and validation
-
-  const [error, setError] = useState("");
-  const [saveError, setSaveError] = useState("");
-  const duration = 3000;
-
-  const handleTitleChange = () => {
-    if (error) setError("");
-  };
-
-  useEffect(() => {
-    if (!error) return;
-
-    const timer = setTimeout(() => {
-      setError("");
-    }, duration);
-
-    return () => clearTimeout(timer);
-  }, [duration, error]);
+  } = useUpdateDefaultValues(activityID, allCategories);
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
-      setError("Maximum number of categories selected.");
+      setErrorValidation("Maximum number of categories selected.");
       return;
     }
-    setError("");
+    setErrorValidation("");
     setSelectedCategories(selected || []);
   };
 
-  // –––––– handle submit for create and update/edit
-
-  async function handleActivity(event) {
+  async function handleSubmitActivity(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
 
-    if (!data.title || !data.title.trim()) {
-      setError("Please enter a title for your activity.");
+    if (data.categories.length < 1) {
+      setErrorValidation("Please select at least 1 category.");
       return;
     }
 
-    if (selectedCategories.length === 0) {
-      setError("Please select at least 1 category.");
-      return;
-    }
-
-    setError("");
+    setErrorValidation("");
 
     try {
-      await saveActivity(data);
-      event.target.reset();
+      onSubmit(data);
     } catch (error) {
       setSaveError(error.message);
     }
-
-    if (data.categories.length < 1) {
-      setError("Please select at least 1 category.");
-      return;
-    }
   }
-
   return (
-    <Form onSubmit={handleActivity}>
+    <Form onSubmit={handleSubmitActivity}>
       {saveError && (
         <Toast
           type="error"
@@ -115,7 +77,7 @@ export default function ActivityForm({ isEditing = false, activities }) {
         id="title"
         name="title"
         placeholder="Name for your activity"
-        onChange={handleTitleChange}
+        required
       />
 
       <TextContainer>
@@ -142,6 +104,7 @@ export default function ActivityForm({ isEditing = false, activities }) {
         value={selectedCategories}
         onChange={handleSelectedCategories}
         placeholder="Please select a Category"
+        required
       />
 
       <label htmlFor="area">Area</label>
@@ -162,20 +125,16 @@ export default function ActivityForm({ isEditing = false, activities }) {
         placeholder="Which country does your activity belong to?"
       />
 
-      {error && <Validation>{error}</Validation>}
+      {errorValidation && <Validation>{errorValidation}</Validation>}
 
       <PrimaryButton
         type="submit"
         buttonText={isEditing ? "Update Activity" : "Create new Activity"}
         Icon={Check}
       />
-
-      <SecondaryButton
-        type="button"
-        onClick={() => router.push(isEditing && id ? `/activities/${id}` : "/")}
-        buttonText={"Cancel"}
-        Icon={X}
-      />
+      <Link href={isEditing ? `/activities/${id}` : "/"}>
+        <SecondaryButton type="button" buttonText={"Cancel"} Icon={X} />
+      </Link>
     </Form>
   );
 }

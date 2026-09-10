@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/Button/Button.js";
 import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirmation.js";
 import { useActivity } from "@/hooks/useActivity";
-import { useDeleteActivity } from "@/hooks/useDeleteActivity";
 import { useRouter } from "next/router";
 import Toast from "@/components/ui/Toast/Toast";
 
@@ -18,14 +17,16 @@ export default function ActivityDetailsPage({ onCloseToast }) {
 
   // –––––– hooks for fetch activity and delete
 
-  const { activity, isLoading, error } = useActivity();
   const {
     isConfirming,
     setIsConfirming,
-    isDeleting,
-    error: deleteError,
+    deleteError,
     handleDelete,
-  } = useDeleteActivity(activity?._id);
+    isDeleting,
+    activity,
+    isLoading,
+    error,
+  } = useActivity();
 
   if (isLoading) {
     return (
@@ -75,7 +76,7 @@ export default function ActivityDetailsPage({ onCloseToast }) {
 
       {isConfirming ? (
         <DeleteConfirmation
-          onDeleteConfirm={handleDelete}
+          onDeleteConfirm={() => handleDelete()}
           onCancel={() => setIsConfirming(false)}
           isDeleting={isDeleting}
         />
