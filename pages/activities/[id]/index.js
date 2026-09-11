@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import LinkTo from "@/components/ui/LinkTo/LinkTo.js";
 import ActivityInfo from "@/components/features/ActivityInfo/ActivityInfo.js";
 import { X, Pencil } from "lucide-react";
@@ -11,6 +12,7 @@ import { useRouter } from "next/router";
 
 export default function ActivityDetailsPage() {
   const router = useRouter();
+
   const {
     isConfirming,
     setIsConfirming,
@@ -24,7 +26,7 @@ export default function ActivityDetailsPage() {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <p>Loading your page. Just a second.</p>
+        <StyledMessage>Loading your page. Just a second.</StyledMessage>
       </>
     );
   }
@@ -33,10 +35,10 @@ export default function ActivityDetailsPage() {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <p>
+        <StyledMessage>
           Sorry we couldn't retrieve the activity at the moment. Please try
           again later.
-        </p>
+        </StyledMessage>
       </>
     );
   }
@@ -45,30 +47,52 @@ export default function ActivityDetailsPage() {
     <>
       <LinkTo pathname={"/"} />
 
-      <ActivityInfo activity={activity} />
+      <StyledContainer>
+        <ActivityInfo activity={activity} />
 
-      <PrimaryButton
-        type="button"
-        buttonText={"Update Activity"}
-        Icon={Pencil}
-        onClick={() =>
-          router.push(`/activities/${activity?._id}/updateActivity`)
-        }
-      />
+        <StyledButtons>
+          <PrimaryButton
+            type="button"
+            buttonText={"Update"}
+            Icon={Pencil}
+            onClick={() =>
+              router.push(`/activities/${activity?._id}/updateActivity`)
+            }
+          />
 
-      {isConfirming ? (
-        <DeleteConfirmation
-          onDeleteConfirm={() => handleDelete()}
-          onCancel={() => setIsConfirming(false)}
-        />
-      ) : (
-        <SecondaryButton
-          type="button"
-          onClick={() => setIsConfirming(true)}
-          buttonText={"Delete Activity"}
-          Icon={X}
-        />
-      )}
+          {isConfirming ? (
+            <DeleteConfirmation
+              onDeleteConfirm={() => handleDelete()}
+              onCancel={() => setIsConfirming(false)}
+            />
+          ) : (
+            <SecondaryButton
+              type="button"
+              onClick={() => setIsConfirming(true)}
+              buttonText={"Delete"}
+              Icon={X}
+            />
+          )}
+        </StyledButtons>
+      </StyledContainer>
     </>
   );
 }
+
+const StyledContainer = styled.main`
+  width: min(80vw, 22rem);
+  padding: 10px;
+
+  border: black solid 3px;
+`;
+
+const StyledButtons = styled.div`
+  color: white;
+  display: flex;
+  margin-top: 20px;
+  gap: 5px;
+`;
+
+const StyledMessage = styled.p`
+  text-align: center;
+`;

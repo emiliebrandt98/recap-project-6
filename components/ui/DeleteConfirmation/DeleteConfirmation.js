@@ -35,6 +35,7 @@ const ConfirmWrapper = styled.section`
 `;
 
 const ConfirmMessage = styled.p`
+  color: var(--color-Text);
   font-size: 1rem;
   line-height: 1.2rem;
   margin: 0;
