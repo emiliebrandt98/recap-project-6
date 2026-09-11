@@ -70,14 +70,15 @@ const StyledCategories = styled.div`
   background-color: var(--color-Accent);
   font-family: var(--ui-Text);
   font-weight: 400;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 12px 24px;
+  border-radius: 1rem;
 `;
 
 const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0.5rem;
 `;
 
 const ImageContainer = styled.div`

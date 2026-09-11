@@ -24,7 +24,7 @@ export default createGlobalStyle`
     --color-Button: #15616D;
     --color-bG: #FFFFFF;
     --color-Accent: #FFECD1;
-      /* hellGrau: #F1F1F1
+    --color-bG-Navbar: #F1F1F1;
       dunkelGrau: #626262 */
 
 
