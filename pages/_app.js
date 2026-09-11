@@ -2,7 +2,6 @@ import GlobalStyle from "@/styles.js";
 import Layout from "@/components/layout/Layout/Layout.js";
 import useSWR, { SWRConfig } from "swr";
 import { ToastContainer } from "react-toastify";
-import { useRouter } from "next/router";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -18,20 +17,12 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
   const {
     data: activities,
     error,
     isLoading,
     mutate,
   } = useSWR("/api/activities", fetcher);
-
-  // Remove the parameter from the URL when the toast disappears
-  // asPath includes the query string, so we strip everything after "?"
-  function handleCloseToast() {
-    const cleanPathname = router.asPath.split("?")[0];
-    router.replace(cleanPathname, undefined, { shallow: true });
-  }
 
   return (
     <SWRConfig value={{ fetcher }}>
@@ -42,7 +33,6 @@ export default function App({ Component, pageProps }) {
           error={error}
           isLoading={isLoading}
           mutate={mutate}
-          onCloseToast={handleCloseToast}
           {...pageProps}
         />
         <ToastContainer

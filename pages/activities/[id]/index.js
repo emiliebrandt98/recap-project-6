@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import LinkTo from "@/components/ui/LinkTo/LinkTo.js";
 import ActivityInfo from "@/components/features/ActivityInfo/ActivityInfo.js";
 import { X, Pencil } from "lucide-react";
@@ -10,18 +9,13 @@ import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirm
 import { useActivity } from "@/hooks/useActivity";
 import { useRouter } from "next/router";
 
-export default function ActivityDetailsPage({ onCloseToast }) {
+export default function ActivityDetailsPage() {
   const router = useRouter();
-  const { updated } = router.query;
-
-  // –––––– hooks for fetch activity and delete
 
   const {
     isConfirming,
     setIsConfirming,
-    deleteError,
     handleDelete,
-    isDeleting,
     activity,
     isLoading,
     error,
@@ -50,14 +44,6 @@ export default function ActivityDetailsPage({ onCloseToast }) {
 
   return (
     <>
-      {updated && (
-        <Toast
-          type="success"
-          message="Activity successfully updated!"
-          duration={3000}
-          onCloseToast={onCloseToast}
-        />
-      )}
       <LinkTo pathname={"/"} />
 
       <ActivityInfo activity={activity} />
@@ -70,8 +56,6 @@ export default function ActivityDetailsPage({ onCloseToast }) {
           router.push(`/activities/${activity?._id}/updateActivity`)
         }
       />
-
-      {deleteError && <AlertText role="alert">{deleteError}</AlertText>}
 
       {isConfirming ? (
         <DeleteConfirmation
@@ -89,8 +73,3 @@ export default function ActivityDetailsPage({ onCloseToast }) {
     </>
   );
 }
-
-const AlertText = styled.p`
-  color: red;
-  margin-top: 1rem;
-`;

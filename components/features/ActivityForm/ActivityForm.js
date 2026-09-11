@@ -46,8 +46,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
-    setErrorValidation("");
-
     try {
       onSubmit(data);
     } catch (error) {

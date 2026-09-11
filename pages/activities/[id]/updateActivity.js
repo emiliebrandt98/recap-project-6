@@ -1,6 +1,7 @@
 import ActivityForm from "@/components/features/ActivityForm/ActivityForm.js";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import { toast } from "react-toastify";
 
 export default function UpdateActivity({ activities }) {
   const router = useRouter();
@@ -16,11 +17,13 @@ export default function UpdateActivity({ activities }) {
     });
 
     if (!response.ok) {
-      return <p>"Error updating activity"</p>;
+      toast.error("Error updating activity");
+      return;
     }
 
     mutate(`/api/activities/${id}`);
-    router.push({ pathname: `/activities/${id}`, query: { updated: "true" } });
+    toast.success("Activity successfully updated!");
+    router.push(`/activities/${id}`);
   }
 
   return (

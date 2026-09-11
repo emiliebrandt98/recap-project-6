@@ -1,6 +1,7 @@
 import ActivityForm from "@/components/features/ActivityForm/ActivityForm.js";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import { toast } from "react-toastify";
 
 export default function CreateActivity({ activities }) {
   const router = useRouter();
@@ -15,11 +16,13 @@ export default function CreateActivity({ activities }) {
     });
 
     if (!response.ok) {
-      return <p>"Error creating activity"</p>;
+      toast.error("Error creating activity");
+      return;
     }
 
     mutate("/api/activities");
-    router.push({ pathname: "/", query: { created: "true" } });
+    toast.success("Activity successfully created!");
+    router.push("/");
   }
 
   return (

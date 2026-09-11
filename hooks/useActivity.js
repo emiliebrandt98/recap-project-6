@@ -29,7 +29,8 @@ export function useActivity() {
       }
 
       await mutate("/api/activities");
-      router.push({ pathname: "/", query: { deleted: "true" } });
+      toast.success("Activity successfully deleted!");
+      router.push("/");
     } catch (error) {
       toast.error("Activity could not be deleted. Please try again.");
       setIsDeleting(false);
