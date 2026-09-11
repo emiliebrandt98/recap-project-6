@@ -179,8 +179,6 @@ const CheckboxItem = styled.li`
 `;
 
 const Checkbox = styled.input`
-  -webkit-appearance: none;
-  appearance: none;
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;
@@ -190,19 +188,6 @@ const Checkbox = styled.input`
 
   display: grid;
   place-content: center;
-
-  &::before {
-    width: 0.75rem;
-    height: 0.75rem;
-    transform: scale(0);
-    transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em #000;
-  }
-
-  &:checked {
-    background-color: #ffecd1;
-    border-color: #ffecd1;
-  }
 `;
 
 const ButtonWrapper = styled.div`
