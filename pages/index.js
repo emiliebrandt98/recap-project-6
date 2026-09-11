@@ -1,6 +1,7 @@
 import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
+import CategoryFilter from "@/components/features/ActivityFilter/ActivityFilter";
 
 export default function HomePage({ activities, isLoading, error }) {
   if (isLoading) return <p>Loading...</p>;
@@ -18,6 +19,7 @@ export default function HomePage({ activities, isLoading, error }) {
 
   return (
     <>
+      <CategoryFilter />
       <ActivityList activities={activities} />
     </>
   );
