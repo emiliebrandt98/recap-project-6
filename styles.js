@@ -43,9 +43,11 @@ export default createGlobalStyle`
     font-family: ${inter.style.fontFamily};
     min-height: 100vh;
     margin: 0;
+    border: solid black 2px;
   }
 
   main {
     margin: 24px 2rem 60px 2rem;
+  
   }
 `;
