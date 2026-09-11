@@ -89,8 +89,7 @@ const StyledContainer = styled.main`
 const StyledButtons = styled.div`
   display: flex;
   flex-direction: column;
-  color: white;
-  display: flex;
+  color: var(--color-Text-White);
   margin-top: 20px;
   gap: 5px;
 `;

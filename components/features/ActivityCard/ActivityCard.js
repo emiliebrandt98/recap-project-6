@@ -4,31 +4,29 @@ import Link from "next/link";
 
 export default function ActivityCard({ id, title, categories }) {
   return (
-    <div>
-      <StyledCardContainer href={`/activities/${id}`}>
-        <ImageContainer>
-          <StyledImage
-            priority
-            alt={title}
-            width={50}
-            height={50}
-            src="/assets/placeholder.jpg"
-          />
-        </ImageContainer>
+    <StyledCardContainer href={`/activities/${id}`}>
+      <ImageContainer>
+        <StyledImage
+          priority
+          alt={title}
+          width={180}
+          height={180}
+          src="/assets/placeholder.jpg"
+        />
+      </ImageContainer>
 
-        <StyledTitle>{title}</StyledTitle>
+      <StyledTitle>{title}</StyledTitle>
 
-        <CategoriesWrapper>
-          {categories?.map((category) => {
-            return (
-              <StyledCategories key={category._id}>
-                <span>{category.name}</span>
-              </StyledCategories>
-            );
-          })}
-        </CategoriesWrapper>
-      </StyledCardContainer>
-    </div>
+      <CategoriesWrapper>
+        {categories?.map((category) => {
+          return (
+            <StyledCategories key={category._id}>
+              <span>{category.name}</span>
+            </StyledCategories>
+          );
+        })}
+      </CategoriesWrapper>
+    </StyledCardContainer>
   );
 }
 
@@ -37,7 +35,7 @@ const StyledCardContainer = styled(Link)`
   min-height: 12rem;
 
   border: black solid 3px;
-  color: var(--color-Headline);
+  color: var(--color-Text);
   font-weight: 600;
   text-decoration: none;
 

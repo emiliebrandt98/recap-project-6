@@ -8,12 +8,7 @@ export function PrimaryButton({
   type = "button",
 }) {
   return (
-    <StyledPrimaryButton
-      $active
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <StyledPrimaryButton type={type} onClick={onClick} disabled={disabled}>
       {Icon && <Icon size={16} />}
       <span>{buttonText}</span>
     </StyledPrimaryButton>
@@ -28,12 +23,7 @@ export function SecondaryButton({
   type = "button",
 }) {
   return (
-    <StyledSecondaryButton
-      $active
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <StyledSecondaryButton type={type} onClick={onClick} disabled={disabled}>
       {Icon && <Icon size={16} />}
       <span>{buttonText}</span>
     </StyledSecondaryButton>
@@ -53,21 +43,10 @@ const StyledPrimaryButton = styled(BaseButton)`
   background-color: var(--color-bG-Navbar);
   color: var(--color-Text);
   border: none;
-
-  &:hover {
-    background-color: ${(props) =>
-      props.$active ? "var(--color-Button)" : "var(--color-bG-Navbar)"};
-  }
 `;
 
 const StyledSecondaryButton = styled(BaseButton)`
   background-color: var(--color-bG-Navbar);
   color: var(--color-Text);
   border: none;
-
-  &:hover {
-    color: ${(props) => (props.$active ? "white" : "var(--color-bG-Navbar)")};
-    background-color: ${(props) =>
-      props.$active ? "var(--color-Button)" : "var(--color-bG-Navbar)"};
-  }
 `;
