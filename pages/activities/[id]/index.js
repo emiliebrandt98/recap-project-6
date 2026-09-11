@@ -60,17 +60,17 @@ export default function ActivityDetailsPage() {
             }
           />
 
-          {isConfirming ? (
+          <SecondaryButton
+            type="button"
+            onClick={() => setIsConfirming(true)}
+            buttonText={"Delete"}
+            Icon={X}
+          />
+
+          {isConfirming && (
             <DeleteConfirmation
               onDeleteConfirm={() => handleDelete()}
               onCancel={() => setIsConfirming(false)}
-            />
-          ) : (
-            <SecondaryButton
-              type="button"
-              onClick={() => setIsConfirming(true)}
-              buttonText={"Delete"}
-              Icon={X}
             />
           )}
         </StyledButtons>
@@ -87,6 +87,8 @@ const StyledContainer = styled.main`
 `;
 
 const StyledButtons = styled.div`
+  display: flex;
+  flex-direction: column;
   color: white;
   display: flex;
   margin-top: 20px;

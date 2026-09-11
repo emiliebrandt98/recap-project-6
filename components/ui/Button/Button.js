@@ -28,7 +28,12 @@ export function SecondaryButton({
   type = "button",
 }) {
   return (
-    <StyledSecondaryButton $active type={type} onClick={onClick} disabled={disabled}>
+    <StyledSecondaryButton
+      $active
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {Icon && <Icon size={16} />}
       <span>{buttonText}</span>
     </StyledSecondaryButton>
@@ -61,6 +66,7 @@ const StyledSecondaryButton = styled(BaseButton)`
   border: none;
 
   &:hover {
+    color: ${(props) => (props.$active ? "white" : "var(--color-bG-Navbar)")};
     background-color: ${(props) =>
       props.$active ? "var(--color-Button)" : "var(--color-bG-Navbar)"};
   }
