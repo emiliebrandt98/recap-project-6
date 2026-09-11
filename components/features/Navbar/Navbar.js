@@ -7,7 +7,7 @@ export default function Navbar() {
   const router = useRouter();
   return (
     <StyledFooter>
-      <StyledLink $active={router.pathname === "/"} href="/">
+      <StyledLink $active={router.pathname === "/"} href="/" aria-label="Home">
         <StyledIconContainer1>
           <House />
         </StyledIconContainer1>
@@ -15,6 +15,7 @@ export default function Navbar() {
       <StyledLink
         $active={router.pathname === "/activities/createActivity"}
         href="/activities/createActivity"
+        aria-label="Create Activity"
       >
         <StyledIconContainer2>
           <PlusCircle />
@@ -24,18 +25,17 @@ export default function Navbar() {
   );
 }
 const StyledFooter = styled.footer`
+  background-color: var(--color-bG-Navbar);
   width: 100%;
   display: flex;
   position: fixed;
   bottom: 0;
-  border: solid black 2px;
 `;
 
 const StyledIconContainer1 = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  background-color: green;
   padding: 10px;
 `;
 
@@ -43,13 +43,14 @@ const StyledIconContainer2 = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  background-color: red;
   padding: 10px;
 `;
 
 const StyledLink = styled(Link)`
   flex: 1;
-  color: ${(props) => (props.$active ? "yellow" : "white")};
+  color: ${(props) => (props.$active ? "white" : "var(--color-Text)")};
+  background-color: ${(props) =>
+    props.$active ? "var(--color-Button)" : "var(--color-bG-Navbar)"};
   display: flex;
   justify-content: space-evenly;
   align-items: center;

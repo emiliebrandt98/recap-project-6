@@ -4,57 +4,82 @@ import Link from "next/link";
 
 export default function ActivityCard({ id, title, categories }) {
   return (
-    <StyledGrid>
-      <StyledCardContainer href={`/activities/${id}`}>
-        <Image
+    <StyledCardContainer href={`/activities/${id}`}>
+      <ImageContainer>
+        <StyledImage
           priority
           alt={title}
-          width={100}
-          height={100}
+          width={180}
+          height={180}
           src="/assets/placeholder.jpg"
         />
+      </ImageContainer>
 
-        <StyledTitle>{title} </StyledTitle>
+      <StyledTitle>{title}</StyledTitle>
 
-        <StyledCategories>
-          {categories?.map((category) => {
-            return <span key={category._id}>{category.name}</span>;
-          })}
-        </StyledCategories>
-      </StyledCardContainer>
-    </StyledGrid>
+      <CategoriesWrapper>
+        {categories?.map((category) => {
+          return (
+            <StyledCategories key={category._id}>
+              <span>{category.name}</span>
+            </StyledCategories>
+          );
+        })}
+      </CategoriesWrapper>
+    </StyledCardContainer>
   );
 }
 
-const StyledGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-`;
-
 const StyledCardContainer = styled(Link)`
-  background-color: red;
+  width: min(80vw, 22rem);
+  min-height: 12rem;
+
+  border: black solid 3px;
+  color: var(--color-Text);
+  font-weight: 600;
+  text-decoration: none;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
 
+  padding: 10px;
   text-align: center;
 `;
 
 const StyledTitle = styled.div`
   width: 100%;
   margin: 10px 0 0;
-  text-align: center;
-  overflow-wrap: break-word;
+  text-align: left;
+`;
+
+const CategoriesWrapper = styled.div`
+  margin-top: 10px;
+  color: var(--color-Text);
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  flex-wrap: wrap;
 `;
 
 const StyledCategories = styled.div`
-  width: auto;
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  flex-wrap: wrap;
+  background-color: var(--color-Accent);
+  font-family: var(--ui-Text);
+  font-weight: 400;
+  padding: 12px 24px;
+  border-radius: 1rem;
+`;
+
+const StyledImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 180px;
 `;

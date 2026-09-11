@@ -4,9 +4,7 @@ import Navbar from "@/components/features/Navbar/Navbar.js";
 export default function Layout({ children }) {
   return (
     <LayoutWrapper>
-      <HeaderContainer>
-        <header>Activity App</header>
-      </HeaderContainer>
+      <HeaderContainer></HeaderContainer>
 
       <main>{children}</main>
       <Navbar />

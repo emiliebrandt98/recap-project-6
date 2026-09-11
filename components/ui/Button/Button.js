@@ -40,21 +40,13 @@ const BaseButton = styled.button`
 `;
 
 const StyledPrimaryButton = styled(BaseButton)`
-  background-color: #0070f3;
-  color: white;
+  background-color: var(--color-bG-Navbar);
+  color: var(--color-Text);
   border: none;
-
-  &:hover {
-    background-color: #0051a2;
-  }
 `;
 
 const StyledSecondaryButton = styled(BaseButton)`
-  background-color: transparent;
-  color: #333;
-  border: 1px solid #ccc;
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
+  background-color: var(--color-bG-Navbar);
+  color: var(--color-Text);
+  border: none;
 `;
