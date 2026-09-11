@@ -40,20 +40,21 @@ export default function CategoryFilter({ activeCategories, onApply }) {
 
     if (isAlreadySelected) {
       setDraftCategories(
-        draftCategories.filter((name) => name != categoryName)
+        draftCategories.filter((name) => name !== categoryName)
       );
     } else {
       setDraftCategories([...draftCategories, categoryName]);
     }
   }
 
+  if (error) return <p>Error loading filtered categories.</p>;
   if (isLoading || !categories) return null;
-  if (error) return <p>Error loading filterd categories.</p>;
 
   return (
     <>
       <FilterButtonWrapper>
         <FilterButton
+          aria-label="Open category filter"
           onClick={() => {
             setIsDialogOpen(true);
           }}
@@ -65,16 +66,16 @@ export default function CategoryFilter({ activeCategories, onApply }) {
         </FilterButton>
 
         {activeCategories.length > 0 && (
-          <FilterButton onClick={handleClearFilter}>
+          <FilterButton onClick={handleClearFilter} aria-label="Clear filter">
             <X />
           </FilterButton>
         )}
       </FilterButtonWrapper>
 
-      <Dialog ref={dialogRef}>
+      <Dialog ref={dialogRef} onClose={() => setIsDialogOpen(false)}>
         <DialogHeader>
           <h3>Category Filter</h3>
-          <FilterButton onClick={handleCancelFilter}>
+          <FilterButton onClick={handleCancelFilter} aria-label="Close dialog">
             <X />
           </FilterButton>
         </DialogHeader>
@@ -86,11 +87,11 @@ export default function CategoryFilter({ activeCategories, onApply }) {
               <CheckboxItem key={category._id}>
                 <Checkbox
                   type="checkbox"
-                  id={category.name}
+                  id={category._id}
                   checked={isChecked}
                   onChange={() => handleToggleCheckbox(category.name)}
                 />
-                <label htmlFor={category.name}>{category.name}</label>
+                <label htmlFor={category._id}>{category.name}</label>
               </CheckboxItem>
             );
           })}

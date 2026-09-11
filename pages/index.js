@@ -1,7 +1,7 @@
 import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
-import CategoryFilter from "@/components/features/ActivityFilter/ActivityFilter";
+import CategoryFilter from "@/components/features/CategoryFilter/CategoryFilter";
 import { useState } from "react";
 import styled from "styled-components";
 

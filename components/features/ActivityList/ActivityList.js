@@ -13,14 +13,14 @@ export default function ActivityList({ activities, activeCategories }) {
     );
   }
 
-  const filterdActivities = activities.filter(matchesActiveCategories);
+  const filteredActivities = activities.filter(matchesActiveCategories);
 
-  if (filterdActivities.length === 0)
+  if (filteredActivities.length === 0)
     return <p>No activities found for this category.</p>;
 
   return (
     <div>
-      {filterdActivities.map((activity) => {
+      {filteredActivities.map((activity) => {
         return (
           <ActivityCard
             key={activity._id}
