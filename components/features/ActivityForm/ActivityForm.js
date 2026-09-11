@@ -31,7 +31,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
-  function handleSubmitActivity(event) {
+  async function handleSubmitActivity(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -47,7 +47,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     }
 
     try {
-      onSubmit(data);
+      await onSubmit(data);
     } catch (error) {
       console.error({ status: error.message });
     }
