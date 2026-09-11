@@ -5,24 +5,24 @@ export default async function handler(request, response) {
   try {
     await dbConnect();
   } catch (error) {
-    return response.status(500).json({ error: "Database connection failed" });
+    response.status(500).json({ error: "Database connection failed" });
+    return;
   }
 
   if (request.method === "GET") {
     try {
       const activities = await Activity.find().populate("categories");
-      return response.status(200).json(activities);
+      response.status(200).json(activities);
+      return;
     } catch (error) {
-      return response
-        .status(500)
-        .json({ error: "Error retrieving the activities" });
+      response.status(500).json({ error: "Error retrieving the activities" });
+      return;
     }
   }
 
   if (request.method === "POST") {
     try {
       const activitiesData = request.body;
-
       const newActivity = await Activity.create(activitiesData);
 
       const formattedActivity = newActivity.toObject();
@@ -37,15 +37,20 @@ export default async function handler(request, response) {
         timeZone: "Europe/Berlin",
       });
 
-      return response
+      response
         .status(201)
         .json({ status: "Activity Created", activity: formattedActivity });
+      return;
     } catch (error) {
-      return response
-        .status(500)
-        .json({ error: "Error creating the activity" });
+      if (error.name === "ValidationError") {
+        response.status(400).json({ error: error.message });
+        return;
+      }
+      response.status(500).json({ error: "Error creating the activity" });
+      return;
     }
   }
 
-  return response.status(405).json({ status: "Method not allowed" });
+  response.status(405).json({ status: "Method not allowed" });
+  return;
 }

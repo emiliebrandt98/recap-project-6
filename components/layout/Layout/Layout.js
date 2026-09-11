@@ -1,8 +1,7 @@
 import styled from "styled-components";
+import Navbar from "@/components/features/Navbar/Navbar.js";
 
-import Navbar from "../Navbar";
-
-export default function Layout({ children, onEdit }) {
+export default function Layout({ children }) {
   return (
     <LayoutWrapper>
       <HeaderContainer>

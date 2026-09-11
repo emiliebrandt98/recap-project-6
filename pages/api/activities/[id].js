@@ -2,7 +2,12 @@ import dbConnect from "@/db/connect";
 import Activity from "@/db/models/Activity";
 
 export default async function handler(request, response) {
-  await dbConnect();
+  try {
+    await dbConnect();
+  } catch (error) {
+    response.status(500).json({ error: "Database connection failed" });
+    return;
+  }
 
   const { id } = request.query;
 
@@ -34,11 +39,12 @@ export default async function handler(request, response) {
       response.status(200).json({ status: "activity updated" });
       return;
     }
+
     if (request.method === "DELETE") {
       const deleteActivity = await Activity.findByIdAndDelete(id);
 
       if (!deleteActivity) {
-        response.status(404).json({ status: "Not found." });
+        response.status(404).json({ status: "Activity not found." });
         return;
       }
 
@@ -46,9 +52,11 @@ export default async function handler(request, response) {
       return;
     }
   } catch (error) {
-    response
-      .status(500)
-      .json({ status: error.message, message: "Internal Server Error." });
+    if (error.name === "ValidationError") {
+      response.status(400).json({ error: error.message });
+      return;
+    }
+    response.status(500).json({ status: "Internal Server Error." });
     return;
   }
 

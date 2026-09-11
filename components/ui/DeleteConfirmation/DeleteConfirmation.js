@@ -1,21 +1,21 @@
-import { PrimaryButton, SecondaryButton } from "@/components/Button/Button";
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from "@/components/ui/Button/Button.js";
 import { X, Check } from "lucide-react";
 import styled from "styled-components";
 
-export default function DeleteActivityConfirmation({
-  onCancel,
-  onDeleteConfirm,
-  isDeleting,
-}) {
+export default function DeleteConfirmation({ onCancel, onDeleteConfirm }) {
   return (
     <ConfirmWrapper>
       <ConfirmMessage>
         Are you sure you want to delete this activity?
       </ConfirmMessage>
+
       <ButtonWrapper>
         <PrimaryButton
           onClick={onDeleteConfirm}
-          buttonText={isDeleting ? "Deleting..." : "Confirm"}
+          buttonText={"Confirm"}
           Icon={Check}
         />
         <SecondaryButton onClick={onCancel} buttonText={"Cancel"} Icon={X} />

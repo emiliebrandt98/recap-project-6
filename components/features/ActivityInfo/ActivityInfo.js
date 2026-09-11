@@ -2,30 +2,32 @@ import Image from "next/image";
 import styled from "styled-components";
 
 export default function ActivityInfo({ activity }) {
+  if (!activity) return null;
+
   return (
     <>
       <Image
-        alt={activity.title}
+        alt={activity.title || "Activity Image"}
         width={100}
         height={100}
         src="/assets/placeholder.jpg"
         priority="eager"
       />
+
       <StyledTitle>
         <h2>{activity.title}</h2>
-        <p>Category</p>
+
         <StyledCategories>
           {activity?.categories?.map((category) => {
             return <span key={category._id}>{category.name}</span>;
           })}
         </StyledCategories>
       </StyledTitle>
-      <p>Description</p>
+
       <p>{activity.description}</p>
+
       <section>
-        <p>Area</p>
         <p>{activity.area}</p>
-        <p>Country</p>
         <p>{activity.country}</p>
       </section>
     </>

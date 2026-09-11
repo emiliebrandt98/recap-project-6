@@ -8,14 +8,15 @@ export default createGlobalStyle`
   }
 
   body {
+    min-width: 375px;
     max-width: 100%;
-    margin: 0 auto;
     font-family: system-ui;
     min-height: 100vh;
+    margin: 0;
   }
 
   main {
-   width: 80%;
-   padding-bottom: 60px; // is needed, otherwise footer overlapps main content
+    margin: 24px 2rem 60px 2rem;
   }
+
 `;
