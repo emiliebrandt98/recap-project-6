@@ -31,7 +31,6 @@ export default function HomePage({ activities, isLoading, error }) {
       <ActivityList
         activities={activities}
         activeCategories={activeCategories}
-        onApply={setActiveCategories}
       />
     </>
   );
