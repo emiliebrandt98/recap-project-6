@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 export default function ActivityDetailsPage() {
   const router = useRouter();
-
   const {
     isConfirming,
     setIsConfirming,

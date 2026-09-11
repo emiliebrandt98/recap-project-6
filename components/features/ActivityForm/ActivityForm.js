@@ -52,6 +52,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       console.error({ status: error.message });
     }
   }
+
   return (
     <Form onSubmit={handleSubmitActivity}>
       <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
