@@ -1,3 +1,3 @@
-export default function FavoriteActivites() {
-  return <p>hello world</p>;
+export default function FavoriteActivites({}) {
+  return <p>Hello World</p>;
 }

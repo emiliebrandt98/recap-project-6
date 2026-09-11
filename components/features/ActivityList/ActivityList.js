@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
-export default function ActivityList({ activities }) {
+export default function ActivityList({ activities, onBookmark }) {
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
   }
@@ -13,6 +13,7 @@ export default function ActivityList({ activities }) {
         {activities.map((activity) => {
           return (
             <ActivityCard
+              onBookmark={onBookmark}
               key={activity._id}
               id={activity._id}
               title={activity.title}
