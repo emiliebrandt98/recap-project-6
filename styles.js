@@ -19,18 +19,4 @@ export default createGlobalStyle`
     margin: 24px 2rem 60px 2rem;
   }
 
-  // Tablet
- @media (min-width: 768px) {
-    body {
-      margin: 20px auto;
-      max-width: 700px;
-    }
-  }
-
-  // Desktop
-  @media (min-width: 1024px) {
-    body {
-      max-width: 960px;
-    }
-  }
 `;

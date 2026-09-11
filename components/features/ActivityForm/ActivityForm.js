@@ -31,7 +31,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
-  async function handleSubmitActivity(event) {
+  function handleSubmitActivity(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -93,7 +93,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         value={selectedCategories}
         onChange={handleSelectedCategories}
         placeholder="Please select a Category"
-        required
       />
 
       <label htmlFor="area">Area</label>
@@ -154,29 +153,4 @@ const LetterCount = styled.p`
   align-self: flex-end;
   margin: 0;
   margin-right: 5px;
-`;
-
-const Validation = styled.p`
-  padding: 0.75rem 1.25rem;
-  border-radius: 4px;
-  text-align: center;
-  color: #721c24;
-  background-color: #f8d7da;
-
-  animation: shake 0.4s ease-in-out;
-
-  @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    20%,
-    60% {
-      transform: translateX(-8px);
-    }
-    40%,
-    80% {
-      transform: translateX(8px);
-    }
-  }
 `;

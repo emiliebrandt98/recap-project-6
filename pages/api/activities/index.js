@@ -12,11 +12,11 @@ export default async function handler(request, response) {
   if (request.method === "GET") {
     try {
       const activities = await Activity.find().populate("categories");
-      return response.status(200).json(activities);
+      response.status(200).json(activities);
+      return;
     } catch (error) {
-      return response
-        .status(500)
-        .json({ error: "Error retrieving the activities" });
+      response.status(500).json({ error: "Error retrieving the activities" });
+      return;
     }
   }
 
@@ -43,13 +43,14 @@ export default async function handler(request, response) {
       return;
     } catch (error) {
       if (error.name === "ValidationError") {
-        return response.status(400).json({ error: error.message });
+        response.status(400).json({ error: error.message });
+        return;
       }
-      return response
-        .status(500)
-        .json({ error: "Error creating the activity" });
+      response.status(500).json({ error: "Error creating the activity" });
+      return;
     }
   }
 
-  return response.status(405).json({ status: "Method not allowed" });
+  response.status(405).json({ status: "Method not allowed" });
+  return;
 }

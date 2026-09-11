@@ -5,7 +5,8 @@ export default async function handler(request, response) {
   try {
     await dbConnect();
   } catch (error) {
-    return response.status(500).json({ error: "Database connection failed" });
+    response.status(500).json({ error: "Database connection failed" });
+    return;
   }
 
   const { id } = request.query;
@@ -15,10 +16,12 @@ export default async function handler(request, response) {
       const activity = await Activity.findById(id).populate("categories");
 
       if (!activity) {
-        return response.status(404).json({ status: "Activity not found." });
+        response.status(404).json({ status: "Activity not found." });
+        return;
       }
 
-      return response.status(200).json(activity);
+      response.status(200).json(activity);
+      return;
     }
 
     if (request.method === "PUT") {
@@ -41,19 +44,22 @@ export default async function handler(request, response) {
       const deleteActivity = await Activity.findByIdAndDelete(id);
 
       if (!deleteActivity) {
-        return response.status(404).json({ status: "Activity not found." });
+        response.status(404).json({ status: "Activity not found." });
+        return;
       }
 
-      return response
-        .status(200)
-        .json({ status: "Activity successfully deleted." });
+      response.status(200).json({ status: "Activity successfully deleted." });
+      return;
     }
   } catch (error) {
     if (error.name === "ValidationError") {
-      return response.status(400).json({ error: error.message });
+      response.status(400).json({ error: error.message });
+      return;
     }
-    return response.status(500).json({ status: "Internal Server Error." });
+    response.status(500).json({ status: "Internal Server Error." });
+    return;
   }
 
-  return response.status(405).json({ status: "Method not allowed." });
+  response.status(405).json({ status: "Method not allowed." });
+  return;
 }

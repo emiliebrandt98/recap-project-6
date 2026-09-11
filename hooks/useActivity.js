@@ -8,7 +8,6 @@ export function useActivity() {
   const { id } = router.query;
 
   const [isConfirming, setIsConfirming] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const { data, error, isLoading } = useSWR(
     router.isReady && id ? `/api/activities/${id}` : null
@@ -16,8 +15,6 @@ export function useActivity() {
 
   async function handleDelete(activityId = id) {
     if (!activityId) return null;
-
-    setIsDeleting(true);
 
     try {
       const response = await fetch(`/api/activities/${activityId}`, {
@@ -33,7 +30,7 @@ export function useActivity() {
       router.push("/");
     } catch (error) {
       toast.error("Activity could not be deleted. Please try again.");
-      setIsDeleting(false);
+
       setIsConfirming(false);
     }
   }
@@ -44,7 +41,6 @@ export function useActivity() {
     id,
     isConfirming,
     setIsConfirming,
-    isDeleting,
     handleDelete,
   };
 }

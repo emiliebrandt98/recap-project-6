@@ -21,7 +21,6 @@ export default function App({ Component, pageProps }) {
     data: activities,
     error,
     isLoading,
-    mutate,
   } = useSWR("/api/activities", fetcher);
 
   return (
@@ -32,7 +31,6 @@ export default function App({ Component, pageProps }) {
           activities={activities}
           error={error}
           isLoading={isLoading}
-          mutate={mutate}
           {...pageProps}
         />
         <ToastContainer
