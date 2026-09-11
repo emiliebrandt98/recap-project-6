@@ -8,22 +8,35 @@ export default function ActivityList({ activities }) {
 
   return (
     <div>
-      <StyledHeader>Activities List</StyledHeader>
-
-      {activities.map((activity) => {
-        return (
-          <ActivityCard
-            key={activity._id}
-            id={activity._id}
-            title={activity.title}
-            categories={activity.categories}
-          />
-        );
-      })}
+      <StyledHeader>Activities Planner</StyledHeader>
+      <StyledCards>
+        {activities.map((activity) => {
+          return (
+            <ActivityCard
+              key={activity._id}
+              id={activity._id}
+              title={activity.title}
+              categories={activity.categories}
+            />
+          );
+        })}
+      </StyledCards>
     </div>
   );
 }
 
 const StyledHeader = styled.h1`
+  font-family: var(--headline-Text);
+  font-weight: 700;
+  color: var(--color-Headline);
   text-align: center;
+`;
+
+const StyledCards = styled.div`
+  font-family: var(--ui-Text);
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `;

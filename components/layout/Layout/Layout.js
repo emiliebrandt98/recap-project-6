@@ -5,7 +5,7 @@ export default function Layout({ children }) {
   return (
     <LayoutWrapper>
       <HeaderContainer>
-        <header>Activity App</header>
+        <header></header>
       </HeaderContainer>
 
       <main>{children}</main>

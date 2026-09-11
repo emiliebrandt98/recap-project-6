@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function ActivityCard({ id, title, categories }) {
   return (
-    <StyledGrid>
+    <div>
       <StyledCardContainer href={`/activities/${id}`}>
         <Image
           priority
@@ -16,31 +16,32 @@ export default function ActivityCard({ id, title, categories }) {
 
         <StyledTitle>{title} </StyledTitle>
 
-        <StyledCategories>
+        <CategoriesWrapper>
           {categories?.map((category) => {
-            return <span key={category._id}>{category.name}</span>;
+            return (
+              <StyledCategories>
+                <span key={category._id}>
+                  <div>{category.name}</div>
+                </span>
+              </StyledCategories>
+            );
           })}
-        </StyledCategories>
+        </CategoriesWrapper>
       </StyledCardContainer>
-    </StyledGrid>
+    </div>
   );
 }
 
-const StyledGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-`;
-
 const StyledCardContainer = styled(Link)`
-  background-color: red;
+  border: black solid 3px;
+  color: var(--color-Headline);
+  font-weight: 600;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
+  padding: 10px;
   text-align: center;
 `;
 
@@ -51,10 +52,20 @@ const StyledTitle = styled.div`
   overflow-wrap: break-word;
 `;
 
-const StyledCategories = styled.div`
+const CategoriesWrapper = styled.div`
+  margin-top: 10px;
+  color: var(--color-Text);
   width: auto;
   display: flex;
   justify-content: center;
   gap: 5px;
   flex-wrap: wrap;
+`;
+
+const StyledCategories = styled.div`
+  background-color: var(--color-Accent);
+  font-family: var(--ui-Text);
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 10px;
 `;
