@@ -1,16 +1,26 @@
-import styled from "styled-components";
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
-export default function ActivityList({ activities }) {
+export default function ActivityList({ activities, activeCategories }) {
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
   }
 
+  function matchesActiveCategories(activity) {
+    if (activeCategories.length === 0) return true;
+
+    return activity.categories.some((category) =>
+      activeCategories.includes(category.name)
+    );
+  }
+
+  const filterdActivities = activities.filter(matchesActiveCategories);
+
+  if (filterdActivities.length === 0)
+    return <p>No activities found for this category.</p>;
+
   return (
     <div>
-      <StyledHeader>Activities List</StyledHeader>
-
-      {activities.map((activity) => {
+      {filterdActivities.map((activity) => {
         return (
           <ActivityCard
             key={activity._id}
@@ -23,7 +33,3 @@ export default function ActivityList({ activities }) {
     </div>
   );
 }
-
-const StyledHeader = styled.h1`
-  text-align: center;
-`;
