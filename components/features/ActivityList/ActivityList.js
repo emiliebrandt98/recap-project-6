@@ -35,8 +35,9 @@ const StyledHeader = styled.h1`
 const StyledCards = styled.div`
   font-family: var(--ui-Text);
   font-weight: 400;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
 `;
