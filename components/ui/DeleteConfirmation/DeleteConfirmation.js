@@ -27,21 +27,21 @@ export default function DeleteConfirmation({ onCancel, onDeleteConfirm }) {
 const ConfirmWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 24px 1.5rem;
+  align-items: center;
+  padding: 16px 32px;
   gap: 18px;
 
   border-radius: 16px;
-  background-color: #e9e9e9;
+  background-color: var(--color-bG-Navbar);
 `;
 
 const ConfirmMessage = styled.p`
-  font-size: 1rem;
-  line-height: 1.2rem;
-  margin: 0;
+  color: var(--color-Text);
+  margin: 0 auto;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 12px;
 `;
