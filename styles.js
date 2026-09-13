@@ -25,7 +25,8 @@ export default createGlobalStyle`
     --color-bG: #FFFFFF;
     --color-Accent: #FFECD1;
     --color-bG-Navbar: #F1F1F1;
-//      dunkelGrau: #626262 
+    --color-Text-White: #FFFFFF
+      
 
 
 

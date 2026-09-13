@@ -7,7 +7,7 @@ export default function Navbar() {
   const router = useRouter();
   return (
     <StyledFooter>
-      <StyledLink $active={router.pathname === "/"} href="/">
+      <StyledLink $active={router.pathname === "/"} href="/" aria-label="Home">
         <StyledIconContainer1>
           <House />
         </StyledIconContainer1>
@@ -15,6 +15,7 @@ export default function Navbar() {
       <StyledLink
         $active={router.pathname === "/activities/createActivity"}
         href="/activities/createActivity"
+        aria-label="Create Activity"
       >
         <StyledIconContainer2>
           <PlusCircle />

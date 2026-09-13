@@ -32,7 +32,7 @@ const ConfirmWrapper = styled.section`
   gap: 18px;
 
   border-radius: 16px;
-  background-color: var(--color-Navbar);
+  background-color: var(--color-bG-Navbar);
 `;
 
 const ConfirmMessage = styled.p`

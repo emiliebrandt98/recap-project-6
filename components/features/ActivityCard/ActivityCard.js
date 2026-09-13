@@ -11,14 +11,14 @@ export default function ActivityCard({
   onToggle,
 }) {
   return (
-    <div>
+    
       <StyledCardContainer href={`/activities/${id}`}>
         <ImageContainer>
           <StyledImage
             priority
             alt={title}
-            width={50}
-            height={50}
+            width={180}
+            height={180}
             src="/assets/placeholder.jpg"
           />
 
@@ -34,19 +34,18 @@ export default function ActivityCard({
           </HeartButton>
         </ImageContainer>
 
-        <StyledTitle>{title}</StyledTitle>
+      <StyledTitle>{title}</StyledTitle>
 
-        <CategoriesWrapper>
-          {categories?.map((category) => {
-            return (
-              <StyledCategories key={category._id}>
-                <span>{category.name}</span>
-              </StyledCategories>
-            );
-          })}
-        </CategoriesWrapper>
-      </StyledCardContainer>
-    </div>
+      <CategoriesWrapper>
+        {categories?.map((category) => {
+          return (
+            <StyledCategories key={category._id}>
+              <span>{category.name}</span>
+            </StyledCategories>
+          );
+        })}
+      </CategoriesWrapper>
+    </StyledCardContainer>
   );
 }
 
@@ -55,7 +54,7 @@ const StyledCardContainer = styled(Link)`
   min-height: 12rem;
 
   border: black solid 3px;
-  color: var(--color-Headline);
+  color: var(--color-Text);
   font-weight: 600;
   text-decoration: none;
 
