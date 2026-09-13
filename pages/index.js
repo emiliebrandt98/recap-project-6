@@ -2,7 +2,13 @@ import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
 
-export default function HomePage({ activities, isLoading, error }) {
+export default function HomePage({
+  activities,
+  isLoading,
+  error,
+  isFavorite,
+  onToggle,
+}) {
   if (isLoading) return <p>Loading...</p>;
   if (error)
     return (
@@ -18,7 +24,11 @@ export default function HomePage({ activities, isLoading, error }) {
 
   return (
     <>
-      <ActivityList activities={activities} />
+      <ActivityList
+        activities={activities}
+        isFavorite={isFavorite}
+        onToggle={onToggle}
+      />
     </>
   );
 }

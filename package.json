@@ -15,12 +15,14 @@
     "lucide-react": "^1.43.0",
     "mongoose": "^9.9.4",
     "next": "13.4.8",
+    "node-localstorage": "^3.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-select": "^5.10.2",
     "react-toastify": "^11.1.0",
     "styled-components": "^6.0.2",
-    "swr": "^2.5.1"
+    "swr": "^2.5.1",
+    "use-local-storage-state": "^20.0.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",

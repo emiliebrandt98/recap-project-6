@@ -1,19 +1,38 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 
-export default function ActivityCard({ id, title, categories }) {
+export default function ActivityCard({
+  id,
+  title,
+  categories,
+  isFavorite,
+  onToggle,
+}) {
   return (
-    <StyledCardContainer href={`/activities/${id}`}>
-      <ImageContainer>
-        <StyledImage
-          priority
-          alt={title}
-          width={180}
-          height={180}
-          src="/assets/placeholder.jpg"
-        />
-      </ImageContainer>
+    
+      <StyledCardContainer href={`/activities/${id}`}>
+        <ImageContainer>
+          <StyledImage
+            priority
+            alt={title}
+            width={180}
+            height={180}
+            src="/assets/placeholder.jpg"
+          />
+
+          <HeartButton
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onToggle(id);
+            }}
+            type="button"
+          >
+            <StyledHeart $active={isFavorite.includes(id)} />
+          </HeartButton>
+        </ImageContainer>
 
       <StyledTitle>{title}</StyledTitle>
 
@@ -82,4 +101,28 @@ const StyledImage = styled(Image)`
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;
+  position: relative;
+`;
+
+const HeartButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-Bookmark);
+  color: white;
+  cursor: pointer;
+`;
+
+const StyledHeart = styled(Heart)`
+  fill: ${(props) => (props.$active ? "white" : "none")};
 `;

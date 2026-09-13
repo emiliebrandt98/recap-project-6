@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
-export default function ActivityList({ activities }) {
+export default function ActivityList({ activities, isFavorite, onToggle }) {
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
   }
@@ -17,6 +17,8 @@ export default function ActivityList({ activities }) {
               id={activity._id}
               title={activity.title}
               categories={activity.categories}
+              isFavorite={isFavorite}
+              onToggle={onToggle}
             />
           );
         })}

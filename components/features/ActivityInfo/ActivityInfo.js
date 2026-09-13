@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { Heart } from "lucide-react";
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
@@ -14,6 +15,10 @@ export default function ActivityInfo({ activity }) {
           src="/assets/placeholder.jpg"
           priority
         />
+
+        <HeartButton type="button">
+          <Heart />
+        </HeartButton>
       </ImageContainer>
 
       <StyledTitle>
@@ -43,6 +48,7 @@ export default function ActivityInfo({ activity }) {
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;
+  position: relative;
 `;
 
 const StyledImage = styled(Image)`
@@ -50,6 +56,26 @@ const StyledImage = styled(Image)`
   height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
+`;
+
+const HeartButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-Bookmark);
+  color: white;
+
+  cursor: pointer;
 `;
 
 const StyledTitle = styled.div`
