@@ -6,7 +6,7 @@ export default function FavoriteActivites({
   onToggle,
 }) {
   const favoriteActivities =
-    activities.filter((activity) => isFavorite.includes(activity._id)) ?? [];
+    activities?.filter((activity) => isFavorite.includes(activity._id)) ?? [];
 
   if (favoriteActivities.length === 0) {
     return <p>No Favorites.</p>;
