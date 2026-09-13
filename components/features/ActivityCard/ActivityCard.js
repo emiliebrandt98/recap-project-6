@@ -3,7 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 
-export default function ActivityCard({ id, title, categories, onBookmark }) {
+export default function ActivityCard({
+  id,
+  title,
+  categories,
+  isFavorite,
+  onToggle,
+}) {
   return (
     <div>
       <StyledCardContainer href={`/activities/${id}`}>
@@ -20,11 +26,11 @@ export default function ActivityCard({ id, title, categories, onBookmark }) {
             onClick={(event) => {
               event.preventDefault();
               event.stopPropagation();
-              onBookmark(id);
+              onToggle(id);
             }}
             type="button"
           >
-            <Heart />
+            <StyledHeart $active={isFavorite.includes(id)} />
           </HeartButton>
         </ImageContainer>
 
@@ -115,6 +121,9 @@ const HeartButton = styled.button`
   border-radius: 50%;
   background-color: var(--color-Bookmark);
   color: white;
-
   cursor: pointer;
+`;
+
+const StyledHeart = styled(Heart)`
+  fill: ${(props) => (props.$active ? "white" : "none")};
 `;

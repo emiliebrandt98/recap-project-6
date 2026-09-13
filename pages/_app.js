@@ -2,7 +2,7 @@ import GlobalStyle from "@/styles.js";
 import Layout from "@/components/layout/Layout/Layout.js";
 import useSWR, { SWRConfig } from "swr";
 import { ToastContainer } from "react-toastify";
-import { useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -18,7 +18,9 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const [isFavorite, setIsFavorite] = useState([]);
+  const [isFavorite, setIsFavorite] = useLocalStorageState("Favorites", {
+    defaultValue: [],
+  });
   const {
     data: activities,
     error,
@@ -26,8 +28,14 @@ export default function App({ Component, pageProps }) {
   } = useSWR("/api/activities", fetcher);
 
   function handleFavorites(id) {
-    setIsFavorite([...isFavorite, id]);
+    if (isFavorite.includes(id)) {
+      const filteredFavorites = isFavorite.filter((favId) => favId !== id);
+      setIsFavorite(filteredFavorites);
+    } else {
+      setIsFavorite([...isFavorite, id]);
+    }
   }
+
   console.log(isFavorite);
 
   return (
@@ -38,8 +46,8 @@ export default function App({ Component, pageProps }) {
           activities={activities}
           error={error}
           isLoading={isLoading}
-          onBookmark={handleFavorites}
           isFavorite={isFavorite}
+          onToggle={handleFavorites}
           {...pageProps}
         />
         <ToastContainer
