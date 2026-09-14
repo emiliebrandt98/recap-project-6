@@ -7,6 +7,18 @@ import styled from "styled-components";
 
 export default function HomePage({ activities, isLoading, error }) {
   const [activeCategories, setActiveCategories] = useState([]);
+  function matchesActiveCategories(activity) {
+    if (activeCategories?.length === 0) return true;
+
+    return activity.categories.some((category) =>
+      activeCategories?.includes(category.name)
+    );
+  }
+
+  const filteredActivities = activities?.filter(matchesActiveCategories);
+
+  if (filteredActivities?.length === 0)
+    return <p>No activities found for this category.</p>;
 
   if (isLoading) return <p>Loading...</p>;
   if (error)
@@ -29,7 +41,7 @@ export default function HomePage({ activities, isLoading, error }) {
         onApply={setActiveCategories}
       />
       <ActivityList
-        activities={activities}
+        activities={filteredActivities}
         activeCategories={activeCategories}
       />
     </>
