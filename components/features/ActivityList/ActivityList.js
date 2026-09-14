@@ -1,6 +1,6 @@
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
-export default function ActivityList({ activities, isFavorite, onToggle }) {
+export default function ActivityList({ activities }) {
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
   }
