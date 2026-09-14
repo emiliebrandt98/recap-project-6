@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-import HeartButton from "@/components/ui/HeartButton/heartButton";
+import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
 export default function ActivityCard({
   id,
