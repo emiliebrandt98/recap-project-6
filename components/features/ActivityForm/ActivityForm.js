@@ -46,6 +46,34 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
+    const imageFile = formData.get("image");
+
+    if (imageFile && imageFile.size > 0) {
+      const uploadData = new FormData();
+      uploadData.append("image", imageFile);
+
+      try {
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadData,
+        });
+
+        if (!uploadData.ok) {
+          toast.error("Image upload failed.");
+        }
+
+        const { imageUrl } = await uploadResponse.json();
+        data.imageUrl = imageUrl;
+      } catch (error) {
+        toast.error("Image upload failed. Please try again.");
+        return;
+      }
+    } else {
+      data.imageUrl = activityID.imageUrl || "assets/placeholder.jpg";
+    }
+
+    delete data.image;
+
     try {
       await onSubmit(data);
     } catch (error) {
@@ -112,6 +140,10 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         name="country"
         placeholder="Which country does your activity belong to?"
       />
+
+      <label htmlFor="image">Image</label>
+
+      <input type="file" name="image" />
 
       <PrimaryButton
         type="submit"
