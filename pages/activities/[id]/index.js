@@ -10,7 +10,7 @@ import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirm
 import { useActivity } from "@/hooks/useActivity";
 import { useRouter } from "next/router";
 
-export default function ActivityDetailsPage({ isFavorite, onToggle }) {
+export default function ActivityDetailsPage() {
   const router = useRouter();
 
   const {
@@ -48,11 +48,7 @@ export default function ActivityDetailsPage({ isFavorite, onToggle }) {
       <LinkTo pathname={"/"} />
 
       <StyledContainer>
-        <ActivityInfo
-          activity={activity}
-          onToggle={onToggle}
-          isFavorite={isFavorite}
-        />
+        <ActivityInfo activity={activity} />
 
         <StyledButtons>
           <PrimaryButton
