@@ -37,6 +37,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    //categories
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
@@ -46,20 +47,19 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
+    //image
     const imageFile = formData.get("image");
 
     if (imageFile && imageFile.size > 0) {
-      const uploadData = new FormData();
-      uploadData.append("image", imageFile);
-
       try {
         const uploadResponse = await fetch("/api/upload", {
           method: "POST",
-          body: uploadData,
+          body: formData,
         });
 
-        if (!uploadData.ok) {
+        if (!uploadResponse.ok) {
           toast.error("Image upload failed.");
+          return;
         }
 
         const { imageUrl } = await uploadResponse.json();
