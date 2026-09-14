@@ -11,7 +11,9 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     try {
-      const activities = await Activity.find().populate("categories");
+      const activities = await Activity.find()
+        .populate("categories")
+        .sort({ createdAt: -1 });
       response.status(200).json(activities);
       return;
     } catch (error) {
