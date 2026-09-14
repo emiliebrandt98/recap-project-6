@@ -15,6 +15,9 @@ const ActivitySchema = new Schema(
       required: true,
       default: "/assets/placeholder.jpg",
     },
+    imagePublicId: {
+      type: String,
+    },
     categories: {
       type: [Schema.Types.ObjectId],
       ref: "Category",

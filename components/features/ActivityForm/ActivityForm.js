@@ -15,6 +15,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
 
   const activityID = activities?.find((activity) => activity._id === id);
+
   const {
     description,
     setDescription,
@@ -27,6 +28,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     showExistingImage,
     handleImageChange,
     handleImageSubmit,
+    handleRemoveImage,
   } = useImageUpload(activityID);
 
   const handleSelectedCategories = (selected) => {
@@ -54,9 +56,12 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
-    const imageUrl = await handleImageSubmit(formData);
-    if (!imageUrl && formData.get("image")?.size > 0) return;
-    data.imageUrl = imageUrl;
+    const imageResult = await handleImageSubmit(formData);
+    if (!imageResult && formData.get("image")?.size > 0) return;
+    data.imageUrl = imageResult.imageUrl;
+    data.imagePublicId = imageResult.public_id;
+
+    delete data.image;
 
     try {
       await onSubmit(data);
@@ -129,12 +134,19 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       <input type="file" name="image" id="image" onChange={handleImageChange} />
 
-      {showExistingImage && (
+      {showExistingImage && activityID?.imageUrl && (
         <div>
           <PreviewImage
             src={activityID.imageUrl}
             alt="Current activity image"
           />
+          <button
+            type="button"
+            onClick={handleRemoveImage}
+            aria-label="Clear image"
+          >
+            <X />
+          </button>
         </div>
       )}
 
@@ -144,6 +156,13 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
             src={URL.createObjectURL(previewUrl)}
             alt="Preview of the image to upload"
           />
+          <button
+            type="button"
+            onClick={handleRemoveImage}
+            aria-label="Clear image"
+          >
+            <X />
+          </button>
         </div>
       )}
 
