@@ -1,7 +1,7 @@
 import ActivityList from "@/components/features/ActivityList/ActivityList";
 import useFavorites from "@/hooks/useFavorites";
 export default function FavoriteActivities({ activities, isLoading }) {
-  const { isFavorite, onToggle } = useFavorites();
+  const { isFavorite } = useFavorites();
   const favoriteActivities =
     activities?.filter((activity) => isFavorite.includes(activity._id)) ?? [];
 
@@ -15,11 +15,7 @@ export default function FavoriteActivities({ activities, isLoading }) {
 
   return (
     <>
-      <ActivityList
-        activities={favoriteActivities}
-        isFavorite={isFavorite}
-        onToggle={onToggle}
-      />
+      <ActivityList activities={favoriteActivities} />
     </>
   );
 }
