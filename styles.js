@@ -38,6 +38,10 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+h3{
+  font-size:1.25rem;
+}
+
   body {
     min-width: 375px;
     max-width: 100%;
