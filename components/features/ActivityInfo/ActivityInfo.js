@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
-import { Heart } from "lucide-react";
+import HeartButton from "@/components/ui/HeartButton/heartButton";
 
 export default function ActivityInfo({ activity, isFavorite, onToggle }) {
   if (!activity) return null;
@@ -15,17 +15,11 @@ export default function ActivityInfo({ activity, isFavorite, onToggle }) {
           src="/assets/placeholder.jpg"
           priority
         />
-
         <HeartButton
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            onToggle(activity._id);
-          }}
-          type="button"
-        >
-          <StyledHeart $active={isFavorite.includes(activity._id)} />
-        </HeartButton>
+          isFavorite={isFavorite}
+          onToggle={onToggle}
+          activity={activity}
+        />
       </ImageContainer>
 
       <StyledTitle>
@@ -119,27 +113,4 @@ const StyledLocation = styled.section`
     color: var(--color-Text);
     font-family: var(--ui-Text);
   }
-`;
-
-const HeartButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 50%;
-  background-color: var(--color-Bookmark);
-  color: white;
-  cursor: pointer;
-`;
-
-const StyledHeart = styled(Heart)`
-  fill: ${(props) => (props.$active ? "white" : "none")};
 `;
