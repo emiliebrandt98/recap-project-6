@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { Heart } from "lucide-react";
 
-export default function ActivityInfo({ activity }) {
+export default function ActivityInfo({ activity, isFavorite, onToggle }) {
   if (!activity) return null;
 
   return (
@@ -10,14 +10,21 @@ export default function ActivityInfo({ activity }) {
       <ImageContainer>
         <StyledImage
           alt={activity.title || "Activity Image"}
-          width={100}
-          height={100}
+          width={180}
+          height={180}
           src="/assets/placeholder.jpg"
           priority
         />
 
-        <HeartButton type="button">
-          <Heart />
+        <HeartButton
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onToggle(activity._id);
+          }}
+          type="button"
+        >
+          <StyledHeart $active={isFavorite.includes(activity._id)} />
         </HeartButton>
       </ImageContainer>
 
@@ -56,26 +63,6 @@ const StyledImage = styled(Image)`
   height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
-`;
-
-const HeartButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 50%;
-  background-color: var(--color-Bookmark);
-  color: white;
-
-  cursor: pointer;
 `;
 
 const StyledTitle = styled.div`
@@ -132,4 +119,27 @@ const StyledLocation = styled.section`
     color: var(--color-Text);
     font-family: var(--ui-Text);
   }
+`;
+
+const HeartButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-Bookmark);
+  color: white;
+  cursor: pointer;
+`;
+
+const StyledHeart = styled(Heart)`
+  fill: ${(props) => (props.$active ? "white" : "none")};
 `;

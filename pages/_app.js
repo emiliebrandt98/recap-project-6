@@ -29,14 +29,14 @@ export default function App({ Component, pageProps }) {
 
   function handleFavorites(id) {
     if (isFavorite.includes(id)) {
-      const filteredFavorites = isFavorite.filter((favId) => favId !== id);
+      const filteredFavorites = isFavorite.filter(
+        (favoriteId) => favoriteId !== id
+      );
       setIsFavorite(filteredFavorites);
     } else {
       setIsFavorite([...isFavorite, id]);
     }
   }
-
-  console.log(isFavorite);
 
   return (
     <SWRConfig value={{ fetcher }}>
