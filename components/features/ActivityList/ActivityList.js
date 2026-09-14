@@ -1,13 +1,14 @@
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
-export default function ActivityList({ activities }) {
+export default function ActivityList({ activities, search, searchResults }) {
   if (!activities || activities.length === 0) {
     return <p>No activities found.</p>;
   }
+  const showActiveAcivities = search ? searchResults : activities;
 
   return (
     <>
-      {activities.map((activity) => {
+      {showActiveAcivities.map((activity) => {
         return (
           <ActivityCard
             key={activity._id}
