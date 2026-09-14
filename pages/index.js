@@ -16,6 +16,18 @@ export default function HomePage({ activities, isLoading, error }) {
   const searchResults = searchActivities?.filter((activity) =>
     activity.title.toLowerCase().startsWith(search.toLowerCase())
   );
+  function matchesActiveCategories(activity) {
+    if (activeCategories?.length === 0) return true;
+
+    return activity.categories.some((category) =>
+      activeCategories?.includes(category.name)
+    );
+  }
+
+  const filteredActivities = activities?.filter(matchesActiveCategories);
+
+  if (filteredActivities?.length === 0)
+    return <p>No activities found for this category.</p>;
 
   if (isLoading) return <p>Loading...</p>;
   if (error)
@@ -41,7 +53,7 @@ export default function HomePage({ activities, isLoading, error }) {
         />
       </SearchContainer>
       <ActivityList
-        activities={activities}
+        activities={filteredActivities}
         activeCategories={activeCategories}
         search={search}
         searchResults={searchResults}

@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
-export default function ActivityCard({ id, title, categories }) {
+export default function ActivityCard({
+  id,
+  title,
+  categories,
+}) {
   return (
     <StyledCardContainer href={`/activities/${id}`}>
       <ImageContainer>
@@ -13,6 +18,7 @@ export default function ActivityCard({ id, title, categories }) {
           height={180}
           src="/assets/placeholder.jpg"
         />
+        <HeartButton id={id} />
       </ImageContainer>
 
       <StyledTitle>{title}</StyledTitle>
@@ -82,4 +88,5 @@ const StyledImage = styled(Image)`
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;
+  position: relative;
 `;
