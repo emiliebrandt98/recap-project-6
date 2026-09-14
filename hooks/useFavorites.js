@@ -4,7 +4,7 @@ export default function useFavorites() {
     defaultValue: [],
   });
 
-  function handleFavoreite(id) {
+  function handleFavorite(id) {
     if (isFavorite.includes(id)) {
       const filteredFavorites = isFavorite.filter(
         (favoriteId) => favoriteId !== id
@@ -16,7 +16,7 @@ export default function useFavorites() {
   }
 
   return {
-    onToggle: handleFavoreite,
+    onToggle: handleFavorite,
     isFavorite,
     setIsFavorite,
   };
