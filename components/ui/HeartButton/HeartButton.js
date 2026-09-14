@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Heart } from "lucide-react";
+import useFavorites from "@/hooks/useFavorites";
 
-export default function HeartButton({ activity, onToggle, isFavorite, id }) {
+export default function HeartButton({ activity, id }) {
   const activityId = activity?._id || id; //
+  const { isFavorite, onToggle } = useFavorites();
 
   return (
     <HeartContainer

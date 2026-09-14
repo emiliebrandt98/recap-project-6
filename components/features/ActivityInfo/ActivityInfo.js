@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
-export default function ActivityInfo({ activity, isFavorite, onToggle }) {
+export default function ActivityInfo({ activity }) {
   if (!activity) return null;
 
   return (
@@ -15,11 +15,7 @@ export default function ActivityInfo({ activity, isFavorite, onToggle }) {
           src="/assets/placeholder.jpg"
           priority
         />
-        <HeartButton
-          isFavorite={isFavorite}
-          onToggle={onToggle}
-          activity={activity}
-        />
+        <HeartButton activity={activity} />
       </ImageContainer>
 
       <StyledTitle>

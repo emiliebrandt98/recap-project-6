@@ -24,6 +24,7 @@ export default function Navbar() {
       <StyledLink
         $active={router.pathname === "/activities/favoriteActivities"}
         href="/activities/favoriteActivities"
+        aria-label="Favorites"
       >
         <StyledIconContainer2>
           <Heart />

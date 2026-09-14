@@ -1,31 +1,25 @@
-import ActivityCard from "@/components/features/ActivityCard/ActivityCard";
-
-export default function FavoriteActivites({
-  activities,
-  isFavorite,
-  onToggle,
-}) {
+import ActivityList from "@/components/features/ActivityList/ActivityList";
+import useFavorites from "@/hooks/useFavorites";
+export default function FavoriteActivities({ activities, isLoading }) {
+  const { isFavorite, onToggle } = useFavorites();
   const favoriteActivities =
     activities?.filter((activity) => isFavorite.includes(activity._id)) ?? [];
+
+  if (isLoading) {
+    return <p>Loading....</p>;
+  }
 
   if (favoriteActivities.length === 0) {
     return <p>No Favorites.</p>;
   }
 
   return (
-    <div>
-      {favoriteActivities.map((activity) => {
-        return (
-          <ActivityCard
-            key={activity._id}
-            id={activity._id}
-            title={activity.title}
-            categories={activity.categories}
-            isFavorite={isFavorite}
-            onToggle={onToggle}
-          />
-        );
-      })}
-    </div>
+    <>
+      <ActivityList
+        activities={favoriteActivities}
+        isFavorite={isFavorite}
+        onToggle={onToggle}
+      />
+    </>
   );
 }

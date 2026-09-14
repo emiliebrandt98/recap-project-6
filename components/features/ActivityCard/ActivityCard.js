@@ -7,8 +7,6 @@ export default function ActivityCard({
   id,
   title,
   categories,
-  isFavorite,
-  onToggle,
 }) {
   return (
     <StyledCardContainer href={`/activities/${id}`}>
@@ -20,7 +18,7 @@ export default function ActivityCard({
           height={180}
           src="/assets/placeholder.jpg"
         />
-        <HeartButton isFavorite={isFavorite} onToggle={onToggle} id={id} />
+        <HeartButton id={id} />
       </ImageContainer>
 
       <StyledTitle>{title}</StyledTitle>
