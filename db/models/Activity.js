@@ -13,7 +13,7 @@ const ActivitySchema = new Schema(
     imageUrl: {
       type: String,
       required: true,
-      default: "/placeholder.jpg",
+      default: "/assets/placeholder.jpg",
     },
     categories: {
       type: [Schema.Types.ObjectId],

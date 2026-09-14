@@ -11,7 +11,7 @@ export default function ActivityInfo({ activity }) {
           alt={activity.title || "Activity Image"}
           width={100}
           height={100}
-          src="/assets/placeholder.jpg"
+          src={activity.imageUrl}
           priority
         />
       </ImageContainer>

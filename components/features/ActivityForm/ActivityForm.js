@@ -4,6 +4,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import CategorySelect from "@/components/ui/CategorySelect/CategorySelect";
 import { useUpdateDefaultValues } from "@/hooks/useUpdateDefaultValues";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import {
   PrimaryButton,
   SecondaryButton,
@@ -13,7 +14,6 @@ import { toast } from "react-toastify";
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
 
-  // ––– Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
   const {
     description,
@@ -21,6 +21,13 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     selectedCategories,
     setSelectedCategories,
   } = useUpdateDefaultValues(activityID, allCategories);
+
+  const {
+    previewUrl,
+    showExistingImage,
+    handleImageChange,
+    handleImageSubmit,
+  } = useImageUpload(activityID);
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
@@ -47,32 +54,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
-    //image
-    const imageFile = formData.get("image");
-
-    if (imageFile && imageFile.size > 0) {
-      try {
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!uploadResponse.ok) {
-          toast.error("Image upload failed.");
-          return;
-        }
-
-        const { imageUrl } = await uploadResponse.json();
-        data.imageUrl = imageUrl;
-      } catch (error) {
-        toast.error("Image upload failed. Please try again.");
-        return;
-      }
-    } else {
-      data.imageUrl = activityID.imageUrl || "assets/placeholder.jpg";
-    }
-
-    delete data.image;
+    const imageUrl = await handleImageSubmit(formData);
+    if (!imageUrl && formData.get("image")?.size > 0) return;
+    data.imageUrl = imageUrl;
 
     try {
       await onSubmit(data);
@@ -143,7 +127,25 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       <label htmlFor="image">Image</label>
 
-      <input type="file" name="image" />
+      <input type="file" name="image" id="image" onChange={handleImageChange} />
+
+      {showExistingImage && (
+        <div>
+          <PreviewImage
+            src={activityID.imageUrl}
+            alt="Current activity image"
+          />
+        </div>
+      )}
+
+      {previewUrl && (
+        <div>
+          <PreviewImage
+            src={URL.createObjectURL(previewUrl)}
+            alt="Preview of the image to upload"
+          />
+        </div>
+      )}
 
       <PrimaryButton
         type="submit"
@@ -185,4 +187,10 @@ const LetterCount = styled.p`
   align-self: flex-end;
   margin: 0;
   margin-right: 5px;
+`;
+
+const PreviewImage = styled.img`
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
 `;

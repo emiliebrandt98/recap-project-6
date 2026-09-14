@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ActivityCard({ id, title, categories }) {
+export default function ActivityCard({ id, title, categories, imageUrl }) {
   return (
     <StyledCardContainer href={`/activities/${id}`}>
       <ImageContainer>
@@ -11,7 +11,7 @@ export default function ActivityCard({ id, title, categories }) {
           alt={title}
           width={180}
           height={180}
-          src="/assets/placeholder.jpg"
+          src={imageUrl}
         />
       </ImageContainer>
 

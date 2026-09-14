@@ -41,17 +41,18 @@ export default async function handler(request, response) {
     const newFilename = `${Date.now()}-${cleanName}`;
 
     // now we have the information about the image, we can send it to Cloudinary
-    const uploadResult = await cloudinary.v2.uploader.upload(filepath, {
-      public_id: newFilename,
-      folder: "activities",
-    });
+    const uploadResult = await cloudinary.v2.uploader.upload(
+      uploadedFile.filepath,
+      {
+        public_id: newFilename,
+        folder: "activities",
+      }
+    );
 
-    response
-      .status(200)
-      .json({
-        imageUrl: uploadResult.secure_url,
-        public_id: uploadResult.public_id,
-      });
+    response.status(200).json({
+      imageUrl: uploadResult.secure_url,
+      public_id: uploadResult.public_id,
+    });
     return;
   } catch (error) {
     console.error("Image upload failed:", error);
