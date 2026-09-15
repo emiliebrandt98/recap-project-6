@@ -10,9 +10,11 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
+import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
+  const [imageRemoved, setImageRemoved] = useState(false);
 
   // Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
@@ -24,36 +26,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     existingImageUrl,
     existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
-
-  // Image
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [imageRemoved, setImageRemoved] = useState(false);
-  const fileInputRef = useRef(null);
-  const isRealImage =
-    existingImageUrl && existingImageUrl !== "/assets/placeholder.jpg";
-  const displayedImageUrl = imageRemoved
-    ? null
-    : previewUrl || (isRealImage ? existingImageUrl : null);
-
-  function handleImageChange(event) {
-    const selectedFile = event.target.files[0];
-
-    if (selectedFile) {
-      setPreviewUrl(URL.createObjectURL(selectedFile));
-      setImageRemoved(false);
-    } else {
-      setPreviewUrl(null);
-    }
-  }
-
-  function handleRemoveImage() {
-    setPreviewUrl(null);
-    setImageRemoved(true);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
@@ -193,28 +165,11 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       <label htmlFor="image">Image</label>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        name="image"
-        id="image"
-        accept="image/*"
-        onChange={handleImageChange}
+      <ActivityImageInput
+        existingImageUrl={existingImageUrl}
+        imageRemoved={imageRemoved}
+        onImageRemoved={setImageRemoved}
       />
-
-      {displayedImageUrl && (
-        <PreviewImage src={displayedImageUrl} alt="Preview of selected image" />
-      )}
-
-      {displayedImageUrl && displayedImageUrl !== "/assets/placeholder.jpg" && (
-        <button
-          type="button"
-          onClick={handleRemoveImage}
-          aria-label="Remove image"
-        >
-          <X size={16} />
-        </button>
-      )}
 
       <PrimaryButton
         type="submit"
@@ -256,10 +211,4 @@ const LetterCount = styled.p`
   align-self: flex-end;
   margin: 0;
   margin-right: 5px;
-`;
-
-const PreviewImage = styled.img`
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
 `;
