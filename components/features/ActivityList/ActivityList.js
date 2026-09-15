@@ -2,7 +2,7 @@ import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
 
 export default function ActivityList({ activities }) {
   if (!activities || activities.length === 0) {
-    return <p>No activities found.</p>;
+    return <p>This activity does not exist. Please try again.</p>;
   }
 
   return (
