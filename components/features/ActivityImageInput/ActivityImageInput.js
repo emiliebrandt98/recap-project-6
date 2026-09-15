@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
+import { X } from "lucide-react";
 
 export default function ActivityImageInput({
   existingImageUrl,
@@ -38,6 +39,7 @@ export default function ActivityImageInput({
   return (
     <>
       <label htmlFor="image">Image</label>
+
       <input
         ref={fileInputRef}
         type="file"

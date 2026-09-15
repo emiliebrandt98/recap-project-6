@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
 import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
+import { useImage } from "@/hooks/useImage";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
@@ -36,6 +37,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
+  // Image
+  const { uploadImage, deleteImage } = useImage();
+
   async function handleSubmitActivity(event) {
     event.preventDefault();
 
@@ -52,54 +56,33 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
+    //image
     const imageFile = formData.get("image");
 
-    if (imageFile && imageFile.size > 0) {
-      if (existingPublicId) {
-        formData.append("oldPublicId", existingPublicId);
-      }
+    try {
+      if (imageFile && imageFile.size > 0) {
+        const { imageUrl, public_id } = await uploadImage(
+          formData,
+          existingPublicId
+        );
 
-      try {
-        const uploadResponse = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!uploadResponse.ok) {
-          toast.error("Image upload failed. Your other data is preserved.");
-          return;
-        }
-
-        const { imageUrl, public_id } = await uploadResponse.json();
         data.imageUrl = imageUrl;
         data.imagePublicId = public_id;
-      } catch (error) {
-        toast.error("Image upload failed. Please try again.");
-        return;
-      }
-    } else if (imageRemoved) {
-      data.imageUrl = "/assets/placeholder.jpg";
+      } else if (imageRemoved) {
+        await deleteImage(existingPublicId);
 
-      if (existingPublicId) {
-        await fetch("/api/upload/delete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ publicId: existingPublicId }),
-        });
+        data.imageUrl = "/assets/placeholder.jpg";
+        data.imagePublicId = null;
+      } else {
+        data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
+        data.imagePublicId = activityID?.imagePublicId ?? null;
       }
 
-      data.imagePublicId = null;
-    } else {
-      data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
-      data.imagePublicId = activityID?.imagePublicId ?? null;
-    }
-
-    delete data.image;
-
-    try {
+      delete data.image;
       await onSubmit(data);
     } catch (error) {
       console.error({ status: error.message });
+      toast.error("Image upload failed");
     }
   }
 
@@ -162,8 +145,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         name="country"
         placeholder="Which country does your activity belong to?"
       />
-
-      <label htmlFor="image">Image</label>
 
       <ActivityImageInput
         existingImageUrl={existingImageUrl}
