@@ -22,7 +22,6 @@ export default async function handler(request, response) {
       const [fields, files] = await form.parse(request);
 
       const uploadedFile = files.image?.[0];
-
       const oldPublicId = fields.oldPublicId?.[0];
 
       if (!uploadedFile) {
