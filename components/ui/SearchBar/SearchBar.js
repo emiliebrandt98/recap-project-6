@@ -3,7 +3,6 @@ import { Search } from "lucide-react";
 export default function SearchBar({ search, onSearch }) {
   return (
     <>
-      <label htmlFor="search" />
       <SearchContainer>
         <Search size={20} />
 
@@ -13,6 +12,7 @@ export default function SearchBar({ search, onSearch }) {
           placeholder="Search"
           value={search}
           onChange={(event) => onSearch(event.target.value)}
+          aria-label="search-bar"
         />
       </SearchContainer>
     </>
