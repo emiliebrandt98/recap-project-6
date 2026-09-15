@@ -10,7 +10,7 @@ export default function SearchBar({ search, onSearch }) {
         <input
           id="search"
           name="search"
-          placeholder="Search for Activities"
+          placeholder="Search"
           value={search}
           onChange={(event) => onSearch(event.target.value)}
         />

@@ -9,13 +9,7 @@ import SearchBar from "@/components/ui/SearchBar/SearchBar";
 export default function HomePage({ activities, isLoading, error }) {
   const [activeCategories, setActiveCategories] = useState([]);
   const [search, setSearch] = useState("");
-  const searchActivities = activities?.filter((activity) =>
-    activity.title.toLowerCase().includes(search.toLowerCase())
-  );
 
-  const searchResults = searchActivities?.filter((activity) =>
-    activity.title.toLowerCase().startsWith(search.toLowerCase())
-  );
   function matchesActiveCategories(activity) {
     if (activeCategories?.length === 0) return true;
 
@@ -24,10 +18,13 @@ export default function HomePage({ activities, isLoading, error }) {
     );
   }
 
-  const filteredActivities = activities?.filter(matchesActiveCategories);
+  function matchesSearch(activity) {
+    return activity.title.toLowerCase().includes(search.toLowerCase());
+  }
 
-  if (filteredActivities?.length === 0)
-    return <p>No activities found for this category.</p>;
+  const filteredActivities = activities?.filter(
+    (activity) => matchesActiveCategories(activity) && matchesSearch(activity)
+  );
 
   if (isLoading) return <p>Loading...</p>;
   if (error)
@@ -52,12 +49,7 @@ export default function HomePage({ activities, isLoading, error }) {
           onApply={setActiveCategories}
         />
       </SearchContainer>
-      <ActivityList
-        activities={filteredActivities}
-        activeCategories={activeCategories}
-        search={search}
-        searchResults={searchResults}
-      />
+      <ActivityList activities={filteredActivities} />
     </>
   );
 }
