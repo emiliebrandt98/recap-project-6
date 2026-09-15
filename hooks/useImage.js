@@ -21,9 +21,11 @@ export function useImage() {
         throw new Error("Image upload failed.");
       }
 
-      return await response.json();
-    } finally {
       setIsUploading(false);
+      return await response.json();
+    } catch (error) {
+      setIsUploading(false);
+      throw error;
     }
   }
 
@@ -45,9 +47,11 @@ export function useImage() {
         throw new Error("Image deletion failed.");
       }
 
-      return true;
-    } finally {
       setIsDeleting(false);
+      return true;
+    } catch (error) {
+      setIsDeleting(false);
+      throw error;
     }
   }
 
