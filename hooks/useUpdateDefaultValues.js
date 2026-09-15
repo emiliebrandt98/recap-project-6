@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 export function useUpdateDefaultValues(activityID, allCategories) {
   const [description, setDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);

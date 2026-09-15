@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
@@ -14,6 +15,7 @@ export default function ActivityInfo({ activity }) {
           src={activity.imageUrl}
           priority
         />
+        <HeartButton activity={activity} />
       </ImageContainer>
 
       <StyledTitle>
@@ -43,6 +45,7 @@ export default function ActivityInfo({ activity }) {
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;
+  position: relative;
 `;
 
 const StyledImage = styled(Image)`
