@@ -121,7 +121,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       <label htmlFor="category">
         Category <small>(required)</small>
       </label>
+
       <small>You can select a maximum of 3 categories.</small>
+
       <CategorySelect
         value={selectedCategories}
         onChange={handleSelectedCategories}
