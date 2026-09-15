@@ -14,6 +14,7 @@ export default function ActivityList({ activities }) {
             id={activity._id}
             title={activity.title}
             categories={activity.categories}
+            imageUrl={activity.imageUrl}
           />
         );
       })}

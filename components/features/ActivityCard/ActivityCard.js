@@ -3,11 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
-export default function ActivityCard({
-  id,
-  title,
-  categories,
-}) {
+export default function ActivityCard({ id, title, categories, imageUrl }) {
   return (
     <StyledCardContainer href={`/activities/${id}`}>
       <ImageContainer>
@@ -16,7 +12,7 @@ export default function ActivityCard({
           alt={title}
           width={180}
           height={180}
-          src="/assets/placeholder.jpg"
+          src={imageUrl}
         />
         <HeartButton id={id} />
       </ImageContainer>

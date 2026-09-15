@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
@@ -9,17 +10,22 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
+import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
+import { useImage } from "@/hooks/useImage";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
+  const [imageRemoved, setImageRemoved] = useState(false);
 
-  // ––– Select and Description
+  // Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
   const {
     description,
     setDescription,
     selectedCategories,
     setSelectedCategories,
+    existingImageUrl,
+    existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
 
   const handleSelectedCategories = (selected) => {
@@ -31,12 +37,16 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
+  // Image
+  const { uploadImage, deleteImage } = useImage();
+
   async function handleSubmitActivity(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    //categories
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
@@ -46,10 +56,33 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
+    //image
+    const imageFile = formData.get("image");
+
     try {
+      if (imageFile && imageFile.size > 0) {
+        const { imageUrl, public_id } = await uploadImage(
+          formData,
+          existingPublicId
+        );
+
+        data.imageUrl = imageUrl;
+        data.imagePublicId = public_id;
+      } else if (imageRemoved) {
+        await deleteImage(existingPublicId);
+
+        data.imageUrl = "/assets/placeholder.jpg";
+        data.imagePublicId = null;
+      } else {
+        data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
+        data.imagePublicId = activityID?.imagePublicId ?? null;
+      }
+
+      delete data.image;
       await onSubmit(data);
     } catch (error) {
       console.error({ status: error.message });
+      toast.error("Image upload failed");
     }
   }
 
@@ -88,7 +121,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       <label htmlFor="category">
         Category <small>(required)</small>
       </label>
+
       <small>You can select a maximum of 3 categories.</small>
+
       <CategorySelect
         value={selectedCategories}
         onChange={handleSelectedCategories}
@@ -111,6 +146,12 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
+      />
+
+      <ActivityImageInput
+        existingImageUrl={existingImageUrl}
+        imageRemoved={imageRemoved}
+        onImageRemoved={setImageRemoved}
       />
 
       <PrimaryButton
