@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
@@ -25,17 +25,31 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
 
-  // Image Preview
+  // Image
   const [previewUrl, setPreviewUrl] = useState(null);
-  const displayedImageUrl = previewUrl || existingImageUrl;
+  const [imageRemoved, setImageRemoved] = useState(false);
+  const fileInputRef = useRef(null);
+  const displayedImageUrl = imageRemoved
+    ? null
+    : previewUrl || existingImageUrl;
 
   function handleImageChange(event) {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
       setPreviewUrl(URL.createObjectURL(selectedFile));
+      setImageRemoved(false);
     } else {
       setPreviewUrl(null);
+    }
+  }
+
+  function handleRemoveImage() {
+    setPreviewUrl(null);
+    setImageRemoved(true);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   }
 
@@ -89,6 +103,18 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         toast.error("Image upload failed. Please try again.");
         return;
       }
+    } else if (imageRemoved) {
+      data.imageUrl = "/assets/placeholder.jpg";
+
+      if (existingPublicId) {
+        await fetch("/api/upload/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ publicId: existingPublicId }),
+        });
+      }
+
+      data.imagePublicId = null;
     } else {
       data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
       data.imagePublicId = activityID?.imagePublicId ?? null;
@@ -166,6 +192,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       <label htmlFor="image">Image</label>
 
       <input
+        ref={fileInputRef}
         type="file"
         name="image"
         id="image"
@@ -175,6 +202,16 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       {displayedImageUrl && (
         <PreviewImage src={displayedImageUrl} alt="Preview of selected image" />
+      )}
+
+      {displayedImageUrl && displayedImageUrl !== "/assets/placeholder.jpg" && (
+        <button
+          type="button"
+          onClick={handleRemoveImage}
+          aria-label="Remove image"
+        >
+          <X size={16} />
+        </button>
       )}
 
       <PrimaryButton

@@ -46,7 +46,8 @@ export default async function handler(request, response) {
       {
         public_id: newFilename,
         folder: "activities",
-        transformation: [{ quality: "auto", fetch_format: "auto" }],
+        format: "webp",
+        quality: "auto:good",
       }
     );
 
