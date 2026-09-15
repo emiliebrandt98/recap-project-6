@@ -9,8 +9,15 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
+import DatePicker from "react-datepicker";
+import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
+  //date picker
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setendDate] = useState(startDate);
+
   const { data: allCategories } = useSWR("/api/categories");
 
   // ––– Select and Description
@@ -43,6 +50,11 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
     if (data.categories.length < 1) {
       toast.error("Please select at least 1 category.");
+      return;
+    }
+
+    if (endDate < startDate) {
+      toast.error("The end date cannot be before the start date.");
       return;
     }
 
@@ -113,6 +125,36 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         placeholder="Which country does your activity belong to?"
       />
 
+      <DateContainer>
+        <StartDate>
+          <label htmlFor="startDate">Start:</label>
+          <DatePicker
+            dateFormat="dd.MM.yyyy"
+            id="startDate"
+            name="startDate"
+            selected={startDate}
+            onChange={(date) => {
+              setStartDate(date);
+              setendDate(date);
+            }}
+            minDate={new Date()}
+            showIcon
+          />
+        </StartDate>
+        <EndDate>
+          <label htmlFor="endDate">End:</label>
+          <DatePicker
+            minDate={startDate}
+            dateFormat="dd.MM.yyyy"
+            id="endDate"
+            name="endDate"
+            selected={endDate}
+            onChange={(date) => setendDate(date)}
+            showIcon
+          />
+        </EndDate>
+      </DateContainer>
+
       <PrimaryButton
         type="submit"
         buttonText={isEditing ? "Update Activity" : "Create new Activity"}
@@ -124,6 +166,19 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     </Form>
   );
 }
+const EndDate = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StartDate = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DateContainer = styled.div`
+  display: flex;
+`;
 
 const Form = styled.form`
   display: flex;

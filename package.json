@@ -16,6 +16,7 @@
     "mongoose": "^9.9.4",
     "next": "13.4.8",
     "react": "18.2.0",
+    "react-datepicker": "^9.1.0",
     "react-dom": "18.2.0",
     "react-select": "^5.10.2",
     "react-toastify": "^11.1.0",
