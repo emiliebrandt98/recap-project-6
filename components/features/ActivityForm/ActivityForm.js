@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
 import CategorySelect from "@/components/ui/CategorySelect/CategorySelect";
 import { useUpdateDefaultValues } from "@/hooks/useUpdateDefaultValues";
-import { useImageUpload } from "@/hooks/useImageUpload";
 import {
   PrimaryButton,
   SecondaryButton,
@@ -14,22 +14,30 @@ import { toast } from "react-toastify";
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
 
+  // Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
-
   const {
     description,
     setDescription,
     selectedCategories,
     setSelectedCategories,
+    existingImageUrl,
+    existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
 
-  const {
-    previewUrl,
-    showExistingImage,
-    handleImageChange,
-    handleImageSubmit,
-    handleRemoveImage,
-  } = useImageUpload(activityID);
+  // Image Preview
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const displayedImageUrl = previewUrl || existingImageUrl;
+
+  function handleImageChange(event) {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      setPreviewUrl(URL.createObjectURL(selectedFile));
+    } else {
+      setPreviewUrl(null);
+    }
+  }
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
@@ -56,10 +64,35 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
-    const imageResult = await handleImageSubmit(formData);
-    if (!imageResult && formData.get("image")?.size > 0) return;
-    data.imageUrl = imageResult.imageUrl;
-    data.imagePublicId = imageResult.public_id;
+    const imageFile = formData.get("image");
+
+    if (imageFile && imageFile.size > 0) {
+      if (existingPublicId) {
+        formData.append("oldPublicId", existingPublicId);
+      }
+
+      try {
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          toast.error("Image upload failed. Your other data is preserved.");
+          return;
+        }
+
+        const { imageUrl, public_id } = await uploadResponse.json();
+        data.imageUrl = imageUrl;
+        data.imagePublicId = public_id;
+      } catch (error) {
+        toast.error("Image upload failed. Please try again.");
+        return;
+      }
+    } else {
+      data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
+      data.imagePublicId = activityID?.imagePublicId ?? null;
+    }
 
     delete data.image;
 
@@ -132,38 +165,16 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       <label htmlFor="image">Image</label>
 
-      <input type="file" name="image" id="image" onChange={handleImageChange} />
+      <input
+        type="file"
+        name="image"
+        id="image"
+        accept="image/*"
+        onChange={handleImageChange}
+      />
 
-      {showExistingImage && activityID?.imageUrl && (
-        <div>
-          <PreviewImage
-            src={activityID.imageUrl}
-            alt="Current activity image"
-          />
-          <button
-            type="button"
-            onClick={handleRemoveImage}
-            aria-label="Clear image"
-          >
-            <X />
-          </button>
-        </div>
-      )}
-
-      {previewUrl && (
-        <div>
-          <PreviewImage
-            src={URL.createObjectURL(previewUrl)}
-            alt="Preview of the image to upload"
-          />
-          <button
-            type="button"
-            onClick={handleRemoveImage}
-            aria-label="Clear image"
-          >
-            <X />
-          </button>
-        </div>
+      {displayedImageUrl && (
+        <PreviewImage src={displayedImageUrl} alt="Preview of selected image" />
       )}
 
       <PrimaryButton

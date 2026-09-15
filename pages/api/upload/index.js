@@ -28,19 +28,35 @@ export default async function handler(request, response) {
   try {
     const [fields, files] = await form.parse(request);
     const uploadedFile = files.image?.[0];
+    const oldPublicId = fields.oldPublicId?.[0];
 
     if (!uploadedFile) {
       return response.status(400).json({ message: "No image provided" });
     }
 
+    const cleanName = uploadedFile.originalFilename
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[^a-zA-Z0-9]/g, "-");
+
+    const newFilename = `${Date.now()}-${cleanName}`;
+
     // now we have the information about the image, we can send it to Cloudinary
     const uploadResult = await cloudinary.v2.uploader.upload(
       uploadedFile.filepath,
       {
+        public_id: newFilename,
         folder: "activities",
         transformation: [{ quality: "auto", fetch_format: "auto" }],
       }
     );
+
+    if (oldPublicId) {
+      try {
+        await cloudinary.v2.uploader.destroy(oldPublicId);
+      } catch (deleteError) {
+        console.error("Failed to delete old image:", deleteError);
+      }
+    }
 
     response.status(200).json({
       imageUrl: uploadResult.secure_url,
