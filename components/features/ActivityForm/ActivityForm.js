@@ -29,9 +29,11 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imageRemoved, setImageRemoved] = useState(false);
   const fileInputRef = useRef(null);
+  const isRealImage =
+    existingImageUrl && existingImageUrl !== "/assets/placeholder.jpg";
   const displayedImageUrl = imageRemoved
     ? null
-    : previewUrl || existingImageUrl;
+    : previewUrl || (isRealImage ? existingImageUrl : null);
 
   function handleImageChange(event) {
     const selectedFile = event.target.files[0];
