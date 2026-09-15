@@ -75,7 +75,12 @@ export default async function handler(request, response) {
   // Delete
   if (request.method === "DELETE") {
     try {
-      const { publicId } = request.body;
+      // Manually parse the request body when bodyParser is disabled
+      const buffers = [];
+      for await (const chunk of request) {
+        buffers.push(chunk);
+      }
+      const { publicId } = JSON.parse(Buffer.concat(buffers).toString());
 
       if (!publicId) {
         response.status(400).json({
