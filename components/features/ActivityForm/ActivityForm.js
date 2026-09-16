@@ -9,7 +9,7 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
-import DateInnput from "../Datepicker/datepicker";
+import DateInnput from "../Datepicker/Datepicker";
 import useDate from "@/hooks/useDate";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {

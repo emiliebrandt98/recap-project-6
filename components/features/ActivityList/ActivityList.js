@@ -17,6 +17,7 @@ export default function ActivityList({ activities }) {
             categories={activity.categories}
             startDate={activity.startDate}
             endDate={activity.endDate}
+            activity={activity}
           />
         );
       })}

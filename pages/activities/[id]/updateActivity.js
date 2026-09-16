@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
 
-
 export default function UpdateActivity({ activities }) {
   const router = useRouter();
   const { id } = router.query;

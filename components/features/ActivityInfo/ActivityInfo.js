@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
-import Dates from "@/components/ShowDate/ShowDate";
+import Dates from "@/components/Dates/Dates";
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
@@ -18,7 +18,7 @@ export default function ActivityInfo({ activity }) {
         />
         <HeartButton activity={activity} />
       </ImageContainer>
-      <Dates />
+      <Dates activity={activity} />
       <StyledTitle>
         <h2>{activity.title}</h2>
 

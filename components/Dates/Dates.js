@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import useDate from "@/hooks/useDate";
 
-export default function Dates() {
-  const { startDate, endDate } = useDate();
+export default function Dates({ activity }) {
+  const { startDate, endDate } = useDate(activity);
   return (
     <DateWrapper>
       <p>Start: {new Date(startDate).toLocaleDateString("de-DE")}</p>
