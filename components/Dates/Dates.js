@@ -3,6 +3,15 @@ import useDate from "@/hooks/useDate";
 
 export default function Dates({ activity }) {
   const { startDate, endDate } = useDate(activity);
+
+  if (!startDate) {
+    return null;
+  }
+
+  if (!endDate) {
+    return null;
+  }
+
   return (
     <DateWrapper>
       <p>Start: {new Date(startDate).toLocaleDateString("de-DE")}</p>
