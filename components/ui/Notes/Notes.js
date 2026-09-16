@@ -24,7 +24,7 @@ export default function Notes() {
     try {
       const response = await fetch(`/api/activities/${id}`, {
         method: "PUT",
-        header: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ note: noteValue }),
       });
 
@@ -58,10 +58,14 @@ export default function Notes() {
   return (
     <>
       {!openNote && (
-        <NoteButton type="button" onClick={handleOpenNotes}>
-          <PlusIcon />
-          {isNoteEditing ? "Edit Note" : "Add Note"}
-        </NoteButton>
+        <>
+          {isNoteEditing ? <NoteText>{activity.note}</NoteText> : null}
+
+          <NoteButton type="button" onClick={handleOpenNotes}>
+            <PlusIcon />
+            {isNoteEditing ? "Edit Note" : "Add Note"}
+          </NoteButton>
+        </>
       )}
 
       {openNote && (
@@ -79,26 +83,28 @@ export default function Notes() {
             placeholder="Write down your notes..."
           />
 
-          <PrimaryButton
-            type="submit"
-            buttonText={
-              isLoading
-                ? "Saving..."
-                : isNoteEditing
-                  ? "Update Note"
-                  : "Add Note"
-            }
-            Icon={Check}
-          />
+          <ButtonWrapper>
+            {isNoteEditing && (
+              <SecondaryButton
+                type="button"
+                buttonText={"Remove Note"}
+                Icon={X}
+                onClick={handleRemoveNote}
+              />
+            )}
 
-          {isNoteEditing && (
-            <SecondaryButton
-              type="button"
-              buttonText={"Remove Note"}
-              Icon={X}
-              onClick={handleRemoveNote}
+            <PrimaryButton
+              type="submit"
+              buttonText={
+                isLoading
+                  ? "Saving..."
+                  : isNoteEditing
+                    ? "Update Note"
+                    : "Add Note"
+              }
+              Icon={Check}
             />
-          )}
+          </ButtonWrapper>
 
           <SecondaryButton
             type="button"
@@ -141,4 +147,16 @@ const PlusIcon = styled(Plus)`
   background-color: lightgrey;
   padding: 2px;
   border-radius: 4px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+
+const NoteText = styled.p`
+  background-color: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 8px;
 `;

@@ -35,12 +35,12 @@ export default function ActivityInfo({ activity }) {
 
       <StyledDescription>{activity.description}</StyledDescription>
 
-      <Notes />
-
       <StyledLocation>
         <p>{activity.area}</p>
         <p>{activity.country}</p>
       </StyledLocation>
+
+      <Notes />
     </>
   );
 }
