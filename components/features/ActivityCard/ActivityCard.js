@@ -17,9 +17,9 @@ export default function ActivityCard({ id, title, categories, activity }) {
         />
         <HeartButton id={activity} />
       </ImageContainer>
-
-      <StyledTitle>{title}</StyledTitle>
       <Dates activity={activity} />
+      <StyledTitle>{title}</StyledTitle>
+
       <CategoriesWrapper>
         {categories?.map((category) => {
           return (
