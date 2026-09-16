@@ -2,10 +2,14 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
-import DateInput from "../../../hooks/useDate";
 
-
-export default function ActivityCard({ id, title, categories }) {
+export default function ActivityCard({
+  id,
+  title,
+  categories,
+  endDate,
+  startDate,
+}) {
   return (
     <StyledCardContainer href={`/activities/${id}`}>
       <ImageContainer>
@@ -18,7 +22,10 @@ export default function ActivityCard({ id, title, categories }) {
         />
         <HeartButton id={id} />
       </ImageContainer>
-      <DateInput />
+      <DateWrapper>
+        <p>Start: {new Date(startDate).toLocaleDateString("de-DE")}</p>
+        <p>Ende: {new Date(endDate).toLocaleDateString("de-DE")}</p>
+      </DateWrapper>
       <StyledTitle>{title}</StyledTitle>
 
       <CategoriesWrapper>
@@ -34,6 +41,10 @@ export default function ActivityCard({ id, title, categories }) {
   );
 }
 
+const DateWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
 const StyledCardContainer = styled(Link)`
   width: min(80vw, 22rem);
   min-height: 12rem;
@@ -64,7 +75,7 @@ const CategoriesWrapper = styled.div`
 
   display: flex;
   justify-content: flex-start;
-  gap: 5px;
+  gap: 6px;
   flex-wrap: wrap;
 `;
 

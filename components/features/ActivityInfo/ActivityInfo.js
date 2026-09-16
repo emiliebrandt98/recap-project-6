@@ -2,7 +2,10 @@ import Image from "next/image";
 import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
 
+import useDate from "@/hooks/useDate";
+
 export default function ActivityInfo({ activity }) {
+  const { startDate, endDate } = useDate();
   if (!activity) return null;
 
   return (
@@ -17,7 +20,10 @@ export default function ActivityInfo({ activity }) {
         />
         <HeartButton activity={activity} />
       </ImageContainer>
-
+      <DateWrapper>
+        <p>Start: {new Date(activity.startDate).toLocaleDateString("de-DE")}</p>
+        <p>Ende: {new Date(activity.endDate).toLocaleDateString("de-DE")}</p>
+      </DateWrapper>
       <StyledTitle>
         <h2>{activity.title}</h2>
 
@@ -42,6 +48,10 @@ export default function ActivityInfo({ activity }) {
   );
 }
 
+const DateWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;

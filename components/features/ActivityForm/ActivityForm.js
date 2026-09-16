@@ -9,9 +9,11 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
-import DateInnput from "../Datepicker/Datepicker";
+import DateInnput from "../Datepicker/datepicker";
+import useDate from "@/hooks/useDate";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
+  const { startDate, endDate, setStartDate, setEndDate } = useDate();
   const { data: allCategories } = useSWR("/api/categories");
 
   // ––– Select and Description
@@ -37,6 +39,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
+    data.startDate = startDate;
+    data.endDate = endDate;
 
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
@@ -119,7 +124,12 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         placeholder="Which country does your activity belong to?"
       />
 
-      <DateInnput />
+      <DateInnput
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+      />
 
       <PrimaryButton
         type="submit"

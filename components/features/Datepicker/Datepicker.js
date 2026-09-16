@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useDate from "@/hooks/useDate";
-export default function DateInnput() {
-  const { startDate, endDate, setStartDate, setendDate } = useDate();
+
+export default function DateInnput({
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+}) {
   return (
     <DateContainer>
       <StartDate>
@@ -15,21 +19,19 @@ export default function DateInnput() {
           selected={startDate}
           onChange={(date) => {
             setStartDate(date);
-            setendDate(date);
+            setEndDate(date);
           }}
-          minDate={new Date()}
           showIcon
         />
       </StartDate>
       <EndDate>
         <label htmlFor="endDate">End:</label>
         <DatePicker
-          minDate={startDate}
           dateFormat="dd.MM.yyyy"
           id="endDate"
           name="endDate"
           selected={endDate}
-          onChange={(date) => setendDate(date)}
+          onChange={(date) => setEndDate(date)}
           showIcon
         />
       </EndDate>

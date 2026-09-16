@@ -44,6 +44,7 @@ export default async function handler(request, response) {
         .json({ status: "Activity Created", activity: formattedActivity });
       return;
     } catch (error) {
+      console.log(error);
       if (error.name === "ValidationError") {
         response.status(400).json({ error: error.message });
         return;

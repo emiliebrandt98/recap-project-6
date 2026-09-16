@@ -39,6 +39,15 @@ const ActivitySchema = new Schema(
     country: {
       type: String,
     },
+    startDate: {
+      type: Date,
+      required: false,
+    },
+
+    endDate: {
+      type: Date,
+      required: false,
+    },
   },
   { timestamps: true }
 );
