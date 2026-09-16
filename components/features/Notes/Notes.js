@@ -1,30 +1,20 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import styled from "styled-components";
-import { PrimaryButton, SecondaryButton } from "../Button/Button";
+import { PrimaryButton, SecondaryButton } from "../../ui/Button/Button";
 import { toast } from "react-toastify";
 import { useActivity } from "@/hooks/useActivity";
 import { mutate } from "swr";
+import DeleteDialog from "../../ui/DeleteDialog/DeleteDialog";
 
 export default function Notes() {
   const { activity, id } = useActivity();
-  const dialogRef = useRef(null);
 
   const [openNote, setOpenNote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const isNoteEditing = Boolean(activity.note);
-
-  useEffect(() => {
-    if (!dialogRef.current) return;
-
-    if (isDeleteDialogOpen) {
-      dialogRef.current.showModal();
-    } else {
-      dialogRef.current.close();
-    }
-  }, [isDeleteDialogOpen]);
 
   function handleOpenNotes() {
     setOpenNote(true);
@@ -63,15 +53,6 @@ export default function Notes() {
     handleSaveNote(noteValue);
   }
 
-  function handleRemoveNote() {
-    handleSaveNote("");
-    setIsDeleteDialogOpen(false);
-  }
-
-  function handleCloseDialog() {
-    setIsDeleteDialogOpen(false);
-  }
-
   return (
     <>
       {!openNote && (
@@ -106,25 +87,11 @@ export default function Notes() {
         </>
       )}
 
-      <Dialog ref={dialogRef} onClose={() => setIsDeleteDialogOpen(false)}>
-        <h2>Delete</h2>
-        <p>
-          Do you really want to <b>delete</b> your note?
-        </p>
-
-        <ButtonWrapper>
-          <SecondaryButton
-            type="button"
-            buttonText={"Cancel"}
-            onClick={() => handleCloseDialog(false)}
-          />
-          <PrimaryButton
-            type="button"
-            buttonText={"Confirm"}
-            onClick={handleRemoveNote}
-          />
-        </ButtonWrapper>
-      </Dialog>
+      <DeleteDialog
+        onDeleteDialogOpen={setIsDeleteDialogOpen}
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        onSaveNote={handleSaveNote}
+      />
 
       {openNote && (
         <NoteForm onSubmit={handelSubmitNote}>
@@ -227,28 +194,4 @@ const Button = styled.button`
   border: none;
   text-decoration: underline;
   cursor: pointer;
-`;
-
-const Dialog = styled.dialog`
-  width: 20.9375rem;
-  padding: 1.5rem 1.25rem;
-  flex-direction: column;
-  align-items: flex-start;
-
-  border-radius: 0.75rem;
-  background: #fff;
-  border: none;
-
-  &:not([open]) {
-    display: none;
-  }
-
-  &[open] {
-    display: flex;
-  }
-
-  ::backdrop {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(2px);
-  }
 `;

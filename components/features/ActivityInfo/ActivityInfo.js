@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
-import Notes from "@/components/ui/Notes/Notes";
+import Notes from "@/components/features/Notes/Notes";
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
