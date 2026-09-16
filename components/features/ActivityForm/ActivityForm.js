@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
 import Link from "next/link";
@@ -11,17 +12,23 @@ import {
 import { toast } from "react-toastify";
 import DateInnput from "../Datepicker/Datepicker";
 import useDate from "@/hooks/useDate";
+import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
+import { useImage } from "@/hooks/useImage";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
+  const [imageRemoved, setImageRemoved] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // ––– Select and Description
+  // Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
   const {
     description,
     setDescription,
     selectedCategories,
     setSelectedCategories,
+    existingImageUrl,
+    existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
 
   const { startDate, endDate, setStartDate, setEndDate } = useDate(activityID);
@@ -35,8 +42,13 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
+  // Image
+  const { uploadImage, deleteImage } = useImage();
+
   async function handleSubmitActivity(event) {
     event.preventDefault();
+
+    setIsLoading(true);
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
@@ -50,6 +62,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
     if (data.categories.length < 1) {
       toast.error("Please select at least 1 category.");
+      setIsLoading(false);
       return;
     }
 
@@ -57,11 +70,34 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       toast.error("The end date cannot be before the start date.");
       return;
     }
+    //image
+    const imageFile = formData.get("image");
 
     try {
+      if (imageFile && imageFile.size > 0) {
+        const { imageUrl, public_id } = await uploadImage(
+          formData,
+          existingPublicId
+        );
+
+        data.imageUrl = imageUrl;
+        data.imagePublicId = public_id;
+      } else if (imageRemoved) {
+        await deleteImage(existingPublicId);
+
+        data.imageUrl = "/assets/placeholder.jpg";
+        data.imagePublicId = null;
+      } else {
+        data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
+        data.imagePublicId = activityID?.imagePublicId ?? null;
+      }
+
+      delete data.image;
       await onSubmit(data);
     } catch (error) {
-      console.error({ status: error.message });
+      console.error({ message: error.message });
+      toast.error("Image upload failed");
+      setIsLoading(false);
     }
   }
 
@@ -100,7 +136,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       <label htmlFor="category">
         Category <small>(required)</small>
       </label>
+
       <small>You can select a maximum of 3 categories.</small>
+
       <CategorySelect
         value={selectedCategories}
         onChange={handleSelectedCategories}
@@ -132,9 +170,21 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         setEndDate={setEndDate}
       />
 
+      <ActivityImageInput
+        existingImageUrl={existingImageUrl}
+        imageRemoved={imageRemoved}
+        onImageRemoved={setImageRemoved}
+      />
+
       <PrimaryButton
         type="submit"
-        buttonText={isEditing ? "Update Activity" : "Create new Activity"}
+        buttonText={
+          isLoading
+            ? "Saving..."
+            : isEditing
+              ? "Update Activity"
+              : "Create new Activity"
+        }
         Icon={Check}
       />
       <Link href={isEditing ? `/activities/${id}` : "/"}>

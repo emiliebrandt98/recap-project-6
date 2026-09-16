@@ -21,6 +21,7 @@ export default function UpdateActivity({ activities }) {
       return;
     }
 
+    mutate("/api/activities");
     mutate(`/api/activities/${id}`);
     mutate("/api/activities");
     toast.success("Activity successfully updated!");

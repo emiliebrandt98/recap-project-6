@@ -1,5 +1,4 @@
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
-import { act } from "react";
 
 export default function ActivityList({ activities }) {
   if (!activities || activities.length === 0) {
@@ -16,6 +15,7 @@ export default function ActivityList({ activities }) {
             title={activity.title}
             categories={activity.categories}
             activity={activity}
+            imageUrl={activity.imageUrl}
           />
         );
       })}

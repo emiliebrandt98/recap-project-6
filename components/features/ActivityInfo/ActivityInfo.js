@@ -11,9 +11,9 @@ export default function ActivityInfo({ activity }) {
       <ImageContainer>
         <StyledImage
           alt={activity.title || "Activity Image"}
-          width={180}
-          height={180}
-          src="/assets/placeholder.jpg"
+          width={100}
+          height={100}
+          src={activity.imageUrl}
           priority
         />
         <HeartButton activity={activity} />
