@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
 import DatePicker from "react-datepicker";
-export default function DateInput() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setendDate] = useState(startDate);
-
+import "react-datepicker/dist/react-datepicker.css";
+import useDate from "@/hooks/useDate";
+export default function DateInnput() {
+  const { startDate, endDate, setStartDate, setendDate } = useDate();
   return (
     <DateContainer>
       <StartDate>

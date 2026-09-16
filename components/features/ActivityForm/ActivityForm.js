@@ -9,8 +9,7 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
-import "react-datepicker/dist/react-datepicker.css";
-import DateInput from "../Datepicker/Datepicker";
+import DateInnput from "../Datepicker/Datepicker";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
@@ -120,7 +119,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         placeholder="Which country does your activity belong to?"
       />
 
-      <DateInput />
+      <DateInnput />
 
       <PrimaryButton
         type="submit"
