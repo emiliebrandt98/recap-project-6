@@ -13,7 +13,6 @@ import DateInnput from "../Datepicker/datepicker";
 import useDate from "@/hooks/useDate";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
-  const { startDate, endDate, setStartDate, setEndDate } = useDate();
   const { data: allCategories } = useSWR("/api/categories");
 
   // ––– Select and Description
@@ -24,6 +23,8 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     selectedCategories,
     setSelectedCategories,
   } = useUpdateDefaultValues(activityID, allCategories);
+
+  const { startDate, endDate, setStartDate, setEndDate } = useDate(activityID);
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
