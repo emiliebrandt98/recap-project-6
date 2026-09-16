@@ -15,8 +15,6 @@ export default function ActivityList({ activities }) {
             id={activity._id}
             title={activity.title}
             categories={activity.categories}
-            startDate={activity.startDate}
-            endDate={activity.endDate}
             activity={activity}
           />
         );
