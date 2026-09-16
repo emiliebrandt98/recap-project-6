@@ -16,6 +16,7 @@ import { useImage } from "@/hooks/useImage";
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
   const [imageRemoved, setImageRemoved] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Select and Description
   const activityID = activities?.find((activity) => activity._id === id);
@@ -43,6 +44,8 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   async function handleSubmitActivity(event) {
     event.preventDefault();
 
+    setIsLoading(true);
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
@@ -53,6 +56,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
     if (data.categories.length < 1) {
       toast.error("Please select at least 1 category.");
+      setIsLoading(false);
       return;
     }
 
@@ -81,8 +85,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       delete data.image;
       await onSubmit(data);
     } catch (error) {
-      console.error({ status: error.message });
+      console.error({ message: error.message });
       toast.error("Image upload failed");
+      setIsLoading(false);
     }
   }
 
@@ -156,7 +161,13 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
       <PrimaryButton
         type="submit"
-        buttonText={isEditing ? "Update Activity" : "Create new Activity"}
+        buttonText={
+          isLoading
+            ? "Saving..."
+            : isEditing
+              ? "Update Activity"
+              : "Create new Activity"
+        }
         Icon={Check}
       />
       <Link href={isEditing ? `/activities/${id}` : "/"}>
