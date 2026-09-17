@@ -10,6 +10,8 @@ import {
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
 import { toast } from "react-toastify";
+import DateInnput from "../Datepicker/Datepicker";
+import useDate from "@/hooks/useDate";
 import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
 import { useImage } from "@/hooks/useImage";
 
@@ -28,6 +30,8 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     existingImageUrl,
     existingPublicId,
   } = useUpdateDefaultValues(activityID, allCategories);
+
+  const { startDate, endDate, setStartDate, setEndDate } = useDate(activityID);
 
   const handleSelectedCategories = (selected) => {
     if (selected && selected.length > 3) {
@@ -49,7 +53,9 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    //categories
+    data.startDate = startDate;
+    data.endDate = endDate;
+
     data.categories = selectedCategories.map(
       (categoryOption) => categoryOption.value
     );
@@ -60,6 +66,11 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       return;
     }
 
+    if (endDate < startDate) {
+      toast.error("The end date cannot be before the start date.");
+      setIsLoading(false);
+      return;
+    }
     //image
     const imageFile = formData.get("image");
 
@@ -151,6 +162,13 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         id="country"
         name="country"
         placeholder="Which country does your activity belong to?"
+      />
+
+      <DateInnput
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
       />
 
       <ActivityImageInput
