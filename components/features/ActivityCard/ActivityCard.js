@@ -17,9 +17,9 @@ export default function ActivityCard({
         <StyledImage
           priority
           alt={title}
-          width={180}
-          height={180}
+          fill
           src={imageUrl}
+          sizes="(max-width: 22rem) 80vw, 22rem"
         />
         <HeartButton id={id} />
       </ImageContainer>
@@ -82,8 +82,6 @@ const StyledCategories = styled.div`
 `;
 
 const StyledImage = styled(Image)`
-  width: 100%;
-  height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
 `;
