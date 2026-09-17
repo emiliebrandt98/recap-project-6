@@ -1,28 +1,52 @@
 import { useRef, useState, useEffect } from "react";
-import { X, SlidersVertical } from "lucide-react";
+import { X, SlidersVertical, ListSortDescending, Check } from "lucide-react";
 import useSWR from "swr";
 import styled from "styled-components";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button/Button";
 
-export default function CategoryFilter({ activeCategories, onApply }) {
-  const dialogRef = useRef(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+export default function Filter({
+  activeCategories,
+  onApply,
+  activeSortOrder,
+  onApplySort,
+}) {
+  const filterDialogRef = useRef(null);
+  const sortDialogRef = useRef(null);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openSort, setOpenSort] = useState(false);
   const [draftCategories, setDraftCategories] = useState([]);
+  const [draftSortOrder, setDraftSortOrder] = useState(activeSortOrder);
+
   const { data: categories, isLoading, error } = useSWR("/api/categories");
 
   useEffect(() => {
-    if (!dialogRef.current) return;
+    if (!filterDialogRef.current) return;
 
-    if (isDialogOpen) {
-      dialogRef.current.showModal();
+    if (openFilter) {
+      filterDialogRef.current.showModal();
     } else {
-      dialogRef.current.close();
+      filterDialogRef.current.close();
     }
-  }, [isDialogOpen]);
+  }, [openFilter]);
+
+  useEffect(() => {
+    if (!sortDialogRef.current) return;
+
+    if (openSort) {
+      sortDialogRef.current.showModal();
+    } else {
+      sortDialogRef.current.close();
+    }
+  }, [openSort]);
+
+  function handleOpenFilter() {
+    setDraftCategories(activeCategories);
+    setOpenFilter(true);
+  }
 
   function handleCancelFilter() {
     setDraftCategories(activeCategories);
-    setIsDialogOpen(false);
+    setOpenFilter(false);
   }
 
   function handleClearFilter() {
@@ -32,7 +56,7 @@ export default function CategoryFilter({ activeCategories, onApply }) {
 
   function handleApplyFilter() {
     onApply(draftCategories);
-    setIsDialogOpen(false);
+    setOpenFilter(false);
   }
 
   function handleToggleCheckbox(categoryName) {
@@ -47,6 +71,20 @@ export default function CategoryFilter({ activeCategories, onApply }) {
     }
   }
 
+  function handleCloseSort() {
+    setOpenSort(false);
+  }
+
+  function handleApplySort() {
+    onApplySort(draftSortOrder);
+    setOpenSort(false);
+  }
+
+  function handleCancelSort() {
+    setDraftSortOrder(activeSortOrder);
+    setOpenSort(false);
+  }
+
   if (error) return <p>Error loading filtered categories.</p>;
   if (isLoading || !categories) return null;
 
@@ -55,14 +93,20 @@ export default function CategoryFilter({ activeCategories, onApply }) {
       <FilterButtonWrapper>
         <FilterButton
           aria-label="Open category filter"
-          onClick={() => {
-            setIsDialogOpen(true);
-          }}
+          onClick={handleOpenFilter}
         >
           <SlidersVertical />
+
           {activeCategories.length > 0 && (
             <span>{activeCategories.length}</span>
           )}
+        </FilterButton>
+
+        <FilterButton
+          aria-label="Open Sort Dialog"
+          onClick={() => setOpenSort(true)}
+        >
+          <ListSortDescending />
         </FilterButton>
 
         {activeCategories.length > 0 && (
@@ -72,9 +116,10 @@ export default function CategoryFilter({ activeCategories, onApply }) {
         )}
       </FilterButtonWrapper>
 
-      <Dialog ref={dialogRef} onClose={() => setIsDialogOpen(false)}>
+      <Dialog ref={filterDialogRef} onClose={() => setOpenFilter(false)}>
         <DialogHeader>
           <h3>Category Filter</h3>
+
           <FilterButton onClick={handleCancelFilter} aria-label="Close dialog">
             <X />
           </FilterButton>
@@ -83,6 +128,7 @@ export default function CategoryFilter({ activeCategories, onApply }) {
         <CheckboxList>
           {categories.map((category) => {
             const isChecked = draftCategories.includes(category.name);
+
             return (
               <CheckboxItem key={category._id}>
                 <Checkbox
@@ -91,6 +137,7 @@ export default function CategoryFilter({ activeCategories, onApply }) {
                   checked={isChecked}
                   onChange={() => handleToggleCheckbox(category.name)}
                 />
+
                 <label htmlFor={category._id}>{category.name}</label>
               </CheckboxItem>
             );
@@ -98,13 +145,52 @@ export default function CategoryFilter({ activeCategories, onApply }) {
         </CheckboxList>
 
         <ButtonWrapper>
-          <PrimaryButton onClick={handleApplyFilter} buttonText={"Apply"} />
-          <SecondaryButton onClick={handleCancelFilter} buttonText={"Cancel"} />
+          <PrimaryButton onClick={handleApplyFilter} buttonText="Apply" />
+          <SecondaryButton onClick={handleCancelFilter} buttonText="Cancel" />
+        </ButtonWrapper>
+      </Dialog>
+
+      <Dialog ref={sortDialogRef} onClose={() => setOpenSort(false)}>
+        <DialogHeader>
+          <h3>Sort activities</h3>
+
+          <FilterButton
+            onClick={handleCloseSort}
+            aria-label="Close sort dialog"
+          >
+            <X />
+          </FilterButton>
+        </DialogHeader>
+
+        <CheckboxList>
+          <CheckboxItem>
+            <Checkbox
+              type="checkbox"
+              id="soonest"
+              checked={draftSortOrder === "soonest"}
+              onChange={() => setDraftSortOrder("soonest")}
+            />
+            <label htmlFor="soonest">Soonest</label>
+          </CheckboxItem>
+          <CheckboxItem>
+            <Checkbox
+              type="checkbox"
+              id="latest"
+              checked={draftSortOrder === "latest"}
+              onChange={() => setDraftSortOrder("latest")}
+            />
+            <label htmlFor="latest">Latest</label>
+          </CheckboxItem>
+        </CheckboxList>
+        <ButtonWrapper>
+          <PrimaryButton onClick={handleApplySort} buttonText="Apply" />
+          <SecondaryButton onClick={handleCancelSort} buttonText="Cancel" />
         </ButtonWrapper>
       </Dialog>
     </>
   );
 }
+
 const FilterButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
