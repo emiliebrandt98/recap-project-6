@@ -36,6 +36,9 @@ const ActivitySchema = new Schema(
     description: {
       type: String,
     },
+    note: {
+      type: String,
+    },
     area: {
       type: String,
     },

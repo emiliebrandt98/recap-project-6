@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
+import Notes from "@/components/features/Notes/Notes";
 import Dates from "@/components/Dates/Dates";
 
 export default function ActivityInfo({ activity }) {
@@ -39,6 +40,8 @@ export default function ActivityInfo({ activity }) {
         <p>{activity.area}</p>
         <p>{activity.country}</p>
       </StyledLocation>
+
+      <Notes />
     </>
   );
 }

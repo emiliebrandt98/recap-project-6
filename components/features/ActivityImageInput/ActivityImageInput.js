@@ -12,6 +12,7 @@ export default function ActivityImageInput({
 
   const isRealImage =
     existingImageUrl && existingImageUrl !== "/assets/placeholder.jpg";
+
   const displayedImageUrl = imageRemoved
     ? null
     : previewUrl || (isRealImage ? existingImageUrl : null);

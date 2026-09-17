@@ -38,6 +38,11 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+h2{
+  margin: 0;
+  font-size:1.25rem;
+}
+
 h3{
   font-size:1.25rem;
 }

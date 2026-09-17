@@ -36,17 +36,17 @@ const BaseButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 8px 2rem;
+  padding: 12px 8px;
+  border-radius: 8px;
 `;
 
 const StyledPrimaryButton = styled(BaseButton)`
-  background-color: var(--color-bG-Navbar);
+  background-color: lightblue;
   color: var(--color-Text);
   border: none;
 `;
 
 const StyledSecondaryButton = styled(BaseButton)`
-  background-color: var(--color-bG-Navbar);
   color: var(--color-Text);
-  border: none;
+  border: 2px solid lightblue;
 `;
