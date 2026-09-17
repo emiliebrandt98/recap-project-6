@@ -21,7 +21,7 @@ export default function ActivityCard({
           height={180}
           src={imageUrl}
         />
-        <HeartButton id={activity} />
+        <HeartButton id={id} />
       </ImageContainer>
       <Dates activity={activity} />
       <StyledTitle>{title}</StyledTitle>
