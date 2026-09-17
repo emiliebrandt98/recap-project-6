@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -19,27 +20,33 @@ export default function LocationMap({ area, country }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    if (!area || !country) return;
+    if (!area || !country) {
+      setCoordinates(null);
+      return;
+    }
 
     async function fetchCoordinates() {
       setIsLoading(true);
 
       try {
+        const searchQuery = [area, country].filter(Boolean).join(", ");
         const response = await fetch(
-          `https://eu1.locationiq.com/v1/search?key=pk.a3162d2e937f4eb70c598f6e65f77f13&q=${area}, ${country}&format=json`
+          `https://eu1.locationiq.com/v1/search?key=${process.env.NEXT_PUBLIC_LOCATIONIQ_KEY}&q=${encodeURIComponent(searchQuery)}&format=json`
         );
         const data = await response.json();
-        console.log("Nominatim Data:", data);
+
         if (data && data.length > 0) {
           setCoordinates({
-            latitude: data[0].lat,
-            longitude: data[0].lon,
+            latitude: parseFloat(data[0].lat),
+            longitude: parseFloat(data[0].lon),
           });
         } else {
           setCoordinates(null);
+          toast.error(`Could not find the location for ${area}, ${country}.`);
         }
       } catch (error) {
         console.error("message:", error.message);
+        toast.error("Something went wrong while fetching the map.");
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +74,12 @@ export default function LocationMap({ area, country }) {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    L.marker([coordinates.latitude, coordinates.longitude])
+    L.circle([coordinates.latitude, coordinates.longitude], {
+      color: "red",
+      fillColor: "#f03",
+      fillOpacity: 0.5,
+      radius: 500,
+    })
       .addTo(map)
       .bindPopup(`<b>${area}</b><br />${country}`)
       .openPopup();
@@ -80,14 +92,8 @@ export default function LocationMap({ area, country }) {
     };
   }, [coordinates, area, country]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <MapContainer>Loading Map...</MapContainer>;
   if (!area || !country) return;
-  if (!coordinates)
-    return (
-      <p>
-        Didn't found location of {area}, {country}.
-      </p>
-    );
 
   return (
     <>

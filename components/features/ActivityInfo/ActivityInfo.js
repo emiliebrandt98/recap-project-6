@@ -3,7 +3,14 @@ import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
 import Notes from "@/components/features/Notes/Notes";
 import Dates from "@/components/Dates/Dates";
-import LocationMap from "../LocationMap/LocationMap";
+import dynamic from "next/dynamic";
+
+const LocationMap = dynamic(
+  () => import("@/components/features/LocationMap/LocationMap.js"),
+  {
+    ssr: false,
+  }
+);
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
