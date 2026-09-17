@@ -43,10 +43,6 @@ export default function ActivityInfo({ activity }) {
   );
 }
 
-const DateWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-`;
 const ImageContainer = styled.div`
   width: 100%;
   height: 180px;

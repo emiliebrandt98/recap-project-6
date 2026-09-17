@@ -2,7 +2,7 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function DateInnput({
+export default function DateInput({
   startDate,
   endDate,
   setStartDate,
@@ -20,7 +20,9 @@ export default function DateInnput({
           minDate={new Date()}
           onChange={(date) => {
             setStartDate(date);
-            setEndDate(date);
+            if (!endDate || date > endDate) {
+              setEndDate(date);
+            }
           }}
           showIcon
           autoComplete="off"
@@ -31,6 +33,7 @@ export default function DateInnput({
         <label htmlFor="endDate">End:</label>
         <DatePicker
           minDate={startDate || new Date()}
+          disabled={!startDate}
           dateFormat="dd.MM.yyyy"
           id="endDate"
           name="endDate"

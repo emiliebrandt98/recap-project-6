@@ -68,6 +68,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
     if (endDate < startDate) {
       toast.error("The end date cannot be before the start date.");
+      setIsLoading(false);
       return;
     }
     //image

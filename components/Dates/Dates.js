@@ -4,11 +4,7 @@ import useDate from "@/hooks/useDate";
 export default function Dates({ activity }) {
   const { startDate, endDate } = useDate(activity);
 
-  if (!startDate) {
-    return null;
-  }
-
-  if (!endDate) {
+  if (!startDate || !endDate) {
     return null;
   }
 
