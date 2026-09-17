@@ -35,6 +35,11 @@ export default function LocationMap({ area, country }) {
         );
         const data = await response.json();
 
+        if (!response.ok) {
+          toast.error("Error displaing location map.");
+          return;
+        }
+
         if (data && data.length > 0) {
           setCoordinates({
             latitude: parseFloat(data[0].lat),
