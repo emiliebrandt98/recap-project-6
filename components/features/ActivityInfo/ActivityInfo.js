@@ -49,7 +49,12 @@ export default function ActivityInfo({ activity }) {
         <p>{activity.country}</p>
       </StyledLocation>
 
-      <LocationMap area={activity.area} country={activity.country} />
+      <LocationMap
+        latitude={activity.latitude}
+        longitude={activity.longitude}
+        area={activity.area}
+        country={activity.country}
+      />
 
       <Notes />
     </>
