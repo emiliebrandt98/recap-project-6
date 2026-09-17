@@ -45,6 +45,12 @@ const ActivitySchema = new Schema(
     country: {
       type: String,
     },
+    latitude: {
+      type: Number,
+    },
+    longitude: {
+      type: Number,
+    },
     startDate: {
       type: Date,
       required: false,
