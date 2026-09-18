@@ -16,16 +16,16 @@ const LocationMap = dynamic(
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
 
-  const { data, isLoading, errorMessage } = useOpenWeather({
-    key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
-    lat: activity.latitude,
-    lon: activity.longitude,
-    lang: "en",
-    unit: "metric",
-  });
+  // const { data, isLoading, errorMessage } = useOpenWeather({
+  //   key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
+  //   lat: activity.latitude,
+  //   lon: activity.longitude,
+  //   lang: "en",
+  //   unit: "metric",
+  // });
 
-  if (isLoading) return <p>Loading weather...</p>;
-  if (errorMessage) return <p>Error: {errorMessage}</p>;
+  // if (isLoading) return <p>Loading weather...</p>;
+  // if (errorMessage) return <p>Error: {errorMessage}</p>;
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function ActivityInfo({ activity }) {
         country={activity.country}
       />
 
-      <ReactWeather
+      {/* <ReactWeather
         isLoading={isLoading}
         errorMessage={errorMessage}
         data={data}
@@ -76,7 +76,7 @@ export default function ActivityInfo({ activity }) {
         locationLabel={activity.area}
         unitsLabels={{ temperature: "C", windSpeed: "Km/h" }}
         showForecast
-      />
+      /> */}
 
       <Notes />
     </>

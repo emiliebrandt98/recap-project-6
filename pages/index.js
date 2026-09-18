@@ -46,7 +46,7 @@ export default function HomePage({ activities, isLoading, error }) {
 
   return (
     <>
-      <StyledHeader>Activities List</StyledHeader>
+      <h1>Activities List</h1>
       <SearchContainer>
         <SearchBar search={search} onSearch={setSearch} />
         <Filter
@@ -61,9 +61,6 @@ export default function HomePage({ activities, isLoading, error }) {
     </>
   );
 }
-const StyledHeader = styled.h1`
-  text-align: center;
-`;
 
 const SearchContainer = styled.div`
   display: flex;
