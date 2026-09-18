@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import styled from "styled-components";
+import Link from "next/link";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -71,12 +72,12 @@ export default function MapPage({ activities }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {activities.map((activity) => {
-          if (
-            !activity ||
-            !activity.latitude == null ||
-            activity.longitude == null
-          ) {
+        {(activities ?? []).map((activity) => {
+          if (!activity) {
+            return null;
+          }
+
+          if (activity.latitude == null || activity.longitude == null) {
             return null;
           }
 
@@ -102,6 +103,7 @@ export default function MapPage({ activities }) {
             iconAnchor: [13, 13],
             popupAnchor: [0, -13],
           });
+
           return (
             <Marker
               key={activity._id}
@@ -109,7 +111,9 @@ export default function MapPage({ activities }) {
               icon={markerIcon}
             >
               <Popup>
-                <strong>{activity.title}</strong>
+                <Link href={`/activities/${activity._id}`}>
+                  <strong>{activity.title}</strong>
+                </Link>
                 <br />
                 Kategorie: {category || "Keine Kategorie"}
               </Popup>
