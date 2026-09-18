@@ -29,21 +29,24 @@ export default function ActivityInfo({ activity }) {
 
   return (
     <>
-      <ImageContainer>
-        <StyledImage
-          alt={activity.title || "Activity Image"}
-          width={100}
-          height={100}
-          src={activity.imageUrl}
-          priority
-        />
-        <HeartButton activity={activity} />
-      </ImageContainer>
-      <Dates activity={activity} />
-      <StyledTitle>
-        <h2>{activity.title}</h2>
+      <HeaderTextWrapper>
+        <ImageContainer>
+          <StyledImage
+            alt={activity.title || "Activity Image"}
+            width={100}
+            height={100}
+            src={activity.imageUrl}
+            priority
+          />
+          <HeartButton activity={activity} />
+        </ImageContainer>
 
-        <StyledCategories>
+        <HeaderText>
+          <Dates activity={activity} />
+          <h1>{activity.title}</h1>
+        </HeaderText>
+
+        <CategoriesWrapper>
           {activity?.categories?.map((category) => {
             return (
               <StyledCategory key={category._id}>
@@ -51,24 +54,25 @@ export default function ActivityInfo({ activity }) {
               </StyledCategory>
             );
           })}
-        </StyledCategories>
-      </StyledTitle>
+        </CategoriesWrapper>
+      </HeaderTextWrapper>
 
       <StyledDescription>{activity.description}</StyledDescription>
 
-      <StyledLocation>
-        <p>{activity.area}</p>
-        <p>{activity.country}</p>
-      </StyledLocation>
+      <LocationWrapper>
+        <h2>Location</h2>
+        <p>
+          {activity.area}, {activity.country}
+        </p>
 
-      <LocationMap
-        latitude={activity.latitude}
-        longitude={activity.longitude}
-        area={activity.area}
-        country={activity.country}
-      />
+        <LocationMap
+          latitude={activity.latitude}
+          longitude={activity.longitude}
+          area={activity.area}
+          country={activity.country}
+        />
 
-      {/* <ReactWeather
+        {/* <ReactWeather
         isLoading={isLoading}
         errorMessage={errorMessage}
         data={data}
@@ -77,8 +81,12 @@ export default function ActivityInfo({ activity }) {
         unitsLabels={{ temperature: "C", windSpeed: "Km/h" }}
         showForecast
       /> */}
+      </LocationWrapper>
 
-      <Notes />
+      <NoteWrapper>
+        <h2>Note</h2>
+        <Notes />
+      </NoteWrapper>
     </>
   );
 }
@@ -96,58 +104,46 @@ const StyledImage = styled(Image)`
   border-radius: 0.5rem;
 `;
 
-const StyledTitle = styled.div`
-  width: 100%;
-  margin: 10px 0 0;
-  text-align: left;
-  overflow-wrap: break-word;
-
-  h2 {
-    margin: 0;
-    color: var(--color-Headline);
-    font-family: var(--headline-Text);
-    font-weight: 700;
-  }
+const HeaderTextWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-ml);
 `;
 
-const StyledCategories = styled.div`
-  width: 100%;
-  margin-top: 10px;
+const HeaderText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+`;
 
+const CategoriesWrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: flex-start;
-  gap: 5px;
+  gap: var(--spacing-m);
   flex-wrap: wrap;
 `;
 
 const StyledCategory = styled.span`
-  background-color: var(--color-Accent);
-  color: var(--color-Text);
-  font-family: var(--ui-Text);
-  font-weight: 400;
-  padding: 12px 24px;
-  border-radius: 1rem;
+  background-color: var(--color-accent);
+  font-size: 0.75rem;
+  padding: var(--padding-m) var(--padding-ml);
+  border-radius: var(--border-radius-l);
 `;
 
 const StyledDescription = styled.p`
-  margin-top: 20px;
-  color: var(--color-Text);
-  font-family: var(--ui-Text);
-  font-weight: 400;
   line-height: 1.5;
   overflow-wrap: break-word;
 `;
 
-const StyledLocation = styled.section`
-  margin-top: 20px;
-
+const LocationWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: var(--spacing-s);
+`;
 
-  p {
-    margin: 0;
-    color: var(--color-Text);
-    font-family: var(--ui-Text);
-  }
+const NoteWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
 `;

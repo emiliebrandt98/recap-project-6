@@ -52,13 +52,21 @@ export default function DeleteDialog({
 }
 
 const Dialog = styled.dialog`
-  width: 20.9375rem;
-  padding: 1.5rem 1.25rem;
+  width: 335px;
+  padding: var(--padding-l);
+
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: var(--spacing-l);
 
-  border-radius: 0.75rem;
-  background: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: var(--border-radius-m);
+  background: var(--color-background-dialog);
   border: none;
 
   &:not([open]) {
@@ -77,7 +85,7 @@ const Dialog = styled.dialog`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
   width: 100%;
+  gap: var(--spacing-m);
 `;

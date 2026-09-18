@@ -130,35 +130,35 @@ export default function Notes() {
 const NoteForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 400px;
-  margin: auto;
-  background-color: #f2f2f2;
-  padding: 16px 1rem;
-  border-radius: 8px;
+  gap: var(--spacing-l);
+  width: 100%;
+  background-color: var(--color-grey-light);
+  padding: var(--padding-l);
+  border-radius: var(--border-radius-m);
 `;
 
 const Textarea = styled.textarea`
-  padding: 8px;
+  padding: var(--padding-m);
   min-height: 150px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-s);
 `;
 
 const NoteButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
+  gap: var(--spacing-m);
+  padding: var(--padding-m) var(--padding-ml);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius-m);
 
   width: 100%;
   cursor: pointer;
 `;
 
 const PlusIcon = styled(Plus)`
-  background-color: lightgrey;
+  background-color: var(--color-primary);
+  color: var(--color-icon-light);
   padding: 2px;
   border-radius: 4px;
 `;
@@ -166,32 +166,32 @@ const PlusIcon = styled(Plus)`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 12px;
+  gap: var(--spacing-m);
   width: 100%;
 `;
 
 const NoteText = styled.p`
-  font-size: 1rem;
   line-height: 1.2rem;
 `;
 
 const CurrentNote = styled.div`
   background-color: #f2f2f2;
   padding: 16px 20px;
-  border-radius: 8px;
+  padding: var(--padding-l);
+  border-radius: var(--border-radius-m);
 `;
 
 const ButtonLinkWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: 8px;
-  padding: 6px 8px;
+  gap: var(--spacing-m);
 `;
 
 const Button = styled.button`
   background-color: none;
   border: none;
+  padding: var(--padding-ml) var(--padding-m);
   text-decoration: underline;
   cursor: pointer;
 `;

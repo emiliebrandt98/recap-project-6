@@ -26,7 +26,7 @@ export default function ActivityDetailsPage() {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <StyledMessage>Loading your page. Just a second.</StyledMessage>
+        <p>Loading your page. Just a second.</p>
       </>
     );
   }
@@ -35,10 +35,10 @@ export default function ActivityDetailsPage() {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <StyledMessage>
+        <p>
           Sorry we couldn't retrieve the activity at the moment. Please try
           again later.
-        </StyledMessage>
+        </p>
       </>
     );
   }
@@ -79,21 +79,14 @@ export default function ActivityDetailsPage() {
   );
 }
 
-const StyledContainer = styled.main`
-  width: min(80vw, 22rem);
-  padding: 10px;
-
-  border: black solid 3px;
+const StyledContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 `;
 
 const StyledButtons = styled.div`
   display: flex;
   flex-direction: column;
-  color: var(--color-Text-White);
-  margin-top: 20px;
-  gap: 5px;
-`;
-
-const StyledMessage = styled.p`
-  text-align: center;
+  gap: var(--spacing-m);
 `;

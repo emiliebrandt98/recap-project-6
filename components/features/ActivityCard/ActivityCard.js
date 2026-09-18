@@ -48,7 +48,7 @@ const StyledCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--spacing-l);
+  gap: var(--spacing-m);
 
   min-width: 311px;
   color: var(--font-text-dark);
