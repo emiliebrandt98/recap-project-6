@@ -18,11 +18,11 @@ export default function ActivityDetailsPage() {
     setIsConfirming,
     handleDelete,
     activity,
-    isLoading,
+    isLoadingActivity,
     error,
   } = useActivity();
 
-  if (isLoading) {
+  if (isLoadingActivity) {
     return (
       <>
         <LinkTo pathname={"/"} />
