@@ -14,6 +14,7 @@ import DateInnput from "../Datepicker/Datepicker";
 import useDate from "@/hooks/useDate";
 import ActivityImageInput from "../ActivityImageInput/ActivityImageInput";
 import { useImage } from "@/hooks/useImage";
+import { getCoordinates } from "@/lib/geocode";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
@@ -43,7 +44,6 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
     setSelectedCategories(selected || []);
   };
 
-  // Image
   const { uploadImage, deleteImage } = useImage();
 
   async function handleSubmitActivity(event) {
@@ -72,7 +72,7 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
       setIsLoading(false);
       return;
     }
-    //image
+
     const imageFile = formData.get("image");
 
     try {
@@ -93,14 +93,35 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
         data.imageUrl = activityID?.imageUrl ?? "/assets/placeholder.jpg";
         data.imagePublicId = activityID?.imagePublicId ?? null;
       }
-
-      delete data.image;
-      await onSubmit(data);
     } catch (error) {
       console.error({ message: error.message });
       toast.error("Image upload failed");
       setIsLoading(false);
+      return;
     }
+
+    try {
+      const coordinates = await getCoordinates(data.area, data.country);
+
+      if (!coordinates) {
+        toast.error(
+          `Could not find the location for ${data.area}, ${data.country}.`
+        );
+        setIsLoading(false);
+        return;
+      }
+
+      data.latitude = coordinates.latitude;
+      data.longitude = coordinates.longitude;
+    } catch (error) {
+      console.error({ message: error.message });
+      toast.error("Something went wrong while looking up the location.");
+      setIsLoading(false);
+      return;
+    }
+
+    delete data.image;
+    await onSubmit(data);
   }
 
   return (

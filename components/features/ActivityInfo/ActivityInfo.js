@@ -3,6 +3,14 @@ import styled from "styled-components";
 import HeartButton from "@/components/ui/HeartButton/HeartButton";
 import Notes from "@/components/features/Notes/Notes";
 import Dates from "@/components/Dates/Dates";
+import dynamic from "next/dynamic";
+
+const LocationMap = dynamic(
+  () => import("@/components/features/LocationMap/LocationMap.js"),
+  {
+    ssr: false,
+  }
+);
 
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
@@ -40,6 +48,13 @@ export default function ActivityInfo({ activity }) {
         <p>{activity.area}</p>
         <p>{activity.country}</p>
       </StyledLocation>
+
+      <LocationMap
+        latitude={activity.latitude}
+        longitude={activity.longitude}
+        area={activity.area}
+        country={activity.country}
+      />
 
       <Notes />
     </>
