@@ -59,7 +59,6 @@ export default function ActivityDetailsPage() {
               router.push(`/activities/${activity?._id}/updateActivity`)
             }
           />
-
           <SecondaryButton
             type="button"
             onClick={() => setIsConfirming(true)}

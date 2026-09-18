@@ -1,34 +1,45 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { House, PlusCircle, Heart } from "lucide-react";
+import { House, PlusCircle, Heart, MapPin } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
   return (
     <StyledFooter>
       <StyledLink $active={router.pathname === "/"} href="/" aria-label="Home">
-        <StyledIconContainer1>
+        <StyledIconContainer>
           <House />
-        </StyledIconContainer1>
+        </StyledIconContainer>
       </StyledLink>
+
+      <StyledLink
+        $active={router.pathname === "/map/map"}
+        href="/map/map"
+        aria-label="map"
+      >
+        <StyledIconContainer>
+          <MapPin />
+        </StyledIconContainer>
+      </StyledLink>
+
       <StyledLink
         $active={router.pathname === "/activities/createActivity"}
         href="/activities/createActivity"
         aria-label="Create Activity"
       >
-        <StyledIconContainer2>
+        <StyledIconContainer>
           <PlusCircle />
-        </StyledIconContainer2>
+        </StyledIconContainer>
       </StyledLink>
       <StyledLink
         $active={router.pathname === "/activities/favoriteActivities"}
         href="/activities/favoriteActivities"
         aria-label="Favorites"
       >
-        <StyledIconContainer2>
+        <StyledIconContainer>
           <Heart />
-        </StyledIconContainer2>
+        </StyledIconContainer>
       </StyledLink>
     </StyledFooter>
   );
@@ -41,14 +52,7 @@ const StyledFooter = styled.footer`
   bottom: 0;
 `;
 
-const StyledIconContainer1 = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  padding: 10px;
-`;
-
-const StyledIconContainer2 = styled.div`
+const StyledIconContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
