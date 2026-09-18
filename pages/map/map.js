@@ -102,7 +102,6 @@ export default function MapPage({ activities }) {
             iconAnchor: [13, 13],
             popupAnchor: [0, -13],
           });
-
           return (
             <Marker
               key={activity._id}
