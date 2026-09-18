@@ -2,7 +2,11 @@ import { useRef, useState, useEffect } from "react";
 import { X, SlidersVertical, ListSortDescending, Check } from "lucide-react";
 import useSWR from "swr";
 import styled from "styled-components";
-import { PrimaryButton, SecondaryButton } from "@/components/ui/Button/Button";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  GreyIconButton,
+} from "@/components/ui/Button/Button";
 
 export default function Filter({
   activeCategories,
@@ -91,38 +95,39 @@ export default function Filter({
   return (
     <>
       <FilterButtonWrapper>
-        <FilterButton
-          aria-label="Open category filter"
+        <GreyIconButton
+          ariaLabel="Open category filter"
           onClick={handleOpenFilter}
-        >
-          <SlidersVertical />
+          Icon={SlidersVertical}
+          Content={
+            activeCategories.length > 0 && (
+              <span>{activeCategories.length}</span>
+            )
+          }
+        />
 
-          {activeCategories.length > 0 && (
-            <span>{activeCategories.length}</span>
-          )}
-        </FilterButton>
-
-        <FilterButton
-          aria-label="Open Sort Dialog"
+        <GreyIconButton
+          ariaLabel="Open Sort Dialog"
           onClick={() => setOpenSort(true)}
-        >
-          <ListSortDescending />
-        </FilterButton>
+          Icon={ListSortDescending}
+        />
 
         {activeCategories.length > 0 && (
-          <FilterButton onClick={handleClearFilter} aria-label="Clear filter">
-            <X />
-          </FilterButton>
+          <GreyIconButton
+            onClick={handleClearFilter}
+            ariaLabel="Clear filter"
+            Icon={X}
+          />
         )}
       </FilterButtonWrapper>
 
       <Dialog ref={filterDialogRef} onClose={() => setOpenFilter(false)}>
         <DialogHeader>
-          <h3>Category Filter</h3>
+          <h2>Category Filter</h2>
 
-          <FilterButton onClick={handleCancelFilter} aria-label="Close dialog">
+          <CancelButton onClick={handleCancelFilter} aria-label="Close dialog">
             <X />
-          </FilterButton>
+          </CancelButton>
         </DialogHeader>
 
         <CheckboxList>
@@ -152,14 +157,14 @@ export default function Filter({
 
       <Dialog ref={sortDialogRef} onClose={() => setOpenSort(false)}>
         <DialogHeader>
-          <h3>Sort activities</h3>
+          <h2>Sort activities</h2>
 
-          <FilterButton
+          <CancelButton
             onClick={handleCloseSort}
             aria-label="Close sort dialog"
           >
             <X />
-          </FilterButton>
+          </CancelButton>
         </DialogHeader>
 
         <CheckboxList>
@@ -194,36 +199,33 @@ export default function Filter({
 const FilterButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 0.75rem;
+  gap: var(--spacing-m);
 `;
 
-const FilterButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3rem;
-  height: 3rem;
-  padding: 0.5rem;
-
-  border-radius: 7rem;
-  background-color: #f1f1f1;
+const CancelButton = styled.button`
+  color: var(--color-grey-dark);
+  background: none;
   border: none;
-  color: #626262;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #ffecd1;
-  }
+  cursor: pointer;
+  padding: 0.5rem;
 `;
 
 const Dialog = styled.dialog`
-  width: 20.9375rem;
-  padding: 1.5rem 1.25rem;
+  width: 335px;
+  padding: var(--padding-l);
+
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: var(--spacing-l);
 
-  border-radius: 0.75rem;
-  background: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: var(--border-radius-m);
+  background: var(--color-background-dialog);
   border: none;
 
   &:not([open]) {
@@ -252,7 +254,7 @@ const CheckboxList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.125rem;
+  gap: var(--spacing-ml);
   align-self: stretch;
   padding: 0;
 `;
@@ -260,7 +262,7 @@ const CheckboxList = styled.ul`
 const CheckboxItem = styled.li`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-m);
   align-self: stretch;
   list-style: none;
 `;
@@ -279,6 +281,7 @@ const Checkbox = styled.input`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-m);
 `;

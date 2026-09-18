@@ -3,25 +3,17 @@ import Navbar from "@/components/features/Navbar/Navbar.js";
 
 export default function Layout({ children }) {
   return (
-    <LayoutWrapper>
-      <HeaderContainer></HeaderContainer>
-
+    <div>
       <main>{children}</main>
       <Navbar />
-    </LayoutWrapper>
+    </div>
   );
 }
-const LayoutWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-`;
-
-const HeaderContainer = styled.header`
-  width: 100%;
-  text-align: center;
-  border: solid black 2px;
-`;
+// const LayoutWrapper = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0 auto;
+// `;

@@ -8,19 +8,15 @@ export default function Navbar() {
   return (
     <StyledFooter>
       <StyledLink $active={router.pathname === "/"} href="/" aria-label="Home">
-        <StyledIconContainer>
-          <House />
-        </StyledIconContainer>
+        <House size={24} />
       </StyledLink>
 
       <StyledLink
         $active={router.pathname === "/map/map"}
         href="/map/map"
-        aria-label="map"
+        aria-label="Map"
       >
-        <StyledIconContainer>
-          <MapPin />
-        </StyledIconContainer>
+          <MapPin size={24}/>
       </StyledLink>
 
       <StyledLink
@@ -28,43 +24,40 @@ export default function Navbar() {
         href="/activities/createActivity"
         aria-label="Create Activity"
       >
-        <StyledIconContainer>
-          <PlusCircle />
-        </StyledIconContainer>
+        <PlusCircle size={24} />
       </StyledLink>
+
       <StyledLink
         $active={router.pathname === "/activities/favoriteActivities"}
         href="/activities/favoriteActivities"
         aria-label="Favorites"
       >
-        <StyledIconContainer>
-          <Heart />
-        </StyledIconContainer>
+        <Heart size={24} />
       </StyledLink>
     </StyledFooter>
   );
 }
 const StyledFooter = styled.footer`
-  background-color: var(--color-bG-Navbar);
-  width: 100%;
   display: flex;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  background-color: var(--color-grey-light);
   position: fixed;
   bottom: 0;
-`;
-
-const StyledIconContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  padding: 10px;
+  left: 0;
 `;
 
 const StyledLink = styled(Link)`
   flex: 1;
-  color: ${(props) => (props.$active ? "white" : "var(--color-Text)")};
-  background-color: ${(props) =>
-    props.$active ? "var(--color-Button)" : "var(--color-bG-Navbar)"};
+  height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  text-decoration: none;
+
+  color: ${(props) =>
+    props.$active ? "var(--color-icon-light)" : "var(--color-icon-dark)"};
+  background-color: ${(props) =>
+    props.$active ? "var(--color-primary)" : "var(--color-grey-light)"};
 `;

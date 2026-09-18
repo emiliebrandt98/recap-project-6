@@ -29,6 +29,8 @@ export default function UpdateActivity({ activities }) {
 
   return (
     <>
+      <h1>Edit Activity</h1>
+
       <ActivityForm
         onSubmit={handleUpdateSubmit}
         isEditing={true}

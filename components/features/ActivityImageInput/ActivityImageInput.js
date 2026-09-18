@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
-import { X } from "lucide-react";
+import { X, Upload } from "lucide-react";
+import { GreyIconButton } from "@/components/ui/Button/Button.js";
 
 export default function ActivityImageInput({
   existingImageUrl,
@@ -38,10 +39,8 @@ export default function ActivityImageInput({
   }
 
   return (
-    <>
-      <label htmlFor="image">Image</label>
-
-      <input
+    <ImageInputWrapper>
+      <HiddenInput
         ref={fileInputRef}
         type="file"
         name="image"
@@ -50,27 +49,80 @@ export default function ActivityImageInput({
         onChange={handleImageChange}
       />
 
-      {displayedImageUrl && (
-        <PreviewImage src={displayedImageUrl} alt="Preview of selected image" />
+      {!displayedImageUrl && (
+        <UploadButton
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload size={16} />
+          <span>Choose image</span>
+        </UploadButton>
       )}
 
-      {displayedImageUrl && displayedImageUrl !== "/assets/placeholder.jpg" && (
-        <button
-          type="button"
-          onClick={handleRemoveImage}
-          aria-label="Remove image"
-        >
-          <X size={16} />
-        </button>
+      {displayedImageUrl && (
+        <PreviewContainer>
+          <StyledRemoveButton
+            type="button"
+            onClick={handleRemoveImage}
+            ariaLabel="Remove image"
+            Icon={X}
+          />
+          <PreviewImage
+            src={displayedImageUrl}
+            alt="Preview of selected image"
+          />
+        </PreviewContainer>
       )}
-    </>
+    </ImageInputWrapper>
   );
 }
 
+const ImageInputWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-m);
+  align-items: flex-start;
+`;
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+const UploadButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-m);
+  padding: var(--padding-m) var(--padding-ml);
+  background-color: var(--color-grey-light);
+  color: var(--font-text-dark);
+  border: 1px dashed var(--color-grey-dark);
+  border-radius: var(--border-radius-s);
+  cursor: pointer;
+  font-size: 0.75rem;
+
+  &:hover {
+    background-color: var(--color-accent);
+  }
+`;
+
+const PreviewContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+`;
+
 const PreviewImage = styled.img`
-  max-width: 100%;
+  display: block;
+  width: 100%;
   max-height: 200px;
   object-fit: contain;
-  width: auto;
-  height: auto;
+  border-radius: var(--border-radius-m);
+`;
+
+const StyledRemoveButton = styled(GreyIconButton)`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
 `;

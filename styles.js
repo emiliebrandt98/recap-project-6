@@ -14,50 +14,117 @@ const inter = Inter({
 export default createGlobalStyle`
 
    :root {
-    // fonts
-    --headline-Text: ${poppins.style.fontFamily};
-    --ui-Text: ${inter.style.fontFamily};
+    // font-family
+    --font-headline: ${poppins.style.fontFamily};
+    --font-body: ${inter.style.fontFamily};
+
+    // font-sizes
+    --font-size-h1: 2rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.25rem;
+    --font-size-body: 1rem;
+    --font-size-info: 0.75rem;
+
+    // font-color
+    --font-text-dark: #001524;
+    --font-text-light: #FFFFFF;
+    --font-info: #3e3e3e;
 
     //colors
-    --color-Text: #001524;
-    --color-Bookmark: #FF7D00;
-    --color-Button: #15616D;
-    --color-bG: #FFFFFF;
-    --color-Accent: #FFECD1;
-    --color-bG-Navbar: #F1F1F1;
-    --color-Text-White: #FFFFFF
-      
+    --color-primary: #15616D;
+    --color-primary-hover-1: #0e464f;
+    --color-primary-hover-2: #d6e3e5;
+    --color-secondary: #FF7D00;
+    --color-secondary-hover: #dc6d04;
+    --color-accent: #FFECD1;
 
+    --color-background: #fbfbfb;
+    --color-background-dialog: #ffffff;
 
+    --color-icon-dark: #001524;
+    --color-icon-light: #ffffff;
 
+    --color-grey-dark: #636363;
+    --color-grey-light: #f1f1f1;
+
+    // border-radius
+    --border-radius-l: 7rem;
+    --border-radius-m: 0.75rem;
+    --border-radius-s: 0.25rem;
+
+    // spacing
+    --spacing-s: 6px; 
+    --spacing-m: 12px; 
+    --spacing-ml: 18px; 
+    --spacing-l: 24px; 
+    --spacing-xl: 48px; 
+    --spacing-x: 64px;
+    
+    // padding
+    --padding-m: 8px;
+    --padding-ml: 12px;
+    --padding-l: 24px;
+    --padding-xl: 30px;
 }
+  html {
+    scroll-behavior: smooth;
+  }
 
   *,
   *::before,
   *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
-h2{
-  margin: 0;
-  font-size:1.25rem;
-}
+  h1, h2, h3 {
+    font-family: ${poppins.style.fontFamily};
+  }
 
-h3{
-  font-size:1.25rem;
-}
+  h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 700;
+    line-height: 2.25rem;
+    color: var(--font-text-dark);
+  }
+
+  h2{
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+    line-height: 1.75rem;
+    color: var(--font-text-dark);
+  }
+
+  h3{
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+    line-height: 1.5rem;
+    color: var(--font-text-dark);
+  }
 
   body {
     min-width: 375px;
-    max-width: 100%;
-    font-family: ${inter.style.fontFamily};
     min-height: 100vh;
-    margin: 0;
+    max-width: 100%;
 
+    font-family: ${inter.style.fontFamily};
+    font-size: var(--font-size-body);
+
+    background-color: var( --color-background);
+    color: var(--font-text-dark);
   }
 
   main {
-    margin: 24px 2rem 60px 2rem;
-  
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    gap: 32px;
+
+    margin: 24px 2rem 80px 2rem;
+  }
+
+  input, button {
+    font-family: inherit;
   }
 `;

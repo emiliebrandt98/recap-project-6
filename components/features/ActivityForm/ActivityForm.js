@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState } from "react";
 import { X, Check } from "lucide-react";
 import useSWR from "swr";
@@ -126,93 +126,125 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 
   return (
     <Form onSubmit={handleSubmitActivity}>
-      <h1>{isEditing ? "Edit Activity" : "Create new Activity"}</h1>
+      <Fieldset>
+        <legend>Activity Basics</legend>
 
-      <label htmlFor="title">
-        Title <small>(required)</small>
-      </label>
+        <LabelInputWrapper>
+          <label htmlFor="title">
+            Activity Title <small>(required)</small>
+          </label>
 
-      <Input
-        defaultValue={activityID?.title}
-        id="title"
-        name="title"
-        placeholder="Name for your activity"
-        required
-      />
+          <Input
+            defaultValue={activityID?.title}
+            id="title"
+            name="title"
+            placeholder="e.g. Sunset Yoga at the Beach"
+            required
+          />
+        </LabelInputWrapper>
 
-      <TextContainer>
-        <label htmlFor="description">Description</label>
+        <LabelInputWrapper>
+          <label htmlFor="category">
+            Category <small>(required)</small>
+          </label>
 
-        <Textarea
-          id="description"
-          name="description"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          rows={8}
-          maxLength={400}
-          placeholder="Describe your activity ..."
+          <small>Select up to 3 categories</small>
+
+          <CategorySelect
+            value={selectedCategories}
+            onChange={handleSelectedCategories}
+            placeholder="Please select a Category"
+          />
+        </LabelInputWrapper>
+      </Fieldset>
+
+      <Fieldset>
+        <legend>Additional Information</legend>
+
+        <LabelInputWrapper>
+          <label htmlFor="description">About this activity</label>
+
+          <Textarea
+            id="description"
+            name="description"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            rows={8}
+            maxLength={400}
+            placeholder="Share details, what to bring, or what to expect ..."
+          />
+
+          <LetterCount>{400 - description.length} Letters left</LetterCount>
+        </LabelInputWrapper>
+
+        <LabelInputWrapper>
+          <label htmlFor="image">Image</label>
+
+          <small>Add 1 nice photo for your activity</small>
+
+          <ActivityImageInput
+            existingImageUrl={existingImageUrl}
+            imageRemoved={imageRemoved}
+            onImageRemoved={setImageRemoved}
+          />
+        </LabelInputWrapper>
+      </Fieldset>
+
+      <Fieldset>
+        <legend>Date</legend>
+
+        <DateInnput
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
+      </Fieldset>
 
-        <LetterCount>{400 - description.length} Letters left</LetterCount>
-      </TextContainer>
+      <Fieldset>
+        <legend>Location</legend>
 
-      <label htmlFor="category">
-        Category <small>(required)</small>
-      </label>
+        <small>A map is shown when area and country is provided.</small>
 
-      <small>You can select a maximum of 3 categories.</small>
+        <LabelInputWrapper>
+          <label htmlFor="area">Area</label>
 
-      <CategorySelect
-        value={selectedCategories}
-        onChange={handleSelectedCategories}
-        placeholder="Please select a Category"
-      />
+          <Input
+            defaultValue={activityID?.area}
+            id="area"
+            name="area"
+            placeholder="Which area does your activity belong to?"
+          />
+        </LabelInputWrapper>
 
-      <label htmlFor="area">Area</label>
+        <LabelInputWrapper>
+          <label htmlFor="country">Country</label>
 
-      <Input
-        defaultValue={activityID?.area}
-        id="area"
-        name="area"
-        placeholder="Which area does your activity belong to?"
-      />
+          <Input
+            defaultValue={activityID?.country}
+            id="country"
+            name="country"
+            placeholder="Which country does your activity belong to?"
+          />
+        </LabelInputWrapper>
+      </Fieldset>
 
-      <label htmlFor="country">Country</label>
-
-      <Input
-        defaultValue={activityID?.country}
-        id="country"
-        name="country"
-        placeholder="Which country does your activity belong to?"
-      />
-
-      <DateInnput
-        startDate={startDate}
-        endDate={endDate}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
-      />
-
-      <ActivityImageInput
-        existingImageUrl={existingImageUrl}
-        imageRemoved={imageRemoved}
-        onImageRemoved={setImageRemoved}
-      />
-
-      <PrimaryButton
-        type="submit"
-        buttonText={
-          isLoading
-            ? "Saving..."
-            : isEditing
-              ? "Update Activity"
-              : "Create new Activity"
-        }
-        Icon={Check}
-      />
-      <Link href={isEditing ? `/activities/${id}` : "/"}>
-        <SecondaryButton type="button" buttonText={"Cancel"} Icon={X} />
-      </Link>
+      <ButtonWrapper>
+        <PrimaryButton
+          type="submit"
+          buttonText={
+            isLoading
+              ? "Saving..."
+              : isEditing
+                ? "Update Activity"
+                : "Create new Activity"
+          }
+          Icon={Check}
+        />
+        <Link href={isEditing ? `/activities/${id}` : "/"}>
+          <SecondaryButton type="button" buttonText={"Cancel"} Icon={X} />
+        </Link>
+      </ButtonWrapper>
     </Form>
   );
 }
@@ -220,29 +252,88 @@ export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 400px;
-  margin: auto;
+  gap: var(--spacing-xl);
+`;
+
+const Fieldset = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-l);
+  border: none;
+
+  legend {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-s);
+    background-color: var(--color-primary-hover-2);
+    padding: var(--padding-ml) var(--padding-m);
+    width: 100%;
+    border-radius: var(--border-radius-s);
+    margin-bottom: var(--spacing-m);
+  }
+`;
+
+const LabelInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+
+  label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--font-text-dark);
+
+    small {
+      color: var(--color-grey-dark);
+    }
+  }
+
+  small {
+    color: var(--color-grey-dark);
+  }
+`;
+
+const sharedInputStyles = css`
+  width: 100%;
+  padding: var(--padding-ml) var(--padding-m);
+  border-radius: var(--border-radius-s);
+  border: 1px solid var(--color-grey-dark);
+  background-color: transparent;
+
+  &::placeholder {
+    color: var(--color-grey-dark);
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
 `;
 
 const Input = styled.input`
-  padding: 8px;
+  ${sharedInputStyles}
 `;
 
 const Textarea = styled.textarea`
-  padding: 8px;
+  ${sharedInputStyles}
   min-height: 150px;
 `;
 
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+const LetterCount = styled.p`
+  font-size: 0.75rem;
+  align-self: flex-end;
+  color: var(--color-grey-dark);
 `;
 
-const LetterCount = styled.p`
-  font-size: small;
-  align-self: flex-end;
-  margin: 0;
-  margin-right: 5px;
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+
+  a {
+    width: 100%;
+    text-decoration: none;
+  }
 `;

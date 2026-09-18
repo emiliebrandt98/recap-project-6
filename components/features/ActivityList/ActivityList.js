@@ -1,4 +1,5 @@
 import ActivityCard from "@/components/features/ActivityCard/ActivityCard.js";
+import styled from "styled-components";
 
 export default function ActivityList({ activities }) {
   if (!activities || activities.length === 0) {
@@ -6,7 +7,7 @@ export default function ActivityList({ activities }) {
   }
 
   return (
-    <>
+    <ActivityListWrapper>
       {activities.map((activity) => {
         return (
           <ActivityCard
@@ -19,6 +20,12 @@ export default function ActivityList({ activities }) {
           />
         );
       })}
-    </>
+    </ActivityListWrapper>
   );
 }
+const ActivityListWrapper = styled.section`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(311px, 1fr));
+  gap: var(--spacing-l);
+  width: 100%;
+`;

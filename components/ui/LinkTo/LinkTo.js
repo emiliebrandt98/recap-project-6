@@ -6,7 +6,7 @@ export default function LinkTo({ pathname }) {
   return (
     <StyledLink href={pathname}>
       <ArrowLeft size={18} />
-      Back to Activities List
+      Back to Activities
     </StyledLink>
   );
 }
@@ -14,10 +14,10 @@ export default function LinkTo({ pathname }) {
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-s);
 
   text-decoration: none;
-  color: #000;
+  color: var(--font-text-dark);
 
   &:hover {
     text-decoration: underline;

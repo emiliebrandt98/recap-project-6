@@ -23,67 +23,69 @@ export default function ActivityCard({
         />
         <HeartButton id={id} />
       </ImageContainer>
-      <Dates activity={activity} />
-      <StyledTitle>{title}</StyledTitle>
 
-      <CategoriesWrapper>
-        {categories?.map((category) => {
-          return (
-            <StyledCategories key={category._id}>
-              <span>{category.name}</span>
-            </StyledCategories>
-          );
-        })}
-      </CategoriesWrapper>
+      <ContentWrapper>
+        <TextWrapper>
+          <Dates activity={activity} />
+          <h2>{title}</h2>
+        </TextWrapper>
+
+        <CategoriesWrapper>
+          {categories?.map((category) => {
+            return (
+              <StyledCategories key={category._id}>
+                <span>{category.name}</span>
+              </StyledCategories>
+            );
+          })}
+        </CategoriesWrapper>
+      </ContentWrapper>
     </StyledCardContainer>
   );
 }
 
 const StyledCardContainer = styled(Link)`
-  width: min(80vw, 22rem);
-  min-height: 12rem;
-
-  border: black solid 3px;
-  color: var(--color-Text);
-  font-weight: 600;
-  text-decoration: none;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-m);
 
-  padding: 10px;
-  text-align: center;
+  min-width: 311px;
+  color: var(--font-text-dark);
+  text-decoration: none;
 `;
 
-const StyledTitle = styled.div`
-  width: 100%;
-  margin: 10px 0 0;
-  text-align: left;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-ml);
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
 `;
 
 const CategoriesWrapper = styled.div`
-  margin-top: 10px;
-  color: var(--color-Text);
   width: 100%;
 
   display: flex;
   justify-content: flex-start;
-  gap: 6px;
+  gap: var(--spacing-m);
   flex-wrap: wrap;
 `;
 
 const StyledCategories = styled.div`
-  background-color: var(--color-Accent);
-  font-family: var(--ui-Text);
-  font-weight: 400;
-  padding: 12px 24px;
-  border-radius: 1rem;
+  background-color: var(--color-accent);
+  font-size: 0.75rem;
+  padding: var(--padding-m) var(--padding-ml);
+  border-radius: var(--border-radius-l);
 `;
 
 const StyledImage = styled(Image)`
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-m);
 `;
 
 const ImageContainer = styled.div`

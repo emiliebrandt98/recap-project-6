@@ -27,6 +27,8 @@ export default function CreateActivity({ activities }) {
 
   return (
     <>
+      <h1>Create new Activity</h1>
+
       <ActivityForm activities={activities} onSubmit={handleCreateSubmit} />
     </>
   );
