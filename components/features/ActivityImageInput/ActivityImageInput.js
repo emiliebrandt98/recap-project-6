@@ -71,4 +71,6 @@ const PreviewImage = styled.img`
   max-width: 100%;
   max-height: 200px;
   object-fit: contain;
+  width: auto;
+  height: auto;
 `;

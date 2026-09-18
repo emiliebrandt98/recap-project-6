@@ -13,6 +13,7 @@ export default function Dates({ activity }) {
       <p>Start: {new Date(startDate).toLocaleDateString("de-DE")}</p>
       <p>Ende: {new Date(endDate).toLocaleDateString("de-DE")}</p>
     </DateWrapper>
+    
   );
 }
 const DateWrapper = styled.div`

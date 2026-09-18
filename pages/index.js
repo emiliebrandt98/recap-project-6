@@ -1,14 +1,15 @@
 import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
-import CategoryFilter from "@/components/features/CategoryFilter/CategoryFilter";
+import Filter from "@/components/features/Filter/Filter";
 import { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "@/components/ui/SearchBar/SearchBar";
-
+import sortActivitiesByDate from "@/lib/activities/sortActivitiesByDate";
 export default function HomePage({ activities, isLoading, error }) {
   const [activeCategories, setActiveCategories] = useState([]);
   const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState();
 
   function matchesActiveCategories(activity) {
     if (activeCategories?.length === 0) return true;
@@ -25,7 +26,6 @@ export default function HomePage({ activities, isLoading, error }) {
   const filteredActivities = activities?.filter(
     (activity) => matchesActiveCategories(activity) && matchesSearch(activity)
   );
-
   if (isLoading) return <p>Loading...</p>;
   if (error)
     return (
@@ -39,17 +39,25 @@ export default function HomePage({ activities, isLoading, error }) {
       </div>
     );
 
+  const activeActivities = sortActivitiesByDate(
+    filteredActivities ?? [],
+    sortOrder
+  );
+
   return (
     <>
       <StyledHeader>Activities List</StyledHeader>
       <SearchContainer>
         <SearchBar search={search} onSearch={setSearch} />
-        <CategoryFilter
+        <Filter
           activeCategories={activeCategories}
           onApply={setActiveCategories}
+          activeSortOrder={sortOrder}
+          onApplySort={setSortOrder}
         />
       </SearchContainer>
-      <ActivityList activities={filteredActivities} />
+
+      <ActivityList activities={activeActivities} />
     </>
   );
 }
