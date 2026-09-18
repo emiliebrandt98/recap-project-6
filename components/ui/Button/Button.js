@@ -69,7 +69,7 @@ const StyledPrimaryButton = styled(BaseButton)`
   padding: var(--padding-ml) var(--padding-m);
   background-color: var(--color-primary);
   color: var(--font-text-light);
-  border-radius: var(--border-radius-m);
+  border-radius: var(--border-radius-s);
   font-weight: 700;
 
   &:hover {
@@ -84,7 +84,7 @@ const StyledSecondaryButton = styled(BaseButton)`
   background-color: transparent;
   border: 2px solid var(--color-primary);
   color: var(--font-text-dark);
-  border-radius: var(--border-radius-m);
+  border-radius: var(--border-radius-s);
   font-weight: 700;
 
   &:hover {

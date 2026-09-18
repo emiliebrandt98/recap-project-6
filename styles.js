@@ -64,6 +64,7 @@ export default createGlobalStyle`
     --padding-m: 8px;
     --padding-ml: 12px;
     --padding-l: 24px;
+    --padding-xl: 30px;
 }
   html {
     scroll-behavior: smooth;
