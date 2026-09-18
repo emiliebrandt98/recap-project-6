@@ -56,6 +56,7 @@ export default createGlobalStyle`
     --spacing-s: 6px; 
     --spacing-m: 12px; 
     --spacing-ml: 18px; 
+    --spacing-mll: 18px; 
     --spacing-l: 48px; 
     
     // padding
