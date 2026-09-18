@@ -54,46 +54,6 @@ export default function MapPage({ activities }) {
     return null;
   }
 
-  const testActivities = [
-    {
-      _id: "1",
-      title: "Wandern im Sauerland",
-      categories: [{ _id: "a1", name: "Outdoor" }],
-      coordinates: {
-        lat: 51.4,
-        lng: 8.05,
-      },
-      startDate: "2026-05-10",
-    },
-    {
-      _id: "2",
-      title: "Kajak auf der Ruhr",
-      categories: [{ _id: "a2", name: "Water" }],
-      coordinates: {
-        lat: 51.45,
-        lng: 7.0,
-      },
-      startDate: "2026-06-01",
-    },
-    {
-      _id: "3",
-      title: "Skitour Zugspitze",
-      categories: [{ _id: "a3", name: "Winter" }],
-      coordinates: {
-        lat: 47.42,
-        lng: 10.98,
-      },
-      startDate: "2026-01-15",
-    },
-    {
-      _id: "4",
-      title: "Ohne Koordinaten",
-      categories: [{ _id: "a1", name: "Outdoor" }],
-      coordinates: undefined,
-      startDate: "2026-03-01",
-    },
-  ];
-
   return (
     <MapWrapper>
       <StyledTitle>Activities Map</StyledTitle>
@@ -111,11 +71,11 @@ export default function MapPage({ activities }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {testActivities.map((activity) => {
+        {activities.map((activity) => {
           if (
-            !activity.coordinates ||
-            activity.coordinates.lat == null ||
-            activity.coordinates.lng == null
+            !activity ||
+            !activity.latitude == null ||
+            activity.longitude == null
           ) {
             return null;
           }
@@ -146,7 +106,7 @@ export default function MapPage({ activities }) {
           return (
             <Marker
               key={activity._id}
-              position={[activity.coordinates.lat, activity.coordinates.lng]}
+              position={[activity.latitude, activity.longitude]}
               icon={markerIcon}
             >
               <Popup>
