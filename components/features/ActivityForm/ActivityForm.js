@@ -18,6 +18,7 @@ import { getCoordinates } from "@/lib/geocode";
 
 export default function ActivityForm({ isEditing, activities, onSubmit, id }) {
   const { data: allCategories } = useSWR("/api/categories");
+  console.log(allCategories);
   const [imageRemoved, setImageRemoved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

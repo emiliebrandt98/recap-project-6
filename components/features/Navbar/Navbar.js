@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { House, PlusCircle, Heart } from "lucide-react";
+import { House, PlusCircle, Heart, MapPin } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -9,6 +9,14 @@ export default function Navbar() {
     <StyledFooter>
       <StyledLink $active={router.pathname === "/"} href="/" aria-label="Home">
         <House size={24} />
+      </StyledLink>
+
+      <StyledLink
+        $active={router.pathname === "/map/map"}
+        href="/map/map"
+        aria-label="Map"
+      >
+          <MapPin size={24}/>
       </StyledLink>
 
       <StyledLink
