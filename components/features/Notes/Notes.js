@@ -88,9 +88,11 @@ export default function Notes() {
       )}
 
       <DeleteDialog
-        onDeleteDialogOpen={setIsDeleteDialogOpen}
-        isDeleteDialogOpen={isDeleteDialogOpen}
-        onSaveNote={handleSaveNote}
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={() => handleSaveNote("")}
+        title="Delete Note"
+        message="Do you really want to delete your note?"
       />
 
       {openNote && (

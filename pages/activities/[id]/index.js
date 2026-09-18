@@ -6,7 +6,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
-import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirmation.js";
+import DeleteDialog from "@/components/ui/DeleteDialog/DeleteDialog";
 import { useActivity } from "@/hooks/useActivity";
 import { useRouter } from "next/router";
 
@@ -67,12 +67,13 @@ export default function ActivityDetailsPage() {
             Icon={X}
           />
 
-          {isConfirming && (
-            <DeleteConfirmation
-              onDeleteConfirm={() => handleDelete()}
-              onCancel={() => setIsConfirming(false)}
-            />
-          )}
+          <DeleteDialog
+            isOpen={isConfirming}
+            onClose={() => setIsConfirming(false)}
+            onConfirm={handleDelete}
+            title="Delete Activity"
+            message="Do you really want to delete this activity?"
+          />
         </StyledButtons>
       </StyledContainer>
     </>

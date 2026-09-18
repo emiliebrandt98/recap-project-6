@@ -3,48 +3,42 @@ import { useEffect, useRef } from "react";
 import { PrimaryButton, SecondaryButton } from "../Button/Button";
 
 export default function DeleteDialog({
-  onDeleteDialogOpen,
-  isDeleteDialogOpen,
-  onSaveNote,
+  isOpen,
+  onClose,
+  onConfirm,
+  title = "Delete",
+  message = "Do you really want to delete this?",
 }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
     if (!dialogRef.current) return;
 
-    if (isDeleteDialogOpen) {
+    if (isOpen) {
       dialogRef.current.showModal();
     } else {
       dialogRef.current.close();
     }
-  }, [isDeleteDialogOpen]);
-
-  function handleRemoveNote() {
-    onSaveNote("");
-    onDeleteDialogOpen(false);
-  }
-
-  function handleCloseDialog() {
-    onDeleteDialogOpen(false);
-  }
+  }, [isOpen]);
 
   return (
-    <Dialog ref={dialogRef} onClose={() => onDeleteDialogOpen(false)}>
-      <h2>Delete</h2>
-      <p>
-        Do you really want to <b>delete</b> your note?
-      </p>
+    <Dialog ref={dialogRef} onClose={onClose}>
+      <h2>{title}</h2>
+      <p>{message}</p>
 
       <ButtonWrapper>
-        <SecondaryButton
-          type="button"
-          buttonText={"Cancel"}
-          onClick={() => handleCloseDialog(false)}
-        />
         <PrimaryButton
           type="button"
           buttonText={"Confirm"}
-          onClick={handleRemoveNote}
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
+        />
+        <SecondaryButton
+          type="button"
+          buttonText={"Cancel"}
+          onClick={onClose}
         />
       </ButtonWrapper>
     </Dialog>
