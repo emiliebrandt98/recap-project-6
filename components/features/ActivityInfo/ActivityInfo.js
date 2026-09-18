@@ -4,7 +4,7 @@ import HeartButton from "@/components/ui/HeartButton/HeartButton";
 import Notes from "@/components/features/Notes/Notes";
 import Dates from "@/components/Dates/Dates";
 import dynamic from "next/dynamic";
-import ReactWeather, { useOpenWeather } from "react-open-weather";
+import useSWR from "swr";
 
 const LocationMap = dynamic(
   () => import("@/components/features/LocationMap/LocationMap.js"),
@@ -13,19 +13,28 @@ const LocationMap = dynamic(
   }
 );
 
+const fetcher = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Failed to fetch weather data");
+  }
+  return response.json();
+};
+
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
 
-  // const { data, isLoading, errorMessage } = useOpenWeather({
-  //   key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
-  //   lat: activity.latitude,
-  //   lon: activity.longitude,
-  //   lang: "en",
-  //   unit: "metric",
-  // });
+  const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
+  const weatherUrl =
+    activity.latitude && activity.longitude && apiKey
+      ? `https://api.openweathermap.org/data/2.5/weather?lat=${activity.latitude}&lon=${activity.longitude}&appid=${apiKey}&units=metric&lang=en`
+      : null;
 
-  // if (isLoading) return <p>Loading weather...</p>;
-  // if (errorMessage) return <p>Error: {errorMessage}</p>;
+  const {
+    data: weatherData,
+    error: weatherError,
+    isLoading: weatherLoading,
+  } = useSWR(weatherUrl, fetcher);
 
   return (
     <>
@@ -72,15 +81,19 @@ export default function ActivityInfo({ activity }) {
           country={activity.country}
         />
 
-        {/* <ReactWeather
-        isLoading={isLoading}
-        errorMessage={errorMessage}
-        data={data}
-        lang="en"
-        locationLabel={activity.area}
-        unitsLabels={{ temperature: "C", windSpeed: "Km/h" }}
-        showForecast
-      /> */}
+        <WeatherContainer>
+          <h3>Current Weather</h3>
+          {weatherLoading && <p>Loading weather...</p>}
+          {weatherError && <p>Could not load weather data.</p>}
+          {weatherData && weatherData.main && (
+            <WeatherInfo>
+              <WeatherTemp>{Math.round(weatherData.main.temp)}°C</WeatherTemp>
+              <WeatherDescription>
+                {weatherData.weather[0].description}
+              </WeatherDescription>
+            </WeatherInfo>
+          )}
+        </WeatherContainer>
       </LocationWrapper>
 
       <NoteWrapper>
@@ -146,4 +159,29 @@ const NoteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-s);
+`;
+
+const WeatherContainer = styled.div`
+  background-color: var(--color-grey-light);
+  padding: var(--padding-l);
+  border-radius: var(--border-radius-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+`;
+
+const WeatherInfo = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-m);
+`;
+
+const WeatherTemp = styled.span`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const WeatherDescription = styled.span`
+  text-transform: capitalize;
+  color: var(--font-text-dark);
 `;
