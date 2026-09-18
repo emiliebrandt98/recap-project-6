@@ -2,30 +2,31 @@ import ActivityList from "@/components/features/ActivityList/ActivityList.js";
 import { PrimaryButton } from "@/components/ui/Button/Button.js";
 import { mutate } from "swr";
 import Filter from "@/components/features/Filter/Filter";
-import { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "@/components/ui/SearchBar/SearchBar";
 import sortActivitiesByDate from "@/lib/activities/sortActivitiesByDate";
-export default function HomePage({ activities, isLoading, error }) {
-  const [activeCategories, setActiveCategories] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState();
+import {
+  matchesActiveCategories,
+  matchesSearch,
+} from "@/lib/activities/filterActivities";
 
-  function matchesActiveCategories(activity) {
-    if (activeCategories?.length === 0) return true;
-
-    return activity.categories.some((category) =>
-      activeCategories?.includes(category.name)
-    );
-  }
-
-  function matchesSearch(activity) {
-    return activity.title.toLowerCase().includes(search.toLowerCase());
-  }
-
+export default function HomePage({
+  activities,
+  isLoading,
+  error,
+  activeCategories,
+  onApply,
+  search,
+  onSearch,
+  sortOrder,
+  onSetOrder,
+}) {
   const filteredActivities = activities?.filter(
-    (activity) => matchesActiveCategories(activity) && matchesSearch(activity)
+    (activity) =>
+      matchesActiveCategories(activity, activeCategories) &&
+      matchesSearch(activity, search)
   );
+
   if (isLoading) return <p>Loading...</p>;
   if (error)
     return (
@@ -47,13 +48,14 @@ export default function HomePage({ activities, isLoading, error }) {
   return (
     <>
       <h1>Activities List</h1>
+
       <SearchFilterWrapper>
-        <SearchBar search={search} onSearch={setSearch} />
+        <SearchBar search={search} onSearch={onSearch} />
         <Filter
           activeCategories={activeCategories}
-          onApply={setActiveCategories}
+          onApply={onApply}
           activeSortOrder={sortOrder}
-          onApplySort={setSortOrder}
+          onApplySort={onSetOrder}
         />
       </SearchFilterWrapper>
 

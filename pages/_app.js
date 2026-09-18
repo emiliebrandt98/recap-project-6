@@ -2,6 +2,7 @@ import GlobalStyle from "@/styles.js";
 import Layout from "@/components/layout/Layout/Layout.js";
 import useSWR, { SWRConfig } from "swr";
 import { ToastContainer } from "react-toastify";
+import { useState } from "react";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -23,6 +24,10 @@ export default function App({ Component, pageProps }) {
     isLoading,
   } = useSWR("/api/activities", fetcher);
 
+  const [activeCategories, setActiveCategories] = useState([]);
+  const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState();
+
   return (
     <SWRConfig value={{ fetcher }}>
       <GlobalStyle />
@@ -31,6 +36,12 @@ export default function App({ Component, pageProps }) {
           activities={activities}
           error={error}
           isLoading={isLoading}
+          activeCategories={activeCategories}
+          onApply={setActiveCategories}
+          search={search}
+          onSearch={setSearch}
+          sortOrder={sortOrder}
+          onSetOrder={setSortOrder}
           {...pageProps}
         />
         <ToastContainer
