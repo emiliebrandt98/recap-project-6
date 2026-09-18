@@ -113,6 +113,7 @@ export default function MapPage({ activities }) {
               <Popup>
                 <Link href={`/activities/${activity._id}`}>
                   <strong>{activity.title}</strong>
+                  
                 </Link>
                 <br />
                 Kategorie: {category || "Keine Kategorie"}
