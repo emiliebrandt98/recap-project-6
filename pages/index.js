@@ -47,7 +47,7 @@ export default function HomePage({ activities, isLoading, error }) {
   return (
     <>
       <h1>Activities List</h1>
-      <SearchContainer>
+      <SearchFilterWrapper>
         <SearchBar search={search} onSearch={setSearch} />
         <Filter
           activeCategories={activeCategories}
@@ -55,14 +55,17 @@ export default function HomePage({ activities, isLoading, error }) {
           activeSortOrder={sortOrder}
           onApplySort={setSortOrder}
         />
-      </SearchContainer>
+      </SearchFilterWrapper>
 
       <ActivityList activities={activeActivities} />
     </>
   );
 }
 
-const SearchContainer = styled.div`
+const SearchFilterWrapper = styled.section`
   display: flex;
-  margin-bottom: 5px;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: var(--spacing-m);
 `;

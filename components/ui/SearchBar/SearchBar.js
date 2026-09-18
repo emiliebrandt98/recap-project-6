@@ -4,7 +4,7 @@ export default function SearchBar({ search, onSearch }) {
   return (
     <>
       <SearchContainer>
-        <Search size={20} />
+        <Search size={24} color="var(--color-grey-dark)" />
 
         <input
           id="search"
@@ -22,16 +22,17 @@ export default function SearchBar({ search, onSearch }) {
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid black;
-  border-radius: 8px;
+  gap: var(--spacing-m);
+  border-radius: var(--border-radius-l);
   padding: 8px 12px;
   width: 100%;
-  margin-bottom: 20px;
+  height: 48px;
+  background-color: var(--color-grey-light);
 
   input {
     border: none;
     outline: none;
     width: 100%;
+    background-color: var(--color-grey-light);
   }
 `;

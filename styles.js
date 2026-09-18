@@ -32,12 +32,14 @@ export default createGlobalStyle`
 
     //colors
     --color-primary: #15616D;
-    --color-primary-hover: #0e464f;
+    --color-primary-hover-1: #0e464f;
+    --color-primary-hover-2: #d6e3e5;
     --color-secondary: #FF7D00;
     --color-secondary-hover: #dc6d04;
     --color-accent: #FFECD1;
 
     --color-background: #fbfbfb;
+    --color-background-dialog: #fbfbfb;
 
     --color-grey-dark: #636363;
     --color-grey-light: #f1f1f1;
@@ -46,6 +48,17 @@ export default createGlobalStyle`
     --border-radius-l: 7rem;
     --border-radius-m: 0.75rem;
     --border-radius-s: 0.25rem;
+
+    // spacing
+    --spacing-s: 6px; 
+    --spacing-m: 12px; 
+    --spacing-ml: 18px; 
+    --spacing-l: 48px; 
+    
+    // padding
+    --padding-m: 8px;
+    --padding-ml: 12px;
+    --padding-l: 24px;
 }
   html {
     scroll-behavior: smooth;
