@@ -25,8 +25,8 @@ const HeartContainer = styled.button`
   top: 10px;
   right: 10px;
 
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 
   display: flex;
   align-items: center;
@@ -34,11 +34,11 @@ const HeartContainer = styled.button`
 
   border: none;
   border-radius: 50%;
-  background-color: var(--color-Bookmark);
-  color: white;
+  background-color: var(--color-secondary);
+  color: var(--color-icon-light);
   cursor: pointer;
 `;
 
 const StyledHeart = styled(Heart)`
-  fill: ${(props) => (props.$active ? "white" : "none")};
+  fill: ${(props) => (props.$active ? "var(--color-icon-light)" : "none")};
 `;

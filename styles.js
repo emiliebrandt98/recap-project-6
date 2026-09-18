@@ -39,7 +39,10 @@ export default createGlobalStyle`
     --color-accent: #FFECD1;
 
     --color-background: #fbfbfb;
-    --color-background-dialog: #fbfbfb;
+    --color-background-dialog: #ffffff;
+
+    --color-icon-dark: #001524;
+    --color-icon-light: #ffffff;
 
     --color-grey-dark: #636363;
     --color-grey-light: #f1f1f1;
