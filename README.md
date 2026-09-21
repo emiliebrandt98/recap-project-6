@@ -12,7 +12,7 @@ Activity Planner is a user-friendly application designed for outdoor enthusiasts
 ## 📸 Preview / Screenshots
 
 <div align="center">
- <img width="300" height="auto" alt="home-page" src="https://github.com/user-attachments/assets/a9c54f40-bfd7-4c34-b448-37f5c5a0016b" />
+ <img width="300" height="auto" alt="Homepage" src="https://github.com/user-attachments/assets/9f8d65ce-42dc-44a6-a319-b9f1251d8f10" />
 </div>
 
 ---
@@ -71,23 +71,3 @@ Activity Planner is a user-friendly application designed for outdoor enthusiasts
 
 - [Emilie Brandt](https://github.com/emiliebrandt98)
 - [Christopher Welschoff](https://github.com/ChristopherWelschoff/ChristopherWelschoff)
-
----
-
-### Local Development
-
-To work locally, please install the dependencies using `npm i` first.
-
-Run `npm run dev` to start a development server and open the displayed URL in a browser.
-
-Use `npm run test` to run the tests.
-
-### Scripts
-
-You can use the following commands:
-
-- `npm run dev` to start a development server
-- `npm run build` to build the project
-- `npm run start` to start a production server
-- `npm run test` to run the tests
-- `npm run lint` to run the linter
