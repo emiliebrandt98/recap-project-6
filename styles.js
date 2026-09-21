@@ -124,7 +124,7 @@ export default createGlobalStyle`
     margin: 24px 2rem 80px 2rem;
   }
 
-  input, button {
+  input, button, textarea {
     font-family: inherit;
   }
 `;
