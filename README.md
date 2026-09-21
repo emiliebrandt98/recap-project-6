@@ -62,7 +62,6 @@ Activity Planner is a user-friendly application designed for outdoor enthusiasts
   - `react-select` (Multi-Select)
   - `leaflet` (Map)
   - `cloudinary` and `formidable` (Image-DB)
-  - 
 - **Deployment:** Vercel
 
 ---
