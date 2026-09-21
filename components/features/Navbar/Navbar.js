@@ -46,6 +46,7 @@ const StyledFooter = styled.footer`
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 20;
 `;
 
 const StyledLink = styled(Link)`
