@@ -83,6 +83,7 @@ const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
+  width: 100%;
 `;
 
 const StyledButtons = styled.div`

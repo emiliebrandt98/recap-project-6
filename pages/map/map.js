@@ -56,38 +56,38 @@ export default function MapPage({ activities }) {
   }
 
   return (
-    <MapWrapper>
+    <>
       <h1>Activities Map</h1>
+      <MapWrapper>
+        <MapContainer
+          center={[50.5, 8.5]}
+          zoom={6}
+          style={{
+            height: "500px",
+            width: "320px",
+          }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-      <MapContainer
-        center={[50.5, 8.5]}
-        zoom={6}
-        style={{
-          height: "500px",
-          width: "300px",
-        }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+          {(activities ?? []).map((activity) => {
+            if (!activity) {
+              return null;
+            }
 
-        {(activities ?? []).map((activity) => {
-          if (!activity) {
-            return null;
-          }
+            if (activity.latitude == null || activity.longitude == null) {
+              return null;
+            }
 
-          if (activity.latitude == null || activity.longitude == null) {
-            return null;
-          }
+            const category = activity.categories?.[0]?.name;
 
-          const category = activity.categories?.[0]?.name;
+            const markerColor = categoryColors[category] || "gray";
 
-          const markerColor = categoryColors[category] || "gray";
-
-          const markerIcon = leaflet.divIcon({
-            className: "custom-marker",
-            html: `
+            const markerIcon = leaflet.divIcon({
+              className: "custom-marker",
+              html: `
               <div
                 style="
                   width: 20px;
@@ -99,35 +99,35 @@ export default function MapPage({ activities }) {
                 "
               ></div>
             `,
-            iconSize: [26, 26],
-            iconAnchor: [13, 13],
-            popupAnchor: [0, -13],
-          });
+              iconSize: [26, 26],
+              iconAnchor: [13, 13],
+              popupAnchor: [0, -13],
+            });
 
-          return (
-            <Marker
-              key={activity._id}
-              position={[activity.latitude, activity.longitude]}
-              icon={markerIcon}
-            >
-              <Popup>
-                <Link href={`/activities/${activity._id}`}>
-                  <strong>{activity.title}</strong>
-                </Link>
-                <br />
-                Kategorie: {category || "Keine Kategorie"}
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
-    </MapWrapper>
+            return (
+              <Marker
+                key={activity._id}
+                position={[activity.latitude, activity.longitude]}
+                icon={markerIcon}
+              >
+                <Popup>
+                  <Link href={`/activities/${activity._id}`}>
+                    <strong>{activity.title}</strong>
+                  </Link>
+                  <br />
+                  Kategorie: {category || "Keine Kategorie"}
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MapContainer>
+      </MapWrapper>
+    </>
   );
 }
 
 const MapWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 `;
