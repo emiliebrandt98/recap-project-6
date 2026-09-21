@@ -13,14 +13,6 @@ const LocationMap = dynamic(
   }
 );
 
-const fetcher = async (url) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Failed to fetch weather data");
-  }
-  return response.json();
-};
-
 export default function ActivityInfo({ activity }) {
   if (!activity) return null;
 
@@ -34,7 +26,7 @@ export default function ActivityInfo({ activity }) {
     data: weatherData,
     error: weatherError,
     isLoading: weatherLoading,
-  } = useSWR(weatherUrl, fetcher);
+  } = useSWR(weatherUrl);
 
   return (
     <>
