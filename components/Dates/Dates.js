@@ -8,15 +8,20 @@ export default function Dates({ activity }) {
     return null;
   }
 
+  const formattedStart = new Date(startDate).toLocaleDateString("de-DE");
+  const formattedEnd = endDate
+    ? new Date(endDate).toLocaleDateString("de-DE")
+    : null;
+
+  const isSameDate = !formattedEnd || formattedStart === formattedEnd;
+
   return (
     <DateWrapper>
-      <p>Start: {new Date(startDate).toLocaleDateString("de-DE")}</p>
-      <p>Ende: {new Date(endDate).toLocaleDateString("de-DE")}</p>
+      {isSameDate ? formattedStart : `${formattedStart} – ${formattedEnd}`}
     </DateWrapper>
-    
   );
 }
-const DateWrapper = styled.div`
-  display: flex;
-  gap: 10px;
+const DateWrapper = styled.p`
+  color: var(--color-grey-dark);
+  font-size: 0.75rem;
 `;

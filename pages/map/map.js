@@ -57,7 +57,7 @@ export default function MapPage({ activities }) {
 
   return (
     <MapWrapper>
-      <StyledTitle>Activities Map</StyledTitle>
+      <h1>Activities Map</h1>
 
       <MapContainer
         center={[50.5, 8.5]}
@@ -113,7 +113,6 @@ export default function MapPage({ activities }) {
               <Popup>
                 <Link href={`/activities/${activity._id}`}>
                   <strong>{activity.title}</strong>
-                  
                 </Link>
                 <br />
                 Kategorie: {category || "Keine Kategorie"}
@@ -126,13 +125,9 @@ export default function MapPage({ activities }) {
   );
 }
 
-const StyledTitle = styled.h2`
-  text-align: center;
-`;
-
 const MapWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;

@@ -6,7 +6,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/ui/Button/Button.js";
-import DeleteConfirmation from "@/components/ui/DeleteConfirmation/DeleteConfirmation.js";
+import DeleteDialog from "@/components/ui/DeleteDialog/DeleteDialog";
 import { useActivity } from "@/hooks/useActivity";
 import { useRouter } from "next/router";
 
@@ -18,15 +18,15 @@ export default function ActivityDetailsPage() {
     setIsConfirming,
     handleDelete,
     activity,
-    isLoading,
+    isLoadingActivity,
     error,
   } = useActivity();
 
-  if (isLoading) {
+  if (isLoadingActivity) {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <StyledMessage>Loading your page. Just a second.</StyledMessage>
+        <p>Loading your page. Just a second.</p>
       </>
     );
   }
@@ -35,10 +35,10 @@ export default function ActivityDetailsPage() {
     return (
       <>
         <LinkTo pathname={"/"} />
-        <StyledMessage>
+        <p>
           Sorry we couldn't retrieve the activity at the moment. Please try
           again later.
-        </StyledMessage>
+        </p>
       </>
     );
   }
@@ -66,33 +66,27 @@ export default function ActivityDetailsPage() {
             Icon={X}
           />
 
-          {isConfirming && (
-            <DeleteConfirmation
-              onDeleteConfirm={() => handleDelete()}
-              onCancel={() => setIsConfirming(false)}
-            />
-          )}
+          <DeleteDialog
+            isOpen={isConfirming}
+            onClose={() => setIsConfirming(false)}
+            onConfirm={handleDelete}
+            title="Delete Activity"
+            message="Do you really want to delete this activity?"
+          />
         </StyledButtons>
       </StyledContainer>
     </>
   );
 }
 
-const StyledContainer = styled.main`
-  width: min(80vw, 22rem);
-  padding: 10px;
-
-  border: black solid 3px;
+const StyledContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 `;
 
 const StyledButtons = styled.div`
   display: flex;
   flex-direction: column;
-  color: var(--color-Text-White);
-  margin-top: 20px;
-  gap: 5px;
-`;
-
-const StyledMessage = styled.p`
-  text-align: center;
+  gap: var(--spacing-m);
 `;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -26,6 +26,7 @@ export default function DateInput({
           }}
           showIcon
           autoComplete="off"
+          placeholderText="dd.mm.jjjj"
         />
       </StartDate>
 
@@ -41,6 +42,7 @@ export default function DateInput({
           onChange={(date) => setEndDate(date)}
           showIcon
           autoComplete="off"
+          placeholderText="dd.mm.jjjj"
         />
       </EndDate>
     </DateContainer>
@@ -49,14 +51,61 @@ export default function DateInput({
 
 const DateContainer = styled.div`
   display: flex;
+  gap: var(--border-radius-m);
+  width: 100%;
+`;
+
+const dateBoxStyles = css`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  flex: 1;
+
+  label {
+    font-size: 0.75rem;
+    color: var(--font-info);
+  }
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  .react-datepicker__input-container input {
+    height: 40px;
+    width: 100%;
+    padding: var(--padding-m) var(--padding-xl);
+    border-radius: var(--border-radius-s);
+    border: 1px solid var(--color-grey-dark);
+    background-color: transparent;
+    color: var(--color-grey-dark);
+    outline: none;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    &:disabled {
+      background-color: var(--color-grey-light);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  .react-datepicker__calendar-icon {
+    position: absolute;
+    top: 28%;
+    left: var(--padding-m);
+    right: auto;
+    padding: 0;
+    fill: var(--color-grey-dark);
+  }
 `;
 
 const StartDate = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${dateBoxStyles}
 `;
 
 const EndDate = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${dateBoxStyles}
 `;
