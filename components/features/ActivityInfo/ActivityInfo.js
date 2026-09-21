@@ -14,6 +14,7 @@ const LocationMap = dynamic(
 );
 
 export default function ActivityInfo({ activity }) {
+  if (!activity) return null;
   const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
   const weatherUrl =
     activity.latitude && activity.longitude && apiKey
@@ -25,8 +26,6 @@ export default function ActivityInfo({ activity }) {
     error: weatherError,
     isLoading: weatherLoading,
   } = useSWR(weatherUrl);
-
-  if (!activity) return null;
 
   return (
     <>
